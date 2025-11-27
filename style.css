@@ -21,10 +21,10 @@ ul, ol {
 
 li:before { 
     content: "»"
-    display: block;
+/*    display: block;
     float: left;
     width: 1.2em;
-    color: #000;
+    color: #000; */
 }
 
 li {list-style-position: inside;}
