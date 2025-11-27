@@ -176,11 +176,11 @@ section {background: #fff;}
   box-sizing: border-box;
 }
 
-.square::before {
+/*.square::before {
   content: '';
   display: block;
   padding-top: 100%;
-}
+}*/
 
 .square .content {
   position: absolute;
