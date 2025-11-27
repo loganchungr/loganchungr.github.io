@@ -97,15 +97,6 @@ blockquote {
     grid-gap: 10px;
 }
 
-.link {
-    background: #eee
-    border:1px dashed transparent;
-}
-
-.link:hover {
-    background: #e1e1e1;
-    border: 1px dashed #ff948f;
-}
 
 
 /* Layouts */
@@ -208,3 +199,9 @@ section {background: #fff;}
   justify-content: center;     /* added for centered text */
   align-items: center;         /* added for centered text */
 }
+
+a:hover {
+    border:1px dashed transparent;
+}
+
+
