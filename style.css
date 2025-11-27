@@ -30,10 +30,10 @@ li:before {
 }
 
 
-/*li {
+li {
     list-style-position: inside;
-    text-indent: 1.5em;
-}*/
+    /*text-indent: 2em;*/
+}
 
 h2, h4 {
     margin-bottom: .5em;
