@@ -23,6 +23,7 @@ li:before {
     content: "»"
     position: absolute;
     left: 0;
+    padding-right: 1em;
 /*    display: block;
     float: left;
     width: 1.2em;
