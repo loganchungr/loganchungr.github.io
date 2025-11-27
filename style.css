@@ -200,9 +200,11 @@ section {background: #fff;}
   align-items: center;         /* added for centered text */
 }
 
+/* disabling for now... might need to re-class
 a:hover {
     border:2px dashed #ff948f;
     scale:110%;
 }
+*/
 
 
