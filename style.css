@@ -28,7 +28,7 @@ header {
     grid-template-columns: 1fr 100px;
     grid-gap: 10px;
 }
-header, footer, .section-wrapper {background: #f0f0f0;}
+header, footer, .section-wrapper {background: #ff948f;}
 .medium {font-size: 125%;}
 .large {font-size: 400%;}
 figure {height: 100px;}
@@ -70,7 +70,7 @@ blockquote {
 section {background: #fff;}
 
 #energy-box {
-    background: #fff;
+    background: #ff948f;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -86,7 +86,7 @@ section {background: #fff;}
     width: 80px;
     height: 80px;
     margin-top: -20px;
-    background: rgb(243, 255, 70);
+    background: #ff948f;
     border-radius: 100%;
     filter: blur(20px);
 }
