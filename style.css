@@ -176,13 +176,14 @@ section {background: #fff;}
   margin: 5px;
   border: 1px solid;
   box-sizing: border-box;
+  padding-top: 100%;
 }
 
-.square::before {
+/*.square::before {
   content: '';
   display: block;
   padding-top: 100%;
-}
+}*/
 
 .square .content {
   position: absolute;
