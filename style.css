@@ -10,14 +10,22 @@ h1, h2, h3, h4, p, ol, ul, li, a, figure, p:last-child, ul:last-child, ol:last-c
     padding: 0;
 }
 
+ul { 
+    list-style: none;
+    margin-left: 0;
+    padding-left: 2ch;
+    text-indent: -1ch;
+
+}
+
+li:before { 
+    content: "» "; 
+}
+
+
 li {list-style-position: inside;}
 h2, h4 {
     margin-bottom: .5em;
-}
-
-li:before {
-    content: ">";
-    padding-right: 5px;
 }
 
 p, ul, ol {
