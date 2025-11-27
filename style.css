@@ -70,7 +70,7 @@ blockquote {
 section {background: #fff;}
 
 #energy-box {
-    background: #ff948f;
+    /* background: #ff948f; */ 
     display: flex;
     align-items: center;
     justify-content: center;
