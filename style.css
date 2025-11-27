@@ -56,19 +56,21 @@ p, ul, ol {
 }
 
 img {width: 100%;}
+
 header, section, aside, footer {
     padding: 8px;
     border: 1px solid #969696;
     border-radius: 2px;
     background: #fff;
 }
+
 header {
     display: grid;
     grid-template-columns: 1fr 100px;
     grid-gap: 10px;
 }
 
-header, footer, .section-wrapper {background: #ff948f;}
+header, footer, .section-wrapper, .square {background: #ff948f;}
 .medium {font-size: 125%;}
 .large {font-size: 400%;}
 figure {height: 100px;}
