@@ -5,7 +5,7 @@ body {
 
 /* Globals */
 h1, h2, h3, h4, p, ol, ul, li, a, figure, p:last-child, ul:last-child, ol:last-child {
-    font-family:system-ui;
+    font-family:Courier, 'Courier New', monospace;
     margin: 0;
     padding: 0;
 }
