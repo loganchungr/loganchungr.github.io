@@ -177,7 +177,7 @@ section {background: #fff;}
     border:none;
 }
 
-.tri-column .square {
+.square {
   position: relative;
   flex-basis: calc(33.333% - 10px);
   margin: 5px;
