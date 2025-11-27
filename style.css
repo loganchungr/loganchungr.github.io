@@ -109,6 +109,7 @@ blockquote {
 .section-wrapper {
     display: grid;
     grid-gap: 10px;
+    background: #ff948f;
 }
 .fruit {
     display: flex;
