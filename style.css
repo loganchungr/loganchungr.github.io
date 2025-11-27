@@ -21,7 +21,7 @@ header, section, aside, footer {
     padding: 8px;
     border: 1px solid #969696;
     border-radius: 2px;
-    /* background: #f0f0f0; */
+    background: #ff948f;
 }
 header {
     display: grid;
