@@ -170,7 +170,7 @@ section {background: #fff;}
 
 .tri-column {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
     grid-auto-rows: minmax(200px, 1fr);
 }
