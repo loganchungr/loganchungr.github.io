@@ -15,10 +15,12 @@ ul, ol {
     position: relative;
     list-style: none;
     margin-left: 0;
+    padding-left:.5em;
 }
 
 li:before { 
     content: "»";
+    position: aboslute;
     left: 0;
     padding-right: .5em;
 /*    display: block;
@@ -28,10 +30,10 @@ li:before {
 }
 
 
-li {
+/*li {
     list-style-position: inside;
     text-indent: 1.5em;
-}
+}*/
 
 h2, h4 {
     margin-bottom: .5em;
