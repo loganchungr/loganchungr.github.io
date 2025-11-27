@@ -19,7 +19,10 @@ h1 {
 h2 {
     font-size: 110%;
     font-style: bold;
+}
 
+h3 {
+    font-style: bold;
 }
 
 ul, ol { 
@@ -93,6 +96,17 @@ blockquote {
     display: grid;
     grid-gap: 10px;
 }
+
+.link {
+    background: #eee
+    border:1px dashed transparent;
+}
+
+.link:hover {
+    background: #e1e1e1;
+    border: 1px dashed #ff948f;
+}
+
 
 /* Layouts */
 .two-column {
