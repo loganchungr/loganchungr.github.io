@@ -11,6 +11,17 @@ h1, h2, h3, h4, p, ol, ul, li, a, figure, p:last-child, ul:last-child, ol:last-c
     padding: 0;
 }
 
+h1 { 
+    font-size: 150%;
+    font-style: bold;
+}
+
+h2 {
+    font-size: 110%;
+    font-style: bold;
+
+}
+
 ul, ol { 
     position: relative;
     list-style: none;
