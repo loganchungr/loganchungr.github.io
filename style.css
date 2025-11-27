@@ -6,6 +6,7 @@ body {
 /* Globals */
 h1, h2, h3, h4, p, ol, ul, li, a, figure, p:last-child, ul:last-child, ol:last-child {
     font-family:'Courier New', monospace;
+    font-size: small;
     margin: 0;
     padding: 0;
 }
@@ -19,7 +20,11 @@ ul, ol {
 }
 
 li:before { 
-    content: "»"; 
+    content: "»"
+    display: block;
+    float: left;
+    width: 1.2em;
+    color: #000;
 }
 
 li {list-style-position: inside;}
