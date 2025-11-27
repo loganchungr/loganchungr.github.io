@@ -20,7 +20,7 @@ ul, ol {
 }
 
 li:before { 
-    content: "»"
+    content: "»";
     left: 0;
     padding-right: 1em;
 /*    display: block;
