@@ -10,17 +10,20 @@ h1, h2, h3, h4, p, ol, ul, li, a, figure, p:last-child, ul:last-child, ol:last-c
     padding: 0;
 }
 
-ul { 
+ul, ol { 
     position: relative;
     list-style: none;
     margin-left: 0;
     padding-left: 1.2em;
+    text-indent: -1.2em;
 }
 
-ul li:before { 
+li:before { 
     content: "» "; 
+    display: block;
+    float: left;
+    width: 1.2em;
     position: absolute;
-    left: 0;
 }
 
 li {list-style-position: inside;}
