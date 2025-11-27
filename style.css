@@ -22,7 +22,6 @@ li:before {
     content: "» "; 
 }
 
-
 li {list-style-position: inside;}
 h2, h4 {
     margin-bottom: .5em;
