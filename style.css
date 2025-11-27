@@ -56,6 +56,7 @@ header {
     grid-template-columns: 1fr 100px;
     grid-gap: 10px;
 }
+
 header, footer, .section-wrapper {background: #ff948f;}
 .medium {font-size: 125%;}
 .large {font-size: 400%;}
@@ -64,9 +65,11 @@ blockquote {
     border-left: 5px solid #dddddd;
     padding-left: 10px;
 }
+
 .credit {font-style: italic;}
 
 /* Profile Container */
+
 #container {
     max-width: 620px;
     margin: 0 auto;
@@ -142,4 +145,39 @@ section {background: #fff;}
     #container {
         margin-top: 0;
     }
+}
+
+
+/* Experimenting with the grid */
+
+.tri-column {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 10px;
+    grid-auto-rows: minmax(200px, 1fr);
+}
+
+.square {
+  position: relative;
+  flex-basis: calc(33.333% - 10px);
+  margin: 5px;
+  border: 1px solid;
+  box-sizing: border-box;
+}
+
+.square::before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+.square .content {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  width: 100%;
+
+  display: flex;               /* added for centered text */
+  justify-content: center;     /* added for centered text */
+  align-items: center;         /* added for centered text */
 }
