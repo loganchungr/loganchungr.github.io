@@ -73,7 +73,7 @@ header {
     grid-gap: 10px;
 }
 
-header, footer, .section wrapper, .tri-column {background: #ff948f;}
+header, footer, .section-wrapper, .tri-column {background: #ff948f;}
 .medium {font-size: 125%;}
 .large {font-size: 400%;}
 figure {height: 100px;}
