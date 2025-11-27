@@ -15,7 +15,6 @@ ul, ol {
     position: relative;
     list-style: none;
     margin-left: 0;
-    text-indent: 1.5em;
 }
 
 li:before { 
@@ -28,7 +27,11 @@ li:before {
     color: #000; */
 }
 
-li {list-style-position: inside;}
+
+li {
+    list-style-position: inside;
+    text-indent: 1.5em;
+}
 
 h2, h4 {
     margin-bottom: .5em;
