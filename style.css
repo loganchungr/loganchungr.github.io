@@ -21,7 +21,7 @@ header, section, aside, footer {
     padding: 8px;
     border: 1px solid #969696;
     border-radius: 2px;
-    background: #ff948f;
+    background: #f0f0f0;
 }
 header {
     display: grid;
@@ -70,7 +70,7 @@ blockquote {
 section {background: #fff;}
 
 #energy-box {
-    /* background: #ff948f; */ 
+    background: #f0f0f0;  
     display: flex;
     align-items: center;
     justify-content: center;
@@ -86,7 +86,7 @@ section {background: #fff;}
     width: 80px;
     height: 80px;
     margin-top: -20px;
-    background: #ff948f;
+    background: #f0f0f0;
     border-radius: 100%;
     filter: blur(20px);
 }
