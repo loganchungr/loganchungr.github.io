@@ -11,18 +11,20 @@ h1, h2, h3, h4, p, ol, ul, li, a, figure, p:last-child, ul:last-child, ol:last-c
 }
 
 ul { 
+    position: relative;
     list-style: none;
     margin-left: 0;
-    padding-left: 2ch;
-    text-indent: -1ch;
-
+    padding-left: 1.2em;
 }
 
-li:before { 
+ul li:before { 
     content: "» "; 
+    position: absolute;
+    left: 0;
 }
 
 li {list-style-position: inside;}
+
 h2, h4 {
     margin-bottom: .5em;
 }
