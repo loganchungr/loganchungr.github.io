@@ -19,11 +19,7 @@ ul, ol {
 }
 
 li:before { 
-    content: "» "; 
-    display: block;
-    float: left;
-    width: 1.2em;
-    position: absolute;
+    content: "»"; 
 }
 
 li {list-style-position: inside;}
