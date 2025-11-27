@@ -176,7 +176,6 @@ section {background: #fff;}
   margin: 5px;
   border: 1px solid;
   box-sizing: border-box;
-  padding-top: 100%;
 }
 
 /*.square::before {
