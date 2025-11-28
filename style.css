@@ -367,7 +367,7 @@ summary.portfolio-link::marker {
 
 /* inactive tabs: h4-ish, slate gray, no borders */
 .view-tab {
-    font-size: 0.8em;      /* like a small heading */
+    font-size: 0.75em;      /* like a small heading */
     font-weight: normal;
     color: #000;           
     padding: 0 4px;
@@ -380,9 +380,9 @@ summary.portfolio-link::marker {
 
 /* automatic "|" separators between tabs */
 .view-tab + .view-tab::before {
-    content: "|";
-    margin: 0 3em;
-    color: #ff948f;           
+    content: "»";
+    margin: 0;
+    color: #fff;           
 }
 
 /* panels wrapper */
