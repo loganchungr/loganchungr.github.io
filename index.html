@@ -29,10 +29,27 @@
                 </section>
             </section>
                          
-<section class="section-wrapper" id="portfolio">
-    <h2>Some Work I'm Proud Of</h2>
-        
-    <section class="tri-column">     
+<section class="section-wrapper" id="workspace">
+
+  <!-- 1. Hidden radios to track which view is active -->
+  <input type="radio" name="workspace-view" id="view-portfolio" checked>
+  <input type="radio" name="workspace-view" id="view-calendar">
+  <input type="radio" name="workspace-view" id="view-log">
+
+  <!-- 2. Tab row -->
+  <div class="view-tabs">
+    <label class="view-tab" for="view-portfolio">Portfolio</label>
+    <label class="view-tab" for="view-calendar">Calendar</label>
+    <label class="view-tab" for="view-log">Loggin’ Chung</label>
+  </div>
+
+  <!-- 3. Panels: only one visible at a time -->
+  <div class="view-panels">
+
+    <!-- PANEL A: Portfolio (your existing grid) -->
+    <section class="view-panel panel-portfolio">
+      <h2>Some Work I'm Proud Of</h2>
+      <section class="tri-column">
 
         <!-- 1. Frindlers -->
         <details class="portfolio-card" id="frindlers">
@@ -46,9 +63,8 @@
                 </div>
             </summary>
             <div class="portfolio-detail">
-                <p>Frindlers is an American English-based techneurodelic protoneologia aural dictionary recording project. The members rank among New York's finest writers: Lane Rodges, Logan Chung, Jane Lai, Julcia Cotsco, Léna Bartels, and Shaughnessy "Trash Girl" Jones.
-                </p>
-                 <br>
+                <p>Frindlers is an American English-based techneurodelic protoneologia aural dictionary recording project. The members rank among New York's finest writers: Lane Rodges, Logan Chung, Jane Lai, Julcia Cotsco, Léna Bartels, and Shaughnessy "Trash Girl" Jones.</p>
+                <br>
                 <p>Listen on <a href="https://frindlers.bandcamp.com/album/first-edition" target="_blank">Bandcamp</a>, the <a href="https://archive.org/details/frindlers-first-edition">Internet Archive</a>, <a href="https://www.ninaprotocol.com/releases/frindlers-first-edition">Nina Protocol</a>, or <a href="https://podcasts.apple.com/us/podcast/frindlers/id1806317412">Apple Podcasts</a>.
                 </p>
             </div>
@@ -78,7 +94,7 @@
                 </p>
             </div>
         </details>
-                
+
         <!-- 3. Cool Dry Place -->
         <details class="portfolio-card" id="cool-dry-place">
             <summary class="portfolio-link">
@@ -94,7 +110,7 @@
                 <p>
                     Production, engineering, arrangement, and songwriting for breakout debut, achieving critical and commercial acclaim. 
                 </p>
-                 <br>
+                <br>
                 <p>
                     <a href="https://katykirbyon.bandcamp.com/album/cool-dry-place-expanded" target="_blank">
                         Listen ↗
@@ -102,8 +118,8 @@
                 </p>
             </div>
         </details>
-                
-        <!-- 4. Lambskiss Debut -->
+
+        <!-- 4. Lambskiss -->
         <details class="portfolio-card" id="lambskiss">
             <summary class="portfolio-link">
                 <div class="portfolio-image">
@@ -115,9 +131,8 @@
                 </div>
             </summary>
             <div class="portfolio-detail">
-                <p>Sanctioned bootleg of Lambskiss Debut Third Show, live at Dinky's Davern in Ridgewood, Queens.
-                </p>
-                 <br>
+                <p>Sanctioned bootleg of Lambskiss Debut Third Show, live at Dinky's Davern in Ridgewood, Queens.</p>
+                <br>
                 <p>
                     <a href="https://archive.org/details/25.08-27-lambskiss-debut-live-at-dinky-s-cassette-davern" target="_blank">
                         Listen ↗
@@ -125,7 +140,7 @@
                 </p>
             </div>
         </details>
-                
+
         <!-- 5. Groupchat essay -->
         <details class="portfolio-card" id="groupchat">
             <summary class="portfolio-link">
@@ -134,12 +149,12 @@
                 </div>
                 <div class="portfolio-text">
                     <h3><em>The Phenomenology of the Modern Groupchat</em></h3>
+                    <p>Essay</p>
                 </div>
             </summary>
             <div class="portfolio-detail">
-                <p>A piece of silly earnestness. How might we enact a community-centered digital communications environment using the tools already at our disposal? This "essay" foreshadowed a spate of later Groupchat articles in <em>The Atlantic</em>, <em>The New York Times</em>, and more.</p>
-                </p>
-                 <br>
+                <p></p>
+                <br>
                 <p>
                     <a href="http://bit.ly/groupchatdoc" target="_blank">
                         Read ↗
@@ -148,8 +163,42 @@
             </div>
         </details>  
 
-    </section> 
+      </section>
+    </section>
+
+    <!-- PANEL B: Calendar (embed) -->
+    <section class="view-panel panel-calendar">
+      <h2>Show Calendar</h2>
+      <p>
+        View full page: 
+        <a href="https://bit.ly/mcfartneyshowcal" target="_blank">
+          Calendar of shows/readings/screenings ↗
+        </a>
+      </p>
+      <div class="calendar-embed">
+        <!-- TODO: replace src with your real Google Calendar embed URL -->
+        <iframe 
+          src="YOUR_GOOGLE_CALENDAR_EMBED_URL_HERE"
+          style="border: 0" 
+          width="100%" 
+          height="500" 
+          frameborder="0" 
+          scrolling="no">
+        </iframe>
+      </div>
+    </section>
+
+    <!-- PANEL C: Loggin’ Chung -->
+    <section class="view-panel panel-log">
+      <h2>Loggin’ Chung</h2>
+      <p>
+        Notes, thoughts, reviews, marginalia. Coming soon.
+      </p>
+    </section>
+
+  </div><!-- /.view-panels -->
 </section>
+
            
 <section class="section-wrapper">
 
@@ -216,10 +265,10 @@
     <script>
     document.querySelectorAll('.portfolio-card').forEach(function(card) {
       card.addEventListener('click', function(e) {
-        // If you clicked a link, let it behave normally.
+        // If link is clicked, let it behave normally.
         if (e.target.closest('a')) return;
     
-        // If you clicked inside the summary, let the browser's default toggle do it.
+        // If anywhere in summary is clicked, let the browser's default toggle do it.
         if (e.target.closest('summary')) return;
     
         // Otherwise, toggle the details programmatically.
