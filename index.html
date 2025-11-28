@@ -301,26 +301,32 @@
     const ROW_SIZE = getRowSize();
     const openIndex = parseInt(openCard.dataset.index, 10);
 
-    // All other card indices, in original order
-    const others = cards
-      .map((_, i) => i)
-      .filter(i => i !== openIndex);
+    // Which "row" (0-based) is this card in, given the current column count?
+    const openRow = Math.floor(openIndex / ROW_SIZE);
+    const rowStart = openRow * ROW_SIZE; // first index of that row
 
-    const othersCount = others.length;
+    const sequence = [];
 
-    // How many *full* rows can we put above the detail row?
-    const fullRowsAbove = Math.floor(othersCount / ROW_SIZE);
-    const numAbove = fullRowsAbove * ROW_SIZE;
+    // 1) All cards from *earlier rows* stay above the open card
+    for (let i = 0; i < rowStart; i++) {
+      sequence.push(i);
+    }
 
-    const above = others.slice(0, numAbove);   // fills full rows above
-    const below = others.slice(numAbove);      // remaining cards go below
+    // 2) The open card itself comes next, spanning the full row
+    sequence.push(openIndex);
 
-    const sequence = [...above, openIndex, ...below];
+    // 3) Everything from this row down (except the open card) goes below
+    for (let i = rowStart; i < n; i++) {
+      if (i === openIndex) continue;
+      sequence.push(i);
+    }
 
+    // Apply the new visual order
     sequence.forEach((cardIndex, visualPos) => {
       cards[cardIndex].style.order = visualPos;
     });
   }
+
 
   function updateForCurrentOpenCard() {
     const openCard = cards.find(c => c.open);
