@@ -470,10 +470,56 @@ summary.portfolio-link::marker {
         font-size: 0.75em;
     }
 
-    /* no separators on tiny screens; spacing does the work */
-     .view-tab + .view-tab::before {
+    .tab-short {
+        display: inline;
+    }
+
+    @media (max-width:600px) {
+
+    #container { margin-top: 0; }
+
+    .tri-column {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* when open on very small screens, stack image + text */
+    .portfolio-card[open] {
+        grid-template-columns: 1fr;
+    }
+
+    .portfolio-card[open] .portfolio-image,
+    .portfolio-card[open] .portfolio-text,
+    .portfolio-card[open] .portfolio-detail {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    /* --- mobile tab layout: horizontal scroll --- */
+    .view-tabs {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 4px;
+    }
+
+    .view-tabs h2 {
+        display: inline-block;
+        white-space: nowrap;
+        margin: 0;
+    }
+
+    .view-tab {
+        display: inline-block;
+        padding: 4px 8px;
+        font-size: 0.75em;
+    }
+
+    /* keep separators on mobile, just a bit tighter */
+    .view-tab + .view-tab::before {
         content: "»";
+        display: inline-block;
         margin: 0 0.25em;
+    }
 
     /* on small screens, show short tab names instead of long ones */
     .tab-long {
@@ -483,6 +529,8 @@ summary.portfolio-link::marker {
     .tab-short {
         display: inline;
     }
+}
+
 }
 
 
