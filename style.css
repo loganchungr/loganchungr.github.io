@@ -173,6 +173,7 @@ section {background: #fff;}
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
+    border: none;
 }
 
 .portfolio-card {
@@ -203,6 +204,11 @@ section {background: #fff;}
   display: block;
 }
 
+.portfolio-image img a:hover {
+    border:2px dashed #ff948f;
+    scale:110%;
+}
+
 /* center the text */
 .portfolio-card h3, .portfolio-card p {
   text-align: center;
@@ -213,10 +219,7 @@ section {background: #fff;}
   margin-bottom: 0.25rem;
 }
 
-a:hover {
-    border:2px dashed #ff948f;
-    scale:110%;
-}
+
 
 
 
