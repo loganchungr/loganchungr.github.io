@@ -238,11 +238,13 @@ section {background: #fff;}
 }
 
 /* hover effect! */ 
-.portfolio-link:hover .portfolio-image img {
+.portfolio-link:hover {
+    transform: scale(1.05);
     border:2px dashed #ff948f;
     border-radius:10px;
-    transform: scale(1.05);
 }
+
+/* Detail view */
 
 .portfolio-detail {
     display: none;
