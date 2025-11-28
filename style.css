@@ -90,6 +90,10 @@ blockquote {
     padding-left: 10px;
 }
 
+#announcements .section {
+    border: none;
+}
+
 .section-wrapper a {
     overflow-wrap: anywhere;   /* modern, nice */
     word-break: break-word;    /* good fallback */
