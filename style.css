@@ -90,32 +90,6 @@ figure {
     place-items: center;
 }
 
-/* keep header layout the same */
-#bio {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-/* sticky strip just for your name */
-#namebar {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-
-    /* visual style */
-    background: #ff948f;              /* match your site pink */
-    border-bottom: 1px solid #969696; /* bottom border just under the name */
-    padding: 4px 8px;
-}
-
-/* make sure the name itself doesn’t add extra spacing */
-#namebar h1 {
-    margin: 0;
-}
-
-
 blockquote {
     border-left: 5px solid #dddddd;
     padding-left: 10px;
