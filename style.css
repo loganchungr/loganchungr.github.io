@@ -91,7 +91,7 @@ figure {
 }
 
 time {
-    /* background-color: #ecece0; */
+    display: inline-block;
     border: .5px dashed #ff984f;
     border-radius: 5px;
     padding: 0 4px;
