@@ -385,6 +385,10 @@ summary.portfolio-link::marker {
     color: #000;           
 }
 
+.tab-short {
+    display: none;
+}
+
 /* panels wrapper */
 .view-panels {
     background: #ff948f;
@@ -467,9 +471,17 @@ summary.portfolio-link::marker {
     }
 
     /* no separators on tiny screens; spacing does the work */
-    .view-tab + .view-tab::before {
-        content: "";
-        margin: 0;
+     .view-tab + .view-tab::before {
+        content: "»";
+        margin: 0 0.25em;
+
+    /* on small screens, show short tab names instead of long ones */
+    .tab-long {
+        display: none;
+    }
+
+    .tab-short {
+        display: inline;
     }
 }
 
