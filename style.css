@@ -90,7 +90,7 @@ figure {
     place-items: center;
 }
 
-p time {
+time {
     /* background-color: #ecece0; */
     border: .5px dashed #ff984f;
     border-radius: 5px;
@@ -441,7 +441,9 @@ summary.portfolio-link::marker {
 /* MEDIA QUERIES */
 @media (max-width:600px) {
 
-    #container { margin-top: 0; }
+    #container { 
+        margin-top: 0; 
+    }
 
     .tri-column {
         grid-template-columns: repeat(2, 1fr);
@@ -459,8 +461,16 @@ summary.portfolio-link::marker {
         grid-row: auto;
     }
 
-    /* --- mobile tab layout: horizontal scroll --- */
+    /* nicer padding for open cards on small screens */
+    .portfolio-card[open] .portfolio-text {
+        padding: 10px 14px 4px 14px;   /* title/artist area */
+    }
 
+    .portfolio-card[open] .portfolio-detail {
+        padding: 4px 14px 14px 14px;   /* blurb + link area */
+    }
+
+    /* --- mobile tab layout: horizontal scroll --- */
     .view-tabs {
         display: block;              /* override desktop flex layout */
         overflow-x: auto;            /* horizontal scroll when needed */
@@ -468,7 +478,7 @@ summary.portfolio-link::marker {
         padding-bottom: 4px;
     }
 
-    /* if your labels live inside an <h2>, make sure it doesn't wrap either */
+    /* keep the heading from wrapping too */
     .view-tabs h2 {
         display: inline-block;
         white-space: nowrap;
@@ -481,55 +491,11 @@ summary.portfolio-link::marker {
         font-size: 0.75em;
     }
 
-    .tab-short {
-        display: inline;
-    }
-
-    @media (max-width:600px) {
-
-    #container { margin-top: 0; }
-
-    .tri-column {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    /* when open on very small screens, stack image + text */
-    .portfolio-card[open] {
-        grid-template-columns: 1fr;
-    }
-
-    .portfolio-card[open] .portfolio-image,
-    .portfolio-card[open] .portfolio-text,
-    .portfolio-card[open] .portfolio-detail {
-        grid-column: 1;
-        grid-row: auto;
-    }
-
-    /* --- mobile tab layout: horizontal scroll --- */
-    .view-tabs {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: 4px;
-    }
-
-    .view-tabs h2 {
-        display: inline-block;
-        white-space: nowrap;
-        margin: 0;
-    }
-
-    .view-tab {
-        display: inline-block;
-        padding: 4px 8px;
-        font-size: 0.75em;
-    }
-
-    /* keep separators on mobile, just a bit tighter */
+    /* separators on mobile (slightly tighter) */
     .view-tab + .view-tab::before {
         content: "»";
         display: inline-block;
-        margin: 0;
+        margin: 0 0.25em;
     }
 
     /* on small screens, show short tab names instead of long ones */
@@ -542,7 +508,6 @@ summary.portfolio-link::marker {
     }
 }
 
-}
 
 
     
