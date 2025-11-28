@@ -199,11 +199,6 @@ section {background: #fff;}
     border: none;
 }
 
-/* internally scrollable portfolio grid */
-/* #portfolio .tri-column { /*
-    max-height: 420px;    /* tweak this to taste */
-/* overflow-y: auto; */
-
     
 .portfolio-card {
     border: 1px solid;
@@ -253,16 +248,16 @@ summary.portfolio-link {
 .portfolio-card[open] .portfolio-text {
     grid-column: 2;
     grid-row: 1;
-    padding-top: 15px;
-    padding-right: 5px;
-    padding-bottom: 5px;
+    padding: 15px 5px 5px 0;   /* top/right/bottom/left */
 }
 
 /* blurb: bottom-right cell, directly under title/artist */
 .portfolio-card[open] .portfolio-detail {
     grid-column: 2;
     grid-row: 2;
+    padding: 0 5px 5px 0;     /* match right padding with above */
 }
+
 
 /* hide default disclosure marker */
 summary.portfolio-link::-webkit-details-marker {
