@@ -291,18 +291,7 @@ summary.portfolio-link::marker {
 /* when open, make summary a "transparent" wrapper so its children join the grid */
 .portfolio-card[open] summary.portfolio-link {
     display: contents;
-    
-
-/* don't leave the extra gap under the image when open */
-.portfolio-card[open] .portfolio-image {
-    margin-bottom: 0;
 }
-
-/* show detail text when open */
-.portfolio-card[open] .portfolio-detail {
-    display: block;
-}
-
 
 /* image: left column, spanning both rows (title + blurb) */
 .portfolio-card[open] .portfolio-image {
@@ -311,6 +300,12 @@ summary.portfolio-link::marker {
     grid-row: 1 / span 2;
 }
 
+/* don't leave the extra gap under the image when open */
+.portfolio-card[open] .portfolio-image {
+    margin-bottom: 0;
+}
+
+
 /* title + subtitle: top-right cell */
 .portfolio-card[open] .portfolio-text {
     grid-column: 2;
@@ -318,8 +313,10 @@ summary.portfolio-link::marker {
     padding: 15px 5px 5px 0;   /* top/right/bottom/left */
 }
 
+
 /* blurb: bottom-right cell, directly under title/artist */
 .portfolio-card[open] .portfolio-detail {
+    display: block;
     grid-column: 2;
     grid-row: 2;
     padding: 0 5px 5px 0;     /* match right padding with above */
@@ -330,7 +327,6 @@ summary.portfolio-link::marker {
 .portfolio-card[open] p,
 .portfolio-card[open] .portfolio-detail {
     text-align: left;
-    padding-left: 
 }
 
 /* bump text sizes in the open state */
