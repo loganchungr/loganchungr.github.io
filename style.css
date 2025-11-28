@@ -331,10 +331,12 @@ summary.portfolio-link::marker {
 /* bump text sizes in the open state */
 .portfolio-card[open] .portfolio-text h3 {
     font-size: 120%;
+    padding: 2em;
 }
 
 .portfolio-card[open] .portfolio-text p {
     font-size: 110%;
+    padding: 2em;
 }
 
 /* don't zoom an open card on hover (optional) */
