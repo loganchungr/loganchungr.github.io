@@ -237,6 +237,7 @@ summary.portfolio-link {
 .portfolio-card[open] .portfolio-text {
     grid-column: 2;
     grid-row: 1;
+    padding-top: 8px;
 }
 
 /* blurb: bottom-right cell, directly under title/artist */
