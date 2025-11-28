@@ -107,7 +107,7 @@ blockquote {
 .section-wrapper > .two-column {
     border: none;
     padding: 0;      /* optional: lets inner sections control their padding */
-    background: #ff948f;  /* keep your pink background */
+    background: #ff948f;  /* keep pink background */
 }
 
 footer {
@@ -346,6 +346,68 @@ summary.portfolio-link::marker {
 .portfolio-card[open]:hover {
     transform: none;
 }
+
+/* TABBED WORKSPACE BELOW ANNOUNCEMENTS */
+
+#workspace {
+    /* you already get .section-wrapper styles */
+}
+
+/* hide the radios; they’re just state holders */
+#workspace input[name="workspace-view"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* tab row */
+.view-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+    background: #ff948f;  /* same as section background */
+}
+
+/* individual tab */
+.view-tab {
+    padding: 4px 10px;
+    border: 1px solid #969696;
+    border-radius: 999px;           /* pill-like */
+    cursor: pointer;
+    user-select: none;
+    background: #fff;
+}
+
+/* panels wrapper */
+.view-panels {
+    background: #ff948f;            /* matches your .section-wrapper */
+}
+
+/* base panel style: hidden by default */
+.view-panel {
+    display: none;
+}
+
+/* show the right panel when that radio is checked */
+#view-portfolio:checked ~ .view-panels .panel-portfolio {
+    display: block;
+}
+#view-calendar:checked  ~ .view-panels .panel-calendar {
+    display: block;
+}
+#view-log:checked       ~ .view-panels .panel-log {
+    display: block;
+}
+
+/* active tab highlighting */
+#view-portfolio:checked ~ .view-tabs label[for="view-portfolio"],
+#view-calendar:checked  ~ .view-tabs label[for="view-calendar"],
+#view-log:checked       ~ .view-tabs label[for="view-log"] {
+    background: #000;
+    color: #fff;
+}
+
 
 
 
