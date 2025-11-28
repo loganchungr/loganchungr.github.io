@@ -67,7 +67,7 @@ img {
 header, section, aside, footer {
     padding: 8px;
     border: 1px solid #969696;
-    border-radius: 2px;
+    border-radius: 10px;
     background: #fff;
 }
 
@@ -78,9 +78,12 @@ header {
 }
 
 header, footer, .section-wrapper, .tri-column {background: #ff948f;}
+
 .medium {font-size: 125%;}
 .large {font-size: 400%;}
+
 figure {height: 100px;}
+
 blockquote {
     border-left: 5px solid #dddddd;
     padding-left: 10px;
@@ -114,6 +117,7 @@ footer {
     position: relative;
     display: grid;
     grid-gap: 10px;
+    border-radius: 10px;
 }
 
 
@@ -130,6 +134,7 @@ footer {
     display: grid;
     grid-gap: 10px;
     background: #ff948f;
+    border-radius: 10px;
 }
 
 .fruit {
