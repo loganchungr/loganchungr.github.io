@@ -445,23 +445,26 @@ summary.portfolio-link::marker {
     }
 
     /* --- mobile tab layout --- */
-    .view-tabs h2 {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);  /* one column per tab label */
-        gap: 2px;
-        margin-bottom: 6px;
+    .view-tab {
+        font-size: 0.75em;
+    }
+
+    .view-tab::before {
+        content: attr(data-short);  /* show short label */
     }
 
     .view-tab {
-        text-align: center;
-        font-size: 0.7em;       /* a hair smaller so they fit */
-        padding: 4px 0;         /* comfy tap target */
+        /* hide the original text visually but keep it for screen readers if you want */
+        color: transparent;
+        position: relative;
     }
 
-    /* no separators on small screens */
-    .view-tab + .view-tab::before {
-        content: "";
-        margin: 0;
+    .view-tab::before {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #000;                /* actual visible text color */
+    }
     }
 }
 
