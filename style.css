@@ -74,7 +74,7 @@ header, section, aside, footer {
 
 header {
     display: grid;
-    grid-template-columns: 1fr 100px;
+    grid-template-columns: auto auto;
     grid-gap: 10px;
     border-top: none;
 }
