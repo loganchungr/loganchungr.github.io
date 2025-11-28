@@ -196,9 +196,9 @@ section {background: #fff;}
 }
 
 /* internally scrollable portfolio grid */
-#portfolio .tri-column {
+/* #portfolio .tri-column { /*
     max-height: 420px;    /* tweak this to taste */
-    overflow-y: auto;
+/* overflow-y: auto; */
 
     
 .portfolio-card {
