@@ -46,7 +46,7 @@ li:before {
 
 li {
     list-style-position: inside;
-    /*text-indent: 2em;*/
+    padding: 2em;
 }
 
 h2, h4 {
