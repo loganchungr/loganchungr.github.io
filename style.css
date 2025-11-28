@@ -90,7 +90,7 @@ figure {
     place-items: center;
 }
 
-=time {
+time {
     /* background-color: #ecece0; */
     border: .5px dashed #ff984f;
     border-radius: 5px;
