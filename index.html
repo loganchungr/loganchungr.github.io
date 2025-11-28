@@ -23,16 +23,47 @@
             </header>
             
         <section class="section-wrapper" id="announcements">
-            <h2>announcements sandbox</h2>
+            <h2>announcements</h2>
                 <section> 
-                    <p><strong>HARK! Season 11: 🤲 TABULA RASA 🤲</strong> will take place on <strong><u>Friday, December 19th, 2025</u></strong> at <a href="https://maps.app.goo.gl/Vv3iG9bP2T78eVM96"><strong>Dinky's Davern</strong></a> in Ridgewood, Queens.</p>
+                    <p><strong>HARK! Season 11: 🤲 TABULA RASA 🤲</strong> will take place on <strong><u><time>Friday, December 19th, 2025</time></u></strong> at <a href="https://maps.app.goo.gl/Vv3iG9bP2T78eVM96"><strong>Dinky's Davern</strong></a> in Ridgewood, Queens.</p>
                 </section>
             </section>
                          
-<section class="section-wrapper" id="portfolio">
-    <h2>Some Work I'm Proud Of</h2>
-        
-    <section class="tri-column">     
+<section class="section-wrapper" id="workspace">
+
+  <!-- 1. Hidden radios to track which view is active -->
+  <input type="radio" name="workspace-view" id="view-portfolio" checked>
+  <input type="radio" name="workspace-view" id="view-calendar">
+  <input type="radio" name="workspace-view" id="view-log">
+
+  <!-- 2. Tab row -->
+    <div class="view-tabs">
+      <h2>
+        <label class="view-tab" for="view-portfolio">
+          <span class="tab-long">Some work I’m proud of</span>
+          <span class="tab-short">Work</span>
+        </label>
+    
+        <label class="view-tab" for="view-calendar">
+          <span class="tab-long">Show calendar</span>
+          <span class="tab-short">Cal</span>
+        </label>
+    
+        <label class="view-tab" for="view-log">
+          <span class="tab-long">Log</span>
+          <span class="tab-short">Log</span>
+        </label>
+      </h2>
+    </div>
+
+
+
+  <!-- 3. Panels: only one visible at a time -->
+  <div class="view-panels">
+
+    <!-- PANEL A: Portfolio (your existing grid) -->
+    <section class="view-panel panel-portfolio">
+      <section class="tri-column">
 
         <!-- 1. Frindlers -->
         <details class="portfolio-card" id="frindlers">
@@ -46,9 +77,8 @@
                 </div>
             </summary>
             <div class="portfolio-detail">
-                <p>Frindlers is an American English-based techneurodelic protoneologia aural dictionary recording project. The members rank among New York's finest writers: Lane Rodges, Logan Chung, Jane Lai, Julcia Cotsco, Léna Bartels, and Shaughnessy "Trash Girl" Jones.
-                </p>
-                 <br>
+                <p>Frindlers is an American English-based techneurodelic protoneologia aural dictionary recording project. The members rank among New York's finest writers: Lane Rodges, Logan Chung, Jane Lai, Julcia Cotsco, Léna Bartels, and Shaughnessy "Trash Girl" Jones.</p>
+                <br>
                 <p>Listen on <a href="https://frindlers.bandcamp.com/album/first-edition" target="_blank">Bandcamp</a>, the <a href="https://archive.org/details/frindlers-first-edition">Internet Archive</a>, <a href="https://www.ninaprotocol.com/releases/frindlers-first-edition">Nina Protocol</a>, or <a href="https://podcasts.apple.com/us/podcast/frindlers/id1806317412">Apple Podcasts</a>.
                 </p>
             </div>
@@ -78,7 +108,7 @@
                 </p>
             </div>
         </details>
-                
+
         <!-- 3. Cool Dry Place -->
         <details class="portfolio-card" id="cool-dry-place">
             <summary class="portfolio-link">
@@ -94,7 +124,7 @@
                 <p>
                     Production, engineering, arrangement, and songwriting for breakout debut, achieving critical and commercial acclaim. 
                 </p>
-                 <br>
+                <br>
                 <p>
                     <a href="https://katykirbyon.bandcamp.com/album/cool-dry-place-expanded" target="_blank">
                         Listen ↗
@@ -102,8 +132,8 @@
                 </p>
             </div>
         </details>
-                
-        <!-- 4. Lambskiss Debut -->
+
+        <!-- 4. Lambskiss -->
         <details class="portfolio-card" id="lambskiss">
             <summary class="portfolio-link">
                 <div class="portfolio-image">
@@ -115,9 +145,8 @@
                 </div>
             </summary>
             <div class="portfolio-detail">
-                <p>Sanctioned bootleg of Lambskiss Debut Third Show, live at Dinky's Davern in Ridgewood, Queens.
-                </p>
-                 <br>
+                <p>Sanctioned bootleg of Lambskiss Debut Third Show, live at Dinky's Davern in Ridgewood, Queens.</p>
+                <br>
                 <p>
                     <a href="https://archive.org/details/25.08-27-lambskiss-debut-live-at-dinky-s-cassette-davern" target="_blank">
                         Listen ↗
@@ -125,7 +154,7 @@
                 </p>
             </div>
         </details>
-                
+
         <!-- 5. Groupchat essay -->
         <details class="portfolio-card" id="groupchat">
             <summary class="portfolio-link">
@@ -137,9 +166,8 @@
                 </div>
             </summary>
             <div class="portfolio-detail">
-                <p>A piece of silly earnestness. How might we enact a community-centered digital communications environment using the tools already at our disposal? This "essay" foreshadowed a spate of later Groupchat articles in <em>The Atlantic</em>, <em>The New York Times</em>, and more.</p>
-                </p>
-                 <br>
+                <p>What does a Groupchat provide in our stymied and overstuffed digital communications environment? This frivolous but earnest "essay" predated a spate of later Groupchat articles in publications such as <em>The Atlantic</em> and <em>The New York Times.</em> </p>
+                <br>
                 <p>
                     <a href="http://bit.ly/groupchatdoc" target="_blank">
                         Read ↗
@@ -148,8 +176,35 @@
             </div>
         </details>  
 
-    </section> 
+      </section>
+    </section>
+
+<!-- PANEL B: Calendar (embed) -->
+    <section class="view-panel panel-calendar">
+          <p>I do my best to keep up with all the events that come my way. Here you can add any of these to your own Google Calendar. Shoutout to the good folks at <a href="https://gunkyard.substack.com/"><b>GUNK</b></a> for providing a whole lot of these each month ✨         </p>
+      <div class="calendar-embed">
+        <iframe 
+          src="https://calendar.google.com/calendar/u/0/embed?src=ddd7087ca46c0ed6a1093e107a0533299cabb504c3723cdc64848ac2f0db43fa@group.calendar.google.com&ctz=America/New_York?&mode=agenda"
+          style="border: 1px solid #969696; border-radius: 5px;" 
+          width="100%" 
+          height="600px" 
+          scrolling="no">
+        </iframe>
+      </div>
+    </section>
+
+<!-- PANEL C: Loggin’ Chung -->
+    <section class="view-panel panel-log">
+      <iframe src="https://docs.google.com/document/d/e/2PACX-1vTIZxuCPmOdaxMLybnblFyktXcbaMj0hIok94GpBY2l4LKFHnl0WuZBAlbOzJO0J1jet_yc4nZGus-b/pub?embedded=true" 
+          width="100%" 
+          height="600px" 
+          style="border: 1px solid #969696; border-radius: 5px;">
+      </iframe>
+    </section>
+
+  </div><!-- /.view-panels -->
 </section>
+
            
 <section class="section-wrapper">
 
@@ -216,10 +271,10 @@
     <script>
     document.querySelectorAll('.portfolio-card').forEach(function(card) {
       card.addEventListener('click', function(e) {
-        // If you clicked a link, let it behave normally.
+        // If link is clicked, let it behave normally.
         if (e.target.closest('a')) return;
     
-        // If you clicked inside the summary, let the browser's default toggle do it.
+        // If anywhere in summary is clicked, let the browser's default toggle do it.
         if (e.target.closest('summary')) return;
     
         // Otherwise, toggle the details programmatically.
@@ -257,26 +312,32 @@
     const ROW_SIZE = getRowSize();
     const openIndex = parseInt(openCard.dataset.index, 10);
 
-    // All other card indices, in original order
-    const others = cards
-      .map((_, i) => i)
-      .filter(i => i !== openIndex);
+    // Which "row" (0-based) is this card in, given the current column count?
+    const openRow = Math.floor(openIndex / ROW_SIZE);
+    const rowStart = openRow * ROW_SIZE; // first index of that row
 
-    const othersCount = others.length;
+    const sequence = [];
 
-    // How many *full* rows can we put above the detail row?
-    const fullRowsAbove = Math.floor(othersCount / ROW_SIZE);
-    const numAbove = fullRowsAbove * ROW_SIZE;
+    // 1) All cards from *earlier rows* stay above the open card
+    for (let i = 0; i < rowStart; i++) {
+      sequence.push(i);
+    }
 
-    const above = others.slice(0, numAbove);   // fills full rows above
-    const below = others.slice(numAbove);      // remaining cards go below
+    // 2) The open card itself comes next, spanning the full row
+    sequence.push(openIndex);
 
-    const sequence = [...above, openIndex, ...below];
+    // 3) Everything from this row down (except the open card) goes below
+    for (let i = rowStart; i < n; i++) {
+      if (i === openIndex) continue;
+      sequence.push(i);
+    }
 
+    // Apply the new visual order
     sequence.forEach((cardIndex, visualPos) => {
       cards[cardIndex].style.order = visualPos;
     });
   }
+
 
   function updateForCurrentOpenCard() {
     const openCard = cards.find(c => c.open);

@@ -90,6 +90,17 @@ figure {
     place-items: center;
 }
 
+time {
+    display: inline-block;
+    border: .5px dashed #ff984f;
+    border-radius: 5px;
+    padding: 0 4px;
+    border-top: 0;
+    border-left: 0;
+    padding-left: 0;
+    padding-top: 0;
+}
+
 blockquote {
     border-left: 5px solid #dddddd;
     padding-left: 10px;
@@ -107,7 +118,7 @@ blockquote {
 .section-wrapper > .two-column {
     border: none;
     padding: 0;      /* optional: lets inner sections control their padding */
-    background: #ff948f;  /* keep your pink background */
+    background: #ff948f;  /* keep pink background */
 }
 
 footer {
@@ -347,28 +358,158 @@ summary.portfolio-link::marker {
     transform: none;
 }
 
+/* TABBED WORKSPACE */
+
+#workspace input[name="workspace-view"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* tab row: inline text, not pills */
+.view-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0;
+    margin-bottom: 4px;
+    background: #ff948f;   /* same as section background */
+}
+
+/* inactive tabs: h4-ish, slate gray, no borders */
+.view-tab {
+    font-size: 0.75em;      /* like a small heading */
+    font-weight: normal;
+    color: #000;           
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* automatic "»" separators between tabs */
+.view-tab + .view-tab::before {
+    content: "»";
+    display: inline-block;
+    margin: 0 0.5em;
+    color: #000;           
+}
+
+.tab-short {
+    display: none;
+}
+
+/* panels wrapper */
+.view-panels {
+    background: #ff948f;
+}
+
+/* base panel style: hidden by default */
+.view-panel {
+    display: none;
+}
+
+/* show the right panel when that radio is checked */
+#view-portfolio:checked ~ .view-panels .panel-portfolio {
+    display: block;
+}
+#view-calendar:checked  ~ .view-panels .panel-calendar {
+    display: block;
+}
+#view-log:checked       ~ .view-panels .panel-log {
+    display: block;
+}
+
+/* active tab: black, slightly larger, bold */
+#view-portfolio:checked ~ .view-tabs label[for="view-portfolio"],
+#view-calendar:checked  ~ .view-tabs label[for="view-calendar"],
+#view-log:checked       ~ .view-tabs label[for="view-log"] {
+    color: #000;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+/* inside the workspace, don't draw a second card border */
+#workspace .view-panel {
+    border: none;
+    padding: 0;
+    background: #ff948f;  /* let the outer section-wrapper be the "card" */
+}
 
 
 /* MEDIA QUERIES */
 @media (max-width:600px) {
-    
-    #container {margin-top: 0;}
+
+    #container { 
+        margin-top: 0; 
+    }
+
     .tri-column {
-        grid-template-columns:repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 
     /* when open on very small screens, stack image + text */
-     .portfolio-card[open] {
+    .portfolio-card[open] {
         grid-template-columns: 1fr;
-     }
+    }
 
-     .portfolio-card[open] .portfolio-image,
-     .portfolio-card[open] .portfolio-text,
-     .portfolio-card[open] .portfolio-detail {
-      grid-column: 1;
-      grid-row: auto;
-     }
+    .portfolio-card[open] .portfolio-image,
+    .portfolio-card[open] .portfolio-text,
+    .portfolio-card[open] .portfolio-detail {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    /* nicer padding for open cards on small screens */
+    .portfolio-card[open] .portfolio-text {
+        padding: 10px 14px 4px 14px;   /* title/artist area */
+    }
+
+    .portfolio-card[open] .portfolio-detail {
+        padding: 4px 14px 14px 14px;   /* blurb + link area */
+    }
+
+    /* --- mobile tab layout: horizontal scroll --- */
+    .view-tabs {
+        display: block;              /* override desktop flex layout */
+        overflow-x: auto;            /* horizontal scroll when needed */
+        white-space: nowrap;         /* keep labels on one line */
+        padding-bottom: 4px;
+    }
+
+    /* keep the heading from wrapping too */
+    .view-tabs h2 {
+        display: inline-block;
+        white-space: nowrap;
+        margin: 0;
+    }
+
+    .view-tab {
+        display: inline-block;
+        padding: 4px 8px;
+        font-size: 0.75em;
+    }
+
+    /* separators on mobile (slightly tighter) */
+    .view-tab + .view-tab::before {
+        content: "»";
+        display: inline-block;
+        margin: 0 0.25em;
+    }
+
+    /* on small screens, show short tab names instead of long ones */
+    .tab-long {
+        display: none;
+    }
+
+    .tab-short {
+        display: inline;
+    }
 }
+
+
+
     
 
     
