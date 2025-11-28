@@ -362,7 +362,7 @@ summary.portfolio-link::marker {
     align-items: baseline;
     gap: 0;
     margin-bottom: 4px;
-    background: #ff948f;   /* same as your section background */
+    background: #ff948f;   /* same as section background */
 }
 
 /* inactive tabs: h4-ish, slate gray, no borders */
@@ -378,11 +378,11 @@ summary.portfolio-link::marker {
     user-select: none;
 }
 
-/* automatic "|" separators between tabs */
+/* automatic "»" separators between tabs */
 .view-tab + .view-tab::before {
     content: "»";
     margin: 0;
-    color: #fff;           
+    color: #000;           
 }
 
 /* panels wrapper */
