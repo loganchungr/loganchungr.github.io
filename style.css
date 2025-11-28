@@ -243,11 +243,17 @@ section {background: #fff;}
     border-radius:10px;
 }
 
-.portfolio-link:hover {
+/* inside cards, don't add a second border/scale */
+.portfolio-card a:hover {
+    border: none;
+    transform: none;
+}
+
+/*.portfolio-link:hover {
     transform: scale(1.10);
     border:2px dashed #ff948f;
     border-radius:10px;
-}
+}*/
 
 /* Detail view */
 
