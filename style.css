@@ -291,6 +291,7 @@ summary.portfolio-link::marker {
 
 /* don't leave the extra gap under the image when open */
 .portfolio-card[open] .portfolio-image {
+    max-width:50%;
     margin-bottom: 0;
 }
 
