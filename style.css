@@ -34,7 +34,7 @@ ul, ol {
 
 li:before { 
     content: "»";
-    position: aboslute;
+    position: absolute;
     left: 0;
     padding-right: .5em;
 /*    display: block;
@@ -58,7 +58,10 @@ p, ul, ol {
     line-height: 1.3;
 }
 
-img {width: 100%;}
+img {
+    max-width: 100%;
+    height: auto;
+}
 
 header, section, aside, footer {
     padding: 8px;
@@ -183,9 +186,29 @@ section {background: #fff;}
     justify-content: flex-start;
 
     border: 1px solid;
+    border-radius: 10px;
     box-sizing: border-box;
     background: #fff;
 }
+
+/* center the text */
+.portfolio-card h3, .portfolio-card p {
+  text-align: center;
+  margin: 0;
+}
+
+.portfolio-card h3 {
+  margin-bottom: 0.25rem;
+}
+
+.portfolio-card a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
 
 .portfolio-image {
     width: 100%;
@@ -204,20 +227,13 @@ section {background: #fff;}
   display: block;
 }
 
-.portfolio-image img a:hover {
+.portfolio-card > a:hover .portfolio-image img {
     border:2px dashed #ff948f;
-    scale:110%;
+    border-radius:25px;
+    transform: scale(1.05);
 }
 
-/* center the text */
-.portfolio-card h3, .portfolio-card p {
-  text-align: center;
-  margin: 0;
-}
 
-.portfolio-card h3 {
-  margin-bottom: 0.25rem;
-}
 
 
 
