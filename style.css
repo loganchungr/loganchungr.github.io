@@ -6,7 +6,7 @@ body {
 /* Globals */
 h1, h2, h3, h4, p, ol, ul, li, a, figure, p:last-child, ul:last-child, ol:last-child {
     font-family:'Courier New', monospace;
-    font-size: 15px;
+    font-size: 13px;
     margin: 0;
     padding: 0;
 }
@@ -90,6 +90,11 @@ footer {
 
 .credit {font-style: italic;}
 
+.section-wrapper a {
+    overflow-wrap: anywhere;   /* modern, nice */
+    word-break: break-word;    /* good fallback */
+}
+
 /* Profile Container */
 
 #container {
@@ -112,11 +117,13 @@ footer {
     grid-gap: 10px;
     grid-auto-rows: minmax(200px, 1fr);
 }
+
 .section-wrapper {
     display: grid;
     grid-gap: 10px;
     background: #ff948f;
 }
+
 .fruit {
     display: flex;
     flex-flow: column nowrap;
