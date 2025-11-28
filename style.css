@@ -274,9 +274,43 @@ summary.portfolio-link::marker {
     text-align: left;
 }
 
+/* when a card is open, make it span the full row */
+.portfolio-card[open] {
+    grid-column: 1 / -1;   /* full width of .tri-column grid */
+}
+
+/* when open, lay out the header as two columns: image | text */
+.portfolio-card[open] .portfolio-link {
+    display: grid;
+    grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+    column-gap: 1rem;
+    align-items: flex-start;
+}
+
+/* don't leave the extra gap under the image when open */
+.portfolio-card[open] .portfolio-image {
+    margin-bottom: 0;
+}
+
 /* show detail text when open */
 .portfolio-card[open] .portfolio-detail {
     display: block;
+}
+
+/* when a card is open, left-align all its text */
+.portfolio-card[open] h3,
+.portfolio-card[open] p,
+.portfolio-card[open] .portfolio-detail {
+    text-align: left;
+}
+
+/* bump text sizes in the open state */
+.portfolio-card[open] .portfolio-text h3 {
+    font-size: 120%;
+}
+
+.portfolio-card[open] .portfolio-text p {
+    font-size: 110%;
 }
 
 /* don't zoom an open card on hover (optional) */
