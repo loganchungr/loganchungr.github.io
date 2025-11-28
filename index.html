@@ -23,7 +23,7 @@
             </header>
             
         <section class="section-wrapper" id="announcements">
-            <h2>announcements</h2>
+            <h2>announcements/sandbox</h2>
                 <section> 
                     <p contenteditable="true">there is a <em><strong>fish</strong></em> in the <em>percolator!!</em></p>
                 </section>
@@ -187,8 +187,6 @@
     </section>
 </section>
 
-<!-- Sandbox Doc -->
-
             
             <footer>
                  <p><em>&copy; 2025 Logan Chung</em></p>
@@ -199,23 +197,36 @@
 </body>
             
 
+<!-- Sandbox editor -->
 
+    <script>
+    
+    var contents = document.querySelectorAll('[contenteditable]');
+
+    for (let content of contents) {
+      content.addEventListener('input', function() {
+        console.log('input changed to: ' + content.innerHTML);
+      });
+    }
+
+    </script>
+    
 <!-- Scripts for portfolio-detail closure -->
     
-<script>
-document.querySelectorAll('.portfolio-card').forEach(function(card) {
-  card.addEventListener('click', function(e) {
-    // If you clicked a link, let it behave normally.
-    if (e.target.closest('a')) return;
-
-    // If you clicked inside the summary, let the browser's default toggle do it.
-    if (e.target.closest('summary')) return;
-
-    // Otherwise, toggle the details programmatically.
-    card.open = !card.open;
-  });
-});
-</script>
+    <script>
+    document.querySelectorAll('.portfolio-card').forEach(function(card) {
+      card.addEventListener('click', function(e) {
+        // If you clicked a link, let it behave normally.
+        if (e.target.closest('a')) return;
+    
+        // If you clicked inside the summary, let the browser's default toggle do it.
+        if (e.target.closest('summary')) return;
+    
+        // Otherwise, toggle the details programmatically.
+        card.open = !card.open;
+      });
+    });
+    </script>
 
 <script>
   (function() {
