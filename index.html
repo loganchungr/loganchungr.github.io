@@ -230,69 +230,89 @@
     </script>
 
 <script>
-  (function() {
-    const cards = Array.from(document.querySelectorAll('.portfolio-card'));
-    if (!cards.length) return;
+(function() {
+  const cards = Array.from(document.querySelectorAll('.portfolio-card'));
+  if (!cards.length) return;
 
-    const ROW_SIZE = 3;
+  // Give each card a stable original index and base order
+  cards.forEach((card, i) => {
+    card.dataset.index = i;
+    card.style.order = i;
+  });
 
-    // Give each card a stable "original" index and default order
+  function getRowSize() {
+    // Match CSS breakpoint: 3 columns normally, 2 columns below 600px
+    return window.matchMedia('(max-width: 600px)').matches ? 2 : 3;
+  }
+
+  function resetOrder() {
     cards.forEach((card, i) => {
-      card.dataset.index = i;
       card.style.order = i;
     });
+  }
 
-    function resetOrder() {
-      cards.forEach((card, i) => {
-        card.style.order = i;
-      });
-    }
+  function applyRowAlignedOrder(openCard) {
+    const n = cards.length;
+    if (!n) return;
 
-    function applyRowAlignedOrder(openCard) {
-      const n = cards.length;
-      const openIndex = parseInt(openCard.dataset.index, 10);
+    const ROW_SIZE = getRowSize();
+    const openIndex = parseInt(openCard.dataset.index, 10);
 
-      // Base sequence: [0, 1, 2, ..., n-1]
-      const seq = [];
-      for (let i = 0; i < n; i++) {
-        if (i !== openIndex) seq.push(i);
-      }
+    // All other card indices, in original order
+    const others = cards
+      .map((_, i) => i)
+      .filter(i => i !== openIndex);
 
-      // Which row (0-based) did this card originally live in?
-      const originalRow = Math.floor(openIndex / ROW_SIZE);
-      // Start of that row in the "visual" sequence
-      let insertPos = originalRow * ROW_SIZE;
-      if (insertPos > seq.length) insertPos = seq.length;
+    const othersCount = others.length;
 
-      // Insert the open card index at that position
-      seq.splice(insertPos, 0, openIndex);
+    // How many *full* rows can we put above the detail row?
+    const fullRowsAbove = Math.floor(othersCount / ROW_SIZE);
+    const numAbove = fullRowsAbove * ROW_SIZE;
 
-      // Apply new order values
-      seq.forEach((cardIndex, visualPos) => {
-        cards[cardIndex].style.order = visualPos;
-      });
-    }
+    const above = others.slice(0, numAbove);   // fills full rows above
+    const below = others.slice(numAbove);      // remaining cards go below
 
-    // Listen for details open/close
-    cards.forEach((card) => {
-      card.addEventListener('toggle', () => {
-        if (card.open) {
-          // Close all other details so we only have one open at a time
-          cards.forEach(c => {
-            if (c !== card) c.open = false;
-          });
-          applyRowAlignedOrder(card);
-        } else {
-          // If nothing is open anymore, reset order
-          const anyOpen = cards.some(c => c.open);
-          if (!anyOpen) {
-            resetOrder();
-          }
-        }
-      });
+    const sequence = [...above, openIndex, ...below];
+
+    sequence.forEach((cardIndex, visualPos) => {
+      cards[cardIndex].style.order = visualPos;
     });
-  })();
+  }
+
+  function updateForCurrentOpenCard() {
+    const openCard = cards.find(c => c.open);
+    if (openCard) {
+      applyRowAlignedOrder(openCard);
+    } else {
+      resetOrder();
+    }
+  }
+
+  // When a card opens/closes, adjust the order
+  cards.forEach((card) => {
+    card.addEventListener('toggle', () => {
+      if (card.open) {
+        // Close all other details so only one is open at a time
+        cards.forEach(c => {
+          if (c !== card) c.open = false;
+        });
+        applyRowAlignedOrder(card);
+      } else {
+        const anyOpen = cards.some(c => c.open);
+        if (!anyOpen) {
+          resetOrder();
+        }
+      }
+    });
+  });
+
+  // If the viewport changes (e.g., rotate phone), recompute layout
+  window.addEventListener('resize', () => {
+    updateForCurrentOpenCard();
+  });
+})();
 </script>
+
 
             
 </html>
