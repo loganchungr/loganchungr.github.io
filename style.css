@@ -85,7 +85,7 @@ header, footer, .section-wrapper, .tri-column {background: #ff948f;}
 .large {font-size: 400%;}
 
 figure {
-    height: 100%;
+    height: 100px;
     padding: 2px;
     place-items: center;
 }
