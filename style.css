@@ -11,6 +11,11 @@ h1, h2, h3, h4, p, ol, ul, li, a, figure, p:last-child, ul:last-child, ol:last-c
     padding: 0;
 }
 
+a:hover {
+    border:.5px dashed #ff948f;
+    border-radius:10px;
+} 
+
 h1 { 
     font-size: 150%;
     font-style: bold;
