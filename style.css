@@ -26,6 +26,10 @@ h2 {
     font-size: 125%;
 }
 
+h1, h2, h3, h4 {
+    margin-bottom: .5em;
+}
+
 ul, ol { 
     position: relative;
     list-style: none;
@@ -50,9 +54,6 @@ li {
     padding-left: 1em;
 }
 
-h2, h4 {
-    margin-bottom: .5em;
-}
 
 p, ul, ol {
     margin-bottom: 1em;
@@ -354,9 +355,16 @@ summary.portfolio-link::marker {
     /* when open on very small screens, stack image + text */
      .portfolio-card[open] {
         grid-template-columns: 1fr;
+     }
 
-   
+     .portfolio-card[open] .portfolio-image,
+     .portfolio-card[open] .portfolio-text,
+     .portfolio-card[open] .portfolio-detail {
+      grid-column: 1;
+      grid-row: auto;
+     }
 }
+    
 
     
 
