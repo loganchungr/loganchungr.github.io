@@ -195,6 +195,12 @@ section {background: #fff;}
     border: none;
 }
 
+/* internally scrollable portfolio grid */
+#portfolio .tri-column {
+    max-height: 420px;    /* tweak this to taste */
+    overflow-y: auto;
+
+    
 .portfolio-card {
     border: 1px solid;
     border-radius: 10px;
