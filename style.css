@@ -83,7 +83,11 @@ header, footer, .section-wrapper, .tri-column {background: #ff948f;}
 .medium {font-size: 125%;}
 .large {font-size: 400%;}
 
-figure {height: 100px;}
+figure {
+    height: 100%;
+    padding: 2px;
+    place-items: center;
+}
 
 blockquote {
     border-left: 5px solid #dddddd;
