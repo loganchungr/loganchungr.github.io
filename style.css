@@ -85,7 +85,7 @@ header, footer, .section-wrapper, .tri-column {background: #ff948f;}
 .large {font-size: 400%;}
 
 figure {
-    height: 100px;
+    height: 100%;
     padding: 2px;
     place-items: center;
 }
@@ -129,8 +129,6 @@ footer {
     grid-gap: 10px;
     border-radius: 10px;
 }
-
-
 
 /* Layouts */
 .two-column {
