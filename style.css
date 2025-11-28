@@ -236,6 +236,13 @@ section {background: #fff;}
 }
 
 /* hover effect! */ 
+
+.portfolio-card:hover {
+    transform: scale(1.10);
+    border:2px dashed #ff948f;
+    border-radius:10px;
+}
+
 .portfolio-link:hover {
     transform: scale(1.10);
     border:2px dashed #ff948f;
