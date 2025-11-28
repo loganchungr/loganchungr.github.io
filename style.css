@@ -347,41 +347,47 @@ summary.portfolio-link::marker {
     transform: none;
 }
 
-/* TABBED WORKSPACE BELOW ANNOUNCEMENTS */
+/* TABBED WORKSPACE */
 
-#workspace {
-    /* you already get .section-wrapper styles */
-}
-
-/* hide the radios; they’re just state holders */
 #workspace input[name="workspace-view"] {
     position: absolute;
     opacity: 0;
     pointer-events: none;
 }
 
-/* tab row */
+/* tab row: inline text, not pills */
 .view-tabs {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 8px;
-    background: #ff948f;  /* same as section background */
+    align-items: baseline;
+    gap: 0;
+    margin-bottom: 4px;
+    background: #ff948f;   /* same as your section background */
 }
 
-/* individual tab */
+/* inactive tabs: h4-ish, slate gray, no borders */
 .view-tab {
-    padding: 4px 10px;
-    border: 1px solid #969696;
-    border-radius: 999px;           /* pill-like */
+    font-size: 0.9em;      /* like a small heading */
+    font-weight: normal;
+    color: #666;           /* slate-ish gray */
+    padding: 0 4px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
     cursor: pointer;
     user-select: none;
-    background: #fff;
+}
+
+/* automatic "|" separators between tabs */
+.view-tab + .view-tab::before {
+    content: "|";
+    margin: 0 4px;
+    color: #999;           /* lighter gray for the separator */
 }
 
 /* panels wrapper */
 .view-panels {
-    background: #ff948f;            /* matches your .section-wrapper */
+    background: #ff948f;
 }
 
 /* base panel style: hidden by default */
@@ -400,15 +406,21 @@ summary.portfolio-link::marker {
     display: block;
 }
 
-/* active tab highlighting */
+/* active tab: black, slightly larger, bold */
 #view-portfolio:checked ~ .view-tabs label[for="view-portfolio"],
 #view-calendar:checked  ~ .view-tabs label[for="view-calendar"],
 #view-log:checked       ~ .view-tabs label[for="view-log"] {
-    background: #000;
-    color: #fff;
+    color: #000;
+    font-weight: bold;
+    font-size: 1em;
 }
 
-
+/* inside the workspace, don't draw a second card border */
+#workspace .view-panel {
+    border: none;
+    padding: 0;
+    background: #ff948f;  /* let the outer section-wrapper be the "card" */
+}
 
 
 /* MEDIA QUERIES */
