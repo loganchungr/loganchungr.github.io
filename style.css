@@ -46,7 +46,7 @@ li:before {
 
 li {
     list-style-position: inside;
-    padding: 2em;
+    padding-left: 2em;
 }
 
 h2, h4 {
@@ -209,6 +209,13 @@ section {background: #fff;}
     color: inherit;
 }
 
+.portfolio-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
 
 .portfolio-image {
     width: 100%;
@@ -227,12 +234,15 @@ section {background: #fff;}
   display: block;
 }
 
-.portfolio-card > a:hover .portfolio-image img {
+.portfolio-link:hover .portfolio-image img {
     border:2px dashed #ff948f;
     border-radius:25px;
     transform: scale(1.05);
 }
 
+.portfolio-detail {
+    display: none;
+}
 
 
 
