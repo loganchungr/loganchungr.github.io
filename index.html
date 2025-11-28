@@ -193,4 +193,22 @@
         </div>
         
     </body>
+
+<!-- Script for portfolio-detail closure -->
+    
+<script>
+document.querySelectorAll('.portfolio-card').forEach(function(card) {
+  card.addEventListener('click', function(e) {
+    // If you clicked a link, let it behave normally.
+    if (e.target.closest('a')) return;
+
+    // If you clicked inside the summary, let the browser's default toggle do it.
+    if (e.target.closest('summary')) return;
+
+    // Otherwise, toggle the details programmatically.
+    card.open = !card.open;
+  });
+});
+</script>
+
 </html>
