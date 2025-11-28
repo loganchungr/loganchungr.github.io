@@ -350,11 +350,7 @@ summary.portfolio-link::marker {
      .portfolio-card[open] {
         grid-template-columns: 1fr;
 
-    .portfolio-card[open] .portfolio-image,
-    .portfolio-card[open] .portfolio-text,
-    .portfolio-card[open] .portfolio-detail {
-        grid-column: 1;
-        grid-row: auto;
+   
 }
 
     
