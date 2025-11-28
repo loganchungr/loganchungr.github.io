@@ -9,6 +9,8 @@ h1, h2, h3, h4, p, ol, ul, li, a, figure, p:last-child, ul:last-child, ol:last-c
     font-size: 13px;
     margin: 0;
     padding: 0;
+    overflow-wrap: anywhere;   /* modern, nice */
+    word-break: break-word; 
 }
 
 a:hover {
