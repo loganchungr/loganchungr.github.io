@@ -173,35 +173,45 @@ section {background: #fff;}
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
-    grid-auto-rows: minmax(200px, 1fr);
-    border:none;
 }
 
-.square {
-  position: relative;
-  flex-basis: calc(33.333% - 10px);
-  margin: 5px;
-  border: 1px solid;
-  box-sizing: border-box;
+.portfolio-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    border: 1px solid;
+    box-sizing: border-box;
+    background: #fff;
 }
 
-/*.square::before {
-  content: '';
+.portfolio-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+}
+
+.portfolio-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;      /* keep the original aspect ratio */
   display: block;
-  padding-top: 100%;
-}*/
-
-.square .content {
-  position: absolute;
-  top: 0; left: 0;
-  height: 100%;
-  width: 100%;
-
-  display: flex;               /* added for centered text */
-  justify-content: center;     /* added for centered text */
-  align-items: center;         /* added for centered text */
 }
 
+/* center the text */
+.portfolio-card h3, .portfolio-card p {
+  text-align: center;
+  margin: 0;
+}
+
+.portfolio-card h3 {
+  margin-bottom: 0.25rem;
+}
 
 a:hover {
     border:2px dashed #ff948f;
