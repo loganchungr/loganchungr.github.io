@@ -84,6 +84,10 @@ blockquote {
     padding-left: 10px;
 }
 
+footer {
+    text-align: center;
+}
+
 .credit {font-style: italic;}
 
 /* Profile Container */
