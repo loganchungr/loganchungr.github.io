@@ -115,20 +115,6 @@ figure {
     margin: 0;
 }
 
-#namebar {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-
-    background: #ff948f;
-    border-bottom: 1px solid #969696;
-    padding: 4px 12px;
-
-    /* break out of #container's 900px width */
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);
-}
-
 
 blockquote {
     border-left: 5px solid #dddddd;
