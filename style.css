@@ -425,36 +425,29 @@ summary.portfolio-link::marker {
 
 /* MEDIA QUERIES */
 @media (max-width:600px) {
-    
-    #container {margin-top: 0;}
-    .tri-column {
-        grid-template-columns:repeat(2, 1fr);
-    }
 
-    /* when open on very small screens, stack image + text */
-     .portfolio-card[open] {
-        grid-template-columns: 1fr;
-     }
-
-     .portfolio-card[open] .portfolio-image,
-     .portfolio-card[open] .portfolio-text,
-     .portfolio-card[open] .portfolio-detail {
-      grid-column: 1;
-      grid-row: auto;
-     }
-
-    @media (max-width:600px) {
     #container { margin-top: 0; }
 
     .tri-column {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    /* --- mobile tab layout --- */
+    /* when open on very small screens, stack image + text */
+    .portfolio-card[open] {
+        grid-template-columns: 1fr;
+    }
 
-    .view-tabs {
+    .portfolio-card[open] .portfolio-image,
+    .portfolio-card[open] .portfolio-text,
+    .portfolio-card[open] .portfolio-detail {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    /* --- mobile tab layout --- */
+    .view-tabs h2 {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);  /* one column per tab */
+        grid-template-columns: repeat(3, 1fr);  /* one column per tab label */
         gap: 2px;
         margin-bottom: 6px;
     }
@@ -462,7 +455,7 @@ summary.portfolio-link::marker {
     .view-tab {
         text-align: center;
         font-size: 0.7em;       /* a hair smaller so they fit */
-        padding: 4px 0;         /* vertical tap target */
+        padding: 4px 0;         /* comfy tap target */
     }
 
     /* no separators on small screens */
@@ -472,7 +465,6 @@ summary.portfolio-link::marker {
     }
 }
 
-}
     
 
     
