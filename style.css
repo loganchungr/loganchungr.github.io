@@ -84,16 +84,22 @@ blockquote {
     padding-left: 10px;
 }
 
+.section-wrapper a {
+    overflow-wrap: anywhere;   /* modern, nice */
+    word-break: break-word;    /* good fallback */
+}
+
+.section-wrapper > .two-column {
+    border: none;
+    padding: 0;      /* optional: lets inner sections control their padding */
+    background: #ff948f;  /* keep your pink background */
+}
+
 footer {
     text-align: center;
 }
 
 .credit {font-style: italic;}
-
-.section-wrapper a {
-    overflow-wrap: anywhere;   /* modern, nice */
-    word-break: break-word;    /* good fallback */
-}
 
 /* Profile Container */
 
