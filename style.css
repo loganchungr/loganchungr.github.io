@@ -444,29 +444,35 @@ summary.portfolio-link::marker {
         grid-row: auto;
     }
 
-    /* --- mobile tab layout --- */
+    /* --- mobile tab layout: horizontal scroll --- */
+
+    .view-tabs {
+        display: block;              /* override desktop flex layout */
+        overflow-x: auto;            /* horizontal scroll when needed */
+        white-space: nowrap;         /* keep labels on one line */
+        padding-bottom: 4px;
+    }
+
+    /* if your labels live inside an <h2>, make sure it doesn't wrap either */
+    .view-tabs h2 {
+        display: inline-block;
+        white-space: nowrap;
+        margin: 0;
+    }
+
     .view-tab {
+        display: inline-block;
+        padding: 4px 8px;
         font-size: 0.75em;
     }
 
-    .view-tab::before {
-        content: attr(data-short);  /* show short label */
-    }
-
-    .view-tab {
-        /* hide the original text visually but keep it for screen readers if you want */
-        color: transparent;
-        position: relative;
-    }
-
-    .view-tab::before {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        color: #000;                /* actual visible text color */
-    }
+    /* no separators on tiny screens; spacing does the work */
+    .view-tab + .view-tab::before {
+        content: "";
+        margin: 0;
     }
 }
+
 
     
 
