@@ -190,6 +190,13 @@ section {background: #fff;}
   margin-bottom: 0.25rem;
 }
 
+/* when a card is open, left-align the text inside the right column */
+.portfolio-card[open] .portfolio-text h3,
+.portfolio-card[open] .portfolio-text p,
+.portfolio-card[open] .portfolio-detail {
+  text-align: left;
+}
+
 /* Experimenting with the grid */
 
 .tri-column {
