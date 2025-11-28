@@ -12,8 +12,8 @@ h1, h2, h3, h4, p, ol, ul, li, a, figure, p:last-child, ul:last-child, ol:last-c
 }
 
 a:hover {
-    border:.5px dashed #ff948f;
-    border-radius:10px;
+    border:2px dashed #ff948f;
+    transform: scale(1.05);
 } 
 
 h1 { 
@@ -244,7 +244,7 @@ section {background: #fff;}
 
 /* hover effect! */ 
 .portfolio-link:hover {
-    transform: scale(1.05);
+    transform: scale(1.10);
     border:2px dashed #ff948f;
     border-radius:10px;
 }
