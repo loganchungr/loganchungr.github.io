@@ -442,6 +442,36 @@ summary.portfolio-link::marker {
       grid-column: 1;
       grid-row: auto;
      }
+
+    @media (max-width:600px) {
+    #container { margin-top: 0; }
+
+    .tri-column {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* --- mobile tab layout --- */
+
+    .view-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);  /* one column per tab */
+        gap: 2px;
+        margin-bottom: 6px;
+    }
+
+    .view-tab {
+        text-align: center;
+        font-size: 0.7em;       /* a hair smaller so they fit */
+        padding: 4px 0;         /* vertical tap target */
+    }
+
+    /* no separators on small screens */
+    .view-tab + .view-tab::before {
+        content: "";
+        margin: 0;
+    }
+}
+
 }
     
 
