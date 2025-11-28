@@ -6,7 +6,7 @@ body {
 /* Globals */
 h1, h2, h3, h4, p, ol, ul, li, a, figure, p:last-child, ul:last-child, ol:last-child {
     font-family:'Courier New', monospace;
-    font-size: small;
+    font-size: 15px;
     margin: 0;
     padding: 0;
 }
@@ -18,16 +18,10 @@ a:hover {
 
 h1 { 
     font-size: 150%;
-    font-style: bold;
 }
 
 h2 {
-    font-size: 110%;
-    font-style: bold;
-}
-
-h3 {
-    font-style: bold;
+    font-size: 125%;
 }
 
 ul, ol { 
