@@ -204,7 +204,7 @@
             
 
 
-<!-- Script for portfolio-detail closure -->
+<!-- Scripts for portfolio-detail closure -->
     
 <script>
 document.querySelectorAll('.portfolio-card').forEach(function(card) {
@@ -219,6 +219,71 @@ document.querySelectorAll('.portfolio-card').forEach(function(card) {
     card.open = !card.open;
   });
 });
+</script>
+
+<script>
+  (function() {
+    const cards = Array.from(document.querySelectorAll('.portfolio-card'));
+    if (!cards.length) return;
+
+    const ROW_SIZE = 3;
+
+    // Give each card a stable "original" index and default order
+    cards.forEach((card, i) => {
+      card.dataset.index = i;
+      card.style.order = i;
+    });
+
+    function resetOrder() {
+      cards.forEach((card, i) => {
+        card.style.order = i;
+      });
+    }
+
+    function applyRowAlignedOrder(openCard) {
+      const n = cards.length;
+      const openIndex = parseInt(openCard.dataset.index, 10);
+
+      // Base sequence: [0, 1, 2, ..., n-1]
+      const seq = [];
+      for (let i = 0; i < n; i++) {
+        if (i !== openIndex) seq.push(i);
+      }
+
+      // Which row (0-based) did this card originally live in?
+      const originalRow = Math.floor(openIndex / ROW_SIZE);
+      // Start of that row in the "visual" sequence
+      let insertPos = originalRow * ROW_SIZE;
+      if (insertPos > seq.length) insertPos = seq.length;
+
+      // Insert the open card index at that position
+      seq.splice(insertPos, 0, openIndex);
+
+      // Apply new order values
+      seq.forEach((cardIndex, visualPos) => {
+        cards[cardIndex].style.order = visualPos;
+      });
+    }
+
+    // Listen for details open/close
+    cards.forEach((card) => {
+      card.addEventListener('toggle', () => {
+        if (card.open) {
+          // Close all other details so we only have one open at a time
+          cards.forEach(c => {
+            if (c !== card) c.open = false;
+          });
+          applyRowAlignedOrder(card);
+        } else {
+          // If nothing is open anymore, reset order
+          const anyOpen = cards.some(c => c.open);
+          if (!anyOpen) {
+            resetOrder();
+          }
+        }
+      });
+    });
+  })();
 </script>
 
             
