@@ -501,7 +501,7 @@ summary.portfolio-link::marker {
     .view-tab + .view-tab::before {
         content: "»";
         display: inline-block;
-        margin: 0 0 0 2em;
+        margin: 0 0 0 0.5em;
     }
 
     /* on small screens, show short tab names instead of long ones */
