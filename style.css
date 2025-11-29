@@ -171,6 +171,11 @@ blockquote {
     padding: 0;
 }
 
+.panel-explorer iframe {
+    display: block;
+    margin: 0;
+}
+
 .explorer-item {
     padding: 0;
     border: 1px solid #969696;
