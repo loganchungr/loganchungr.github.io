@@ -171,6 +171,10 @@ blockquote {
     padding: 0;
 }
 
+.explorer-item {
+    background: #ff984f;
+}
+
 footer {
     text-align: center;
 }
