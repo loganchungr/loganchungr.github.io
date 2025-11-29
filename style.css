@@ -73,31 +73,27 @@ header, section, aside, footer {
 }
 
 header {
-    display: grid;
-    grid-template-columns: 3fr 1fr;     /* ~75% text, ~25% avatar */
-    grid-template-rows: auto auto;
-    grid-template-areas:
-        "name avatar"
-        "bio  avatar";
-    grid-gap: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;  /* desktop: avatar aligns with top of text */
+    gap: 10px;
     border-top: none;
 }
 
-/* hook the children into the grid areas */
-#namebar {
-    grid-area: name;
+/* text column takes the remaining space */
+#bio {
+    flex: 1 1 auto;
 }
 
-#bioblurb {
-    grid-area: bio;
-}
-
+/* avatar column on the right */
 #avatar {
-    grid-area: avatar;
-    max-width: 100px;        /* fill that 25% column */
+    flex: 0 0 auto;
+    max-width: 100px;   /* you said you set these */
     max-height: 100px;
-    place-items: center;
-    justify-self: end;
+    width: 100%;
+    height: auto;
+    border-radius: 50%; /* optional: circle avatar */
+    object-fit: cover;  /* keeps it nice if the source isn't square */
 }
 
 
@@ -115,6 +111,7 @@ figure img {
 }
 
 time {
+    text-size: 0.8em;
     display: inline-block;
     border: .5px dashed #ff984f;
     border-radius: 5px;
