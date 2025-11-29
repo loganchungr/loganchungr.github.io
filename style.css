@@ -1,6 +1,7 @@
 *, *:before, *:after { box-sizing: border-box; }
 body {
     margin: 0;
+    background-color: #f0f0f0;
 }
 
 /* Globals */
@@ -31,7 +32,7 @@ h1, h2, h3, h4 {
 }
 
 p .section-description {
-    background: #eeeeee;
+    background: #f0f0f0;
     border: 1px solid #969696;
     border-radius: 5px;
     padding: 8px;
@@ -76,7 +77,7 @@ header, section, aside, footer {
     padding: 8px;
     border: 1px solid #969696;
     border-radius: 10px;
-    background: #eeeeee;
+    background: #f0f0f0;
 }
 
 header {
@@ -201,10 +202,10 @@ footer {
     justify-content: center;
     align-items: center;
 }
-section {background: #eeeeee;}
+section {background: #f0f0f0;}
 
 #energy-box {
-    background: #eeeeee;  
+    background: #f0f0f0;  
     display: flex;
     align-items: center;
     justify-content: center;
@@ -220,7 +221,7 @@ section {background: #eeeeee;}
     width: 80px;
     height: 80px;
     margin-top: -20px;
-    background: #eeeeee;
+    background: #f0f0f0;
     border-radius: 100%;
     filter: blur(20px);
 }
@@ -257,7 +258,7 @@ section {background: #eeeeee;}
     border: 1px solid;
     border-radius: 10px;
     box-sizing: border-box;
-    background: #eeeeee;
+    background: #f0f0f0;
     min-height: 250px;
 }
 
@@ -296,7 +297,7 @@ summary.portfolio-link::marker {
 .portfolio-image {
     width: 100%;
     aspect-ratio: 1 / 1;
-    background: #eeeeee;
+    background: #f0f0f0;
     display: flex;
     align-items: center;
     justify-content: center;
