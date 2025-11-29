@@ -355,6 +355,19 @@
     }
   }
 
+// Close any open portfolio card when clicking outside of it
+document.addEventListener('click', function (e) {
+  const openCards = document.querySelectorAll('.portfolio-card[open]');
+  if (!openCards.length) return;
+
+  openCards.forEach(card => {
+    // If the click is NOT inside this card, close it
+    if (!card.contains(e.target)) {
+      card.open = false; // for <details> elements
+    }
+  });
+});
+
   // When a card opens/closes, adjust the order
   cards.forEach((card) => {
     card.addEventListener('toggle', () => {
