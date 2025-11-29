@@ -30,7 +30,7 @@ h1, h2, h3, h4 {
     margin-bottom: .3em;
 }
 
-.section-description p {
+p .section-description {
     background: #fff;
     border: 1px solid #969696;
     border-radius: 5px;
