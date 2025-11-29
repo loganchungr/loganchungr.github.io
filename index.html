@@ -405,73 +405,114 @@ document.addEventListener('click', function (e) {
 
   let isDragging = false;
   let ghost = null;
+  let inputType = null; // "mouse" or "touch"
 
-  function onPointerDown(e) {
-    e.preventDefault(); // stop default drag image / text selection
+  function getCoords(e) {
+    // Touch events
+    if (e.touches && e.touches[0]) {
+      return {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY
+      };
+    }
+    if (e.changedTouches && e.changedTouches[0]) {
+      return {
+        x: e.changedTouches[0].clientX,
+        y: e.changedTouches[0].clientY
+      };
+    }
+    // Mouse events
+    return {
+      x: e.clientX,
+      y: e.clientY
+    };
+  }
+
+  function createGhost(x, y) {
+    const g = avatar.cloneNode(true);
+    g.removeAttribute('id');          // avoid duplicate IDs
+    g.classList.add('avatar-stuck');
+    g.style.position = 'fixed';
+    g.style.left = x + 'px';
+    g.style.top = y + 'px';
+    g.style.transform = 'translate(-50%, -50%)';
+    g.style.zIndex = '999';
+    g.style.pointerEvents = 'none';
+    document.body.appendChild(g);
+    return g;
+  }
+
+  function startDrag(e) {
+    e.preventDefault(); // important on mobile so it doesn't treat as scroll
     isDragging = true;
     avatar.style.cursor = 'grabbing';
+    inputType = e.type.startsWith('touch') ? 'touch' : 'mouse';
 
-    // Create a clone that will follow the pointer
-    ghost = avatar.cloneNode(true);
-    ghost.removeAttribute('id');          // avoid duplicate IDs
-    ghost.classList.add('avatar-stuck');
-    ghost.style.position = 'fixed';
-    ghost.style.left = e.clientX + 'px';
-    ghost.style.top = e.clientY + 'px';
-    ghost.style.transform = 'translate(-50%, -50%)';
-    ghost.style.zIndex = '999';
-    ghost.style.pointerEvents = 'none';
+    const { x, y } = getCoords(e);
+    ghost = createGhost(x, y);
 
-    document.body.appendChild(ghost);
-
-    window.addEventListener('pointermove', onPointerMove);
-    window.addEventListener('pointerup', onPointerUp);
-    window.addEventListener('pointercancel', onPointerUp);
+    if (inputType === 'touch') {
+      window.addEventListener('touchmove', onMove, { passive: false });
+      window.addEventListener('touchend', endDrag);
+      window.addEventListener('touchcancel', endDrag);
+    } else {
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', endDrag);
+    }
   }
 
-  function onPointerMove(e) {
+  function onMove(e) {
     if (!isDragging || !ghost) return;
-    ghost.style.left = e.clientX + 'px';
-    ghost.style.top = e.clientY + 'px';
+    if (inputType === 'touch') {
+      e.preventDefault(); // prevent scrolling while dragging
+    }
+    const { x, y } = getCoords(e);
+    ghost.style.left = x + 'px';
+    ghost.style.top = y + 'px';
   }
 
-  function onPointerUp(e) {
+  function endDrag(e) {
     if (!isDragging || !ghost) return;
 
     isDragging = false;
     avatar.style.cursor = 'grab';
 
-    // Keep a reference to this specific sticker
+    if (inputType === 'touch') {
+      window.removeEventListener('touchmove', onMove);
+      window.removeEventListener('touchend', endDrag);
+      window.removeEventListener('touchcancel', endDrag);
+    } else {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', endDrag);
+    }
+
     const stuck = ghost;
-
-    // Convert the ghost to page coordinates so it "sticks" in the document
-    stuck.style.position = 'absolute';
-    stuck.style.left = e.pageX + 'px';
-    stuck.style.top = e.pageY + 'px';
-    // pointer-events already none from before
-
-    window.removeEventListener('pointermove', onPointerMove);
-    window.removeEventListener('pointerup', onPointerUp);
-    window.removeEventListener('pointercancel', onPointerUp);
-
-    // Prepare for the next drag
     ghost = null;
 
-    // Trigger fade-out (CSS transition handles the animation)
-    // Using requestAnimationFrame to ensure styles are applied first
+    // Convert from fixed (viewport) to absolute (document) using the current rect
+    const rect = stuck.getBoundingClientRect();
+    const left = rect.left + window.scrollX;
+    const top = rect.top + window.scrollY;
+
+    stuck.style.position = 'absolute';
+    stuck.style.left = left + 'px';
+    stuck.style.top = top + 'px';
+
+    // Fade out using your CSS transition, then remove after ~5s
     requestAnimationFrame(() => {
       stuck.style.opacity = '0';
     });
 
-    // After ~5s, remove the sticker from the DOM
     setTimeout(() => {
       if (stuck && stuck.parentNode) {
         stuck.parentNode.removeChild(stuck);
       }
-    }, 5000); // match the CSS 5s duration
+    }, 5000); // match transition: opacity 5s
   }
 
-  avatar.addEventListener('pointerdown', onPointerDown);
+  // Start drag handlers (both mouse + touch)
+  avatar.addEventListener('mousedown', startDrag);
+  avatar.addEventListener('touchstart', startDrag, { passive: false });
 })();
 </script>
             
