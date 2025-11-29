@@ -442,7 +442,7 @@ summary.portfolio-link::marker {
     background: #ff948f;
 }
 
-.view-panels {
+.view-panel {
     display: none;        /* base panel style: hidden by default */
 }
 
