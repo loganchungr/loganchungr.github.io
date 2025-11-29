@@ -429,18 +429,26 @@ document.addEventListener('click', function (e) {
   }
 
   function createGhost(x, y) {
-    const g = avatar.cloneNode(true);
-    g.removeAttribute('id');          // avoid duplicate IDs
-    g.classList.add('avatar-stuck');
-    g.style.position = 'fixed';
-    g.style.left = x + 'px';
-    g.style.top = y + 'px';
-    g.style.transform = 'translate(-50%, -50%)';
-    g.style.zIndex = '999';
-    g.style.pointerEvents = 'none';
-    document.body.appendChild(g);
-    return g;
-  }
+  // Match the current on-page avatar size
+  const rect = avatar.getBoundingClientRect();
+
+  const g = avatar.cloneNode(true);
+  g.removeAttribute('id');          // avoid duplicate IDs
+  g.classList.add('avatar-stuck');
+  g.style.position = 'fixed';
+  g.style.left = x + 'px';
+  g.style.top = y + 'px';
+  g.style.zIndex = '999';
+  g.style.pointerEvents = 'none';
+
+  // Lock the ghost to the same size as the header avatar
+  g.style.width = rect.width + 'px';
+  g.style.height = rect.height + 'px';
+
+  document.body.appendChild(g);
+  return g;
+}
+
 
   function startDrag(e) {
     e.preventDefault(); // important on mobile so it doesn't treat as scroll
