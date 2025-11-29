@@ -94,10 +94,9 @@ header {
 
 #avatar {
     grid-area: avatar;
-    width: 100%;        /* fill that 25% column */
-    height: auto;
-    border-radius: 50%; /* optional: circular avatar */
-    align-self: start;
+    max-width: 100px;        /* fill that 25% column */
+    max-height: 100px;
+    place-items: center;
     justify-self: end;
 }
 
