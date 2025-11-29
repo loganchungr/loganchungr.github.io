@@ -30,6 +30,13 @@ h1, h2, h3, h4 {
     margin-bottom: .3em;
 }
 
+.section-description p {
+    background: #fff;
+    border: 1px solid #969696;
+    border-radius: 5px;
+    padding: 8px;
+}
+
 ul, ol { 
     position: relative;
     list-style: none;
