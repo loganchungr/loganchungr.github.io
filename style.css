@@ -182,6 +182,26 @@ blockquote {
     border-radius: 5px;
 }
 
+/* Wrapper that defines the visible area */
+.poetry-embed {
+    position: relative;
+    height: 620px;              /* matches what you had as iframe height */
+    overflow: hidden;           /* hides the top banner we slide out of view */
+    border-radius: 5px;
+    background: #fffbfa;
+    border: .5px solid #969696; /* optional, for consistency with other embeds */
+}
+
+/* Actual iframe is larger and shifted up */
+.poetry-embed iframe {
+    display: block;
+    width: 100%;
+    height: 800px;              /* taller than the wrapper */
+    border: none;
+    transform: translateY(-120px);  /* adjust this to taste */
+}
+
+
 footer {
     text-align: center;
 }
