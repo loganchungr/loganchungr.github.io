@@ -96,6 +96,14 @@ header {
     object-fit: cover;  /* keeps it nice if the source isn't square */
 }
 
+.avatar-stuck {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 50%;     /* match your main avatar */
+    pointer-events: none;   /* let clicks pass through; purely decorative */
+    opacity: 0.85;          /* tiny bit ghosty so you can tell it’s a sticker */
+}
+
 
 header, footer, .section-wrapper, .tri-column {background: #ff948f;}
 
