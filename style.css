@@ -74,10 +74,33 @@ header, section, aside, footer {
 
 header {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 3fr 1fr;     /* ~75% text, ~25% avatar */
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        "name avatar"
+        "bio  avatar";
     grid-gap: 10px;
     border-top: none;
 }
+
+/* hook the children into the grid areas */
+#namebar {
+    grid-area: name;
+}
+
+#bioblurb {
+    grid-area: bio;
+}
+
+#avatar {
+    grid-area: avatar;
+    width: 100%;        /* fill that 25% column */
+    height: auto;
+    border-radius: 50%; /* optional: circular avatar */
+    align-self: start;
+    justify-self: end;
+}
+
 
 header, footer, .section-wrapper, .tri-column {background: #ff948f;}
 
@@ -86,6 +109,8 @@ header, footer, .section-wrapper, .tri-column {background: #ff948f;}
 
 figure img {
     max-height: 100px;
+    max-width: 100px;
+    aspect-ratio: 1 / 1;
     padding: 2px;
     place-items: center;
 }
@@ -449,6 +474,17 @@ summary.portfolio-link::marker {
 
     #container { 
         margin-top: 0; 
+    }
+
+    header {
+        grid-template-columns: 2fr 1fr;   /* name still bigger than avatar */
+        grid-template-areas:
+            "name avatar"
+            "bio  bio";
+    }
+
+    #avatar {
+        max-width: 120px;   /* keep it from dominating on tiny screens */
     }
 
     .tri-column {
