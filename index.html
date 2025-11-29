@@ -333,60 +333,29 @@
       return response.text();
     })
     .then(text => {
-      const lines = text.split('\n');
-      const sections = [];
-      const datePattern = /^(\d{4}-\d{2}-\d{2})(.*)$/;
+      const datePattern = /^(\s*)(\d{4}-\d{2}-\d{2})(.*)$/;
 
-      let i = 0;
-      while (i < lines.length) {
-        // Skip blank lines until we hit a date line
-        while (i < lines.length && !lines[i].trim()) {
-          i++;
-        }
-        if (i >= lines.length) break;
+      const processed = text
+        .split('\n')
+        .map(line => {
+          const match = line.match(datePattern);
+          if (!match) return line;
 
-        const maybeDate = lines[i].trim();
-        const dateMatch = maybeDate.match(datePattern);
-        if (!dateMatch) {
-          // Not a date line: skip it (or you could choose to break)
-          i++;
-          continue;
-        }
+          const leadingSpaces = match[1] || '';
+          const iso = match[2];       // "2025-11-28"
+          const rest = match[3] || ''; // " Fri" etc.
 
-        const dateLine = maybeDate;
-        i++;
+          const label = (iso + rest).trimEnd();
+          const safeLabel = escapeHtml(label);
 
-        // Collect body lines until the next date line or end of file
-        const bodyLines = [];
-        while (i < lines.length) {
-          const line = lines[i];
-          const trimmed = line.trim();
+          return (
+            leadingSpaces +
+            `<time datetime="${iso}">${safeLabel}</time>`
+          );
+        })
+        .join('\n');
 
-          // Stop if we hit another date line
-          if (trimmed && datePattern.test(trimmed)) {
-            break;
-          }
-
-          bodyLines.push(line);
-          i++;
-        }
-
-        const bodyMd = bodyLines.join('\n');
-
-        // Build <time> with datetime from the first 10 chars (YYYY-MM-DD)
-        const iso = dateMatch[1]; // e.g. "2025-11-28"
-        const datetimeAttr = ` datetime="${iso}"`;
-        const dateHtml =
-          `<p><time${datetimeAttr}>${escapeHtml(dateLine)}</time></p>`;
-
-        const bodyHtml = bodyMd.trim() ? marked.parse(bodyMd) : '';
-
-        sections.push(
-          `<section class="announcement">${dateHtml}${bodyHtml}</section>`
-        );
-      }
-
-      container.innerHTML = sections.join('\n');
+      container.innerHTML = marked.parse(processed);
     })
     .catch(err => {
       console.error('Error loading announcements:', err);
@@ -395,8 +364,6 @@
     });
 })();
 </script>
-
-
 
 <!-- Scripts for portfolio-detail closure -->
     
@@ -730,7 +697,7 @@ document.addEventListener('click', function (e) {
 <!-- Last.fm grabber--> 
     
     <script type="text/javascript">
-        let user = 'paulmcfartney';
+        let user = 'paul-mcfartney';
         let url = 'https://lastfm-last-played.biancarosa.com.br/' + user + '/latest-song';
         let song = document.querySelector('#song');
         fetch(url)
