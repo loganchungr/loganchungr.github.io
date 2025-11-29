@@ -446,11 +446,6 @@ summary.portfolio-link::marker {
     display: none;        /* base panel style: hidden by default */
 }
 
-.view-panels p {
-    background: #fff;
-    border: 1px solid #969696;
-    border-radius: 5px;
-}
 
 /* show the right panel when that radio is checked */
 #view-portfolio:checked ~ .view-panels .panel-portfolio {
