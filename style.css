@@ -437,22 +437,18 @@ summary.portfolio-link::marker {
 }
 
 /* panels wrapper */
+
 .view-panels {
-    background: #000;
+    background: #ff948f;
+    display: none;        /* base panel style: hidden by default */
+}
+
+.view-panels p {
+    background: #fff;
     border: 1px solid #969696;
     border-radius: 5px;
 }
 
-/* logan here look here */
-.view-panels panel-portfolio {
-    background: #ff9448f;
-    border: none;
-}
-
-/* base panel style: hidden by default */
-.view-panel {
-    display: none;
-}
 
 /* show the right panel when that radio is checked */
 #view-portfolio:checked ~ .view-panels .panel-portfolio {
