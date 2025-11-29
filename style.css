@@ -161,6 +161,16 @@ blockquote {
     background: #ff948f;  /* keep pink background */
 }
 
+.panel-explorer > .two-column {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 10px;
+    grid-auto-rows: minmax(200px, 1fr);
+    background: #ff948f;
+    border: none;
+    padding: 0;
+}
+
 footer {
     text-align: center;
 }
