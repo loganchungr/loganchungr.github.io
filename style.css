@@ -457,10 +457,15 @@ summary.portfolio-link::marker {
     display: block;
 }
 
+#view-library:checked       ~ .view-panels .panel-library {
+    display: block;
+}
+
 /* active tab: black, slightly larger, bold */
 #view-portfolio:checked ~ .view-tabs label[for="view-portfolio"],
 #view-calendar:checked  ~ .view-tabs label[for="view-calendar"],
 #view-log:checked       ~ .view-tabs label[for="view-log"] {
+#view-library:checked       ~ .view-tabs label[for="view-library"] {
     color: #000;
     font-weight: bold;
     font-size: 1em;
