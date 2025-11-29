@@ -103,6 +103,10 @@ header {
     object-fit: cover;  /* keeps it nice if the source isn't square */
 }
 
+#avatar {
+    touch-action: none; /* let our JS fully control dragging on touch screens */
+}
+
 .avatar-stuck {
     max-width: 50%;
     max-height: 50%;
