@@ -377,6 +377,8 @@
 })();
 </script>
 
+
+<!-- STICKY AVATAR :) -->
 <script>
 (function () {
   const avatar = document.getElementById('avatar');
@@ -423,23 +425,40 @@
     isDragging = false;
     avatar.style.cursor = 'grab';
 
+    // Keep a reference to this specific sticker
+    const stuck = ghost;
+
     // Convert the ghost to page coordinates so it "sticks" in the document
-    ghost.style.position = 'absolute';
-    ghost.style.left = e.pageX + 'px';
-    ghost.style.top = e.pageY + 'px';
-    // keep pointer-events: none so it's just a sticker
+    stuck.style.position = 'absolute';
+    stuck.style.left = e.pageX + 'px';
+    stuck.style.top = e.pageY + 'px';
+    // pointer-events already none from before
 
     window.removeEventListener('pointermove', onPointerMove);
     window.removeEventListener('pointerup', onPointerUp);
     window.removeEventListener('pointercancel', onPointerUp);
 
-    // Don't remove the element — leaving it in the DOM is what makes it "stuck"
-    ghost = null; // drop our reference so the next drag makes a new one
+    // Prepare for the next drag
+    ghost = null;
+
+    // Trigger fade-out (CSS transition handles the animation)
+    // Using requestAnimationFrame to ensure styles are applied first
+    requestAnimationFrame(() => {
+      stuck.style.opacity = '0';
+    });
+
+    // After ~5s, remove the sticker from the DOM
+    setTimeout(() => {
+      if (stuck && stuck.parentNode) {
+        stuck.parentNode.removeChild(stuck);
+      }
+    }, 5000); // match the CSS 5s duration
   }
 
   avatar.addEventListener('pointerdown', onPointerDown);
 })();
 </script>
+
 
             
 </html>
