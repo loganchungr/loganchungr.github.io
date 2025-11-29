@@ -480,6 +480,7 @@ summary.portfolio-link::marker {
         grid-template-areas:
             "name avatar"
             "bio  bio";
+        align-items: center;  /* vertically center avatar relative to the text block */
     }
 
     #avatar {
