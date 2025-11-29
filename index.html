@@ -315,7 +315,7 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <!-- Announcements Parser -->
-    <script>
+<script>
 (function () {
   const container = document.getElementById('announcements-content');
   if (!container || typeof marked === 'undefined') return;
@@ -337,15 +337,17 @@
 
       const sections = blocks
         .map(block => {
-          const lines = block
-            .split('\n')
-            .map(l => l.trim())
-            .filter(l => l.length > 0);
+          const rawLines = block.split('\n');
 
-          if (!lines.length) return '';
+          // Skip leading blank lines, but KEEP blanks after the date
+          let i = 0;
+          while (i < rawLines.length && !rawLines[i].trim()) {
+            i++;
+          }
+          if (i >= rawLines.length) return '';
 
-          const dateLine = lines[0];                 // first line = date text
-          const bodyMd = lines.slice(1).join('\n');  // rest = Markdown body
+          const dateLine = rawLines[i].trim();           // first non-empty line
+          const bodyMd  = rawLines.slice(i + 1).join('\n'); // rest, with blanks intact
 
           // Try to extract ISO date (first 10 chars like 2025-11-26)
           let datetimeAttr = '';
@@ -357,7 +359,7 @@
           const dateHtml =
             `<p><time${datetimeAttr}>${escapeHtml(dateLine)}</time></p>`;
 
-          const bodyHtml = bodyMd ? marked.parse(bodyMd) : '';
+          const bodyHtml = bodyMd.trim() ? marked.parse(bodyMd) : '';
 
           return `<section class="announcement">${dateHtml}${bodyHtml}</section>`;
         })
@@ -372,6 +374,7 @@
     });
 })();
 </script>
+
 
 
 <!-- Scripts for portfolio-detail closure -->
