@@ -443,6 +443,12 @@ summary.portfolio-link::marker {
     border-radius: 5px;
 }
 
+/* logan here look here */
+.view-panels panel-portfolio {
+    background: #ff9448f;
+    border: none;
+}
+
 /* base panel style: hidden by default */
 .view-panel {
     display: none;
