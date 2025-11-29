@@ -131,7 +131,7 @@ figure img {
 time {
     text-size: 0.8em;
     display: inline-block;
-    border: .5px dashed #ff984f;
+    border: 1px dashed #ff984f;
     border-radius: 5px;
     padding: 0 4px;
     border-top: 0;
