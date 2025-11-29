@@ -529,18 +529,19 @@ summary.portfolio-link::marker {
 
 /* individual selector pill */
 .explore-tab {
-    border: 1px solid #969696;
-    border-radius: 999px;
-    background: #fffbfa;
-    padding: 2px 10px;
-    font-size: 0.75rem;
+    border: 1px dashed #969696;
+    border-radius: 50px;
+    background: #ff948f;
+    padding: 2px 8px;
+    font-size: .8em;
+    font-family: 'Courier New';
     cursor: pointer;
     white-space: nowrap;
 }
 
 /* active/selected state */
 .explore-tab.is-active {
-    background: #ff948f;
+    background: #fffbfa;
     font-weight: bold;
 }
 
