@@ -43,6 +43,7 @@
   <input type="radio" name="workspace-view" id="view-portfolio" checked>
   <input type="radio" name="workspace-view" id="view-calendar">
   <input type="radio" name="workspace-view" id="view-log">
+  <input type="radio" name="workspace-view" id="view-library">
 
   <!-- 2. Tab row -->
     <div class="view-tabs">
@@ -60,6 +61,11 @@
         <label class="view-tab" for="view-log">
           <span class="tab-long">Log</span>
           <span class="tab-short">Log</span>
+        </label>
+
+        <label class="view-tab" for="view-library">
+          <span class="tab-long">My Library</span>
+          <span class="tab-short">Library</span>
         </label>
       </h2>
     </div>
@@ -212,15 +218,13 @@
     </section>
 
 <!-- PANEL E: THE LIBRARY -->
-    <section class="view panel">
-        <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="lzq0tdjuffjyc19"></script>
+    <section class="view-panel panel-library">
             <a 
               href="https://www.dropbox.com/scl/fo/n84fynn0ndmfzan2vo3uj/AEctW0fPS4aWbRZsQg_XgYA?rlkey=rv8xywq9g4sufxjsnsx7j6dne&st=s3dr0do0&dl=0" 
               class="dropbox-embed"
               data-height="500px"
               data-width=100%"
           </a>
-
     </section>
 
       
@@ -472,6 +476,6 @@
 })();
 </script>
 
-
+<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="lzq0tdjuffjyc19"></script>
             
 </html>
