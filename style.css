@@ -521,7 +521,7 @@ summary.portfolio-link::marker {
 .explore-controls {
     display: flex;
     flex-wrap: nowrap;
-    gap: 6px;
+    gap: 8px;
     overflow-x: auto;
     padding-bottom: 4px;
     margin-bottom: 8px;
