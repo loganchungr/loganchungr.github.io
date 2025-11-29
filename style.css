@@ -464,7 +464,7 @@ summary.portfolio-link::marker {
 #view-calendar:checked  ~ .view-panels .panel-calendar {
     display: block;
 }
-#view-log:checked       ~ .view-panels .panel-explorer {
+#view-explorer:checked       ~ .view-panels .panel-explorer {
     display: block;
 }
 #view-log:checked       ~ .view-panels .panel-log {
@@ -475,7 +475,7 @@ summary.portfolio-link::marker {
 /* active tab: black, slightly larger, bold */
 #view-portfolio:checked ~ .view-tabs label[for="view-portfolio"],
 #view-calendar:checked  ~ .view-tabs label[for="view-calendar"],
-#view-log:checked       ~ .view-tabs label[for="view-explorer"],
+#view-explorer:checked       ~ .view-tabs label[for="view-explorer"],
 #view-log:checked       ~ .view-tabs label[for="view-log"], {
     color: #000;
     font-weight: bold;
