@@ -429,56 +429,50 @@ document.addEventListener('click', function (e) {
 
   let isDragging = false;
   let ghost = null;
-  let inputType = null; // "mouse" or "touch"
+  let inputType = null;          // "mouse" or "touch"
+  let touchHoldTimer = null;     // for the slight delay on mobile
+  let pendingTouchEvent = null;  // store initial touch event
 
   function getCoords(e) {
-    // Touch events
     if (e.touches && e.touches[0]) {
-      return {
-        x: e.touches[0].clientX,
-        y: e.touches[0].clientY
-      };
+      return { x: e.touches[0].clientX, y: e.touches[0].clientY };
     }
     if (e.changedTouches && e.changedTouches[0]) {
-      return {
-        x: e.changedTouches[0].clientX,
-        y: e.changedTouches[0].clientY
-      };
+      return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
     }
-    // Mouse events
-    return {
-      x: e.clientX,
-      y: e.clientY
-    };
+    return { x: e.clientX, y: e.clientY };
   }
 
+  // Create the ghost, centered on the pointer
   function createGhost(x, y) {
-  // Match the current on-page avatar size
-  const rect = avatar.getBoundingClientRect();
+    const rect = avatar.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
 
-  const g = avatar.cloneNode(true);
-  g.removeAttribute('id');          // avoid duplicate IDs
-  g.classList.add('avatar-stuck');
-  g.style.position = 'fixed';
-  g.style.left = x + 'px';
-  g.style.top = y + 'px';
-  g.style.zIndex = '999';
-  g.style.pointerEvents = 'none';
+    const g = avatar.cloneNode(true);
+    g.removeAttribute('id');          // avoid duplicate IDs
+    g.classList.add('avatar-stuck');
+    g.style.position = 'fixed';
+    g.style.width = w + 'px';
+    g.style.height = h + 'px';
 
-  // Lock the ghost to the same size as the header avatar
-  g.style.width = rect.width + 'px';
-  g.style.height = rect.height + 'px';
+    // Center the ghost on the cursor / finger
+    g.style.left = (x - w / 2) + 'px';
+    g.style.top = (y - h / 2) + 'px';
 
-  document.body.appendChild(g);
-  return g;
-}
+    g.style.zIndex = '999';
+    g.style.pointerEvents = 'none';
 
+    document.body.appendChild(g);
+    return g;
+  }
 
-  function startDrag(e) {
-    e.preventDefault(); // important on mobile so it doesn't treat as scroll
+  function beginDrag(e, typeHint) {
+    if (isDragging) return;
+
     isDragging = true;
     avatar.style.cursor = 'grabbing';
-    inputType = e.type.startsWith('touch') ? 'touch' : 'mouse';
+    inputType = typeHint || (e.type && e.type.startsWith('touch') ? 'touch' : 'mouse');
 
     const { x, y } = getCoords(e);
     ghost = createGhost(x, y);
@@ -493,18 +487,58 @@ document.addEventListener('click', function (e) {
     }
   }
 
+  // Mouse: drag starts immediately
+  function onMouseDown(e) {
+    e.preventDefault();
+    beginDrag(e, 'mouse');
+  }
+
+  // Touch: slight long-press delay before starting drag
+  function onTouchStart(e) {
+    e.preventDefault();
+    pendingTouchEvent = e;
+
+    if (touchHoldTimer) {
+      clearTimeout(touchHoldTimer);
+    }
+
+    // adjust 150ms to taste if you want more/less delay
+    touchHoldTimer = setTimeout(() => {
+      if (!pendingTouchEvent) return;
+      beginDrag(pendingTouchEvent, 'touch');
+      pendingTouchEvent = null;
+      touchHoldTimer = null;
+    }, 150);
+  }
+
+  // Cancel a pending drag if the user just taps quickly
+  function cancelPendingTouch() {
+    if (!isDragging && touchHoldTimer) {
+      clearTimeout(touchHoldTimer);
+      touchHoldTimer = null;
+      pendingTouchEvent = null;
+    }
+  }
+
   function onMove(e) {
     if (!isDragging || !ghost) return;
     if (inputType === 'touch') {
       e.preventDefault(); // prevent scrolling while dragging
     }
     const { x, y } = getCoords(e);
-    ghost.style.left = x + 'px';
-    ghost.style.top = y + 'px';
+    const w = ghost.offsetWidth;
+    const h = ghost.offsetHeight;
+
+    // keep ghost centered under cursor/finger
+    ghost.style.left = (x - w / 2) + 'px';
+    ghost.style.top = (y - h / 2) + 'px';
   }
 
   function endDrag(e) {
-    if (!isDragging || !ghost) return;
+    if (!isDragging || !ghost) {
+      cancelPendingTouch();
+      return;
+    }
 
     isDragging = false;
     avatar.style.cursor = 'grab';
@@ -521,7 +555,7 @@ document.addEventListener('click', function (e) {
     const stuck = ghost;
     ghost = null;
 
-    // Convert from fixed (viewport) to absolute (document) using the current rect
+    // Convert from fixed (viewport) to absolute (document) so it stays put
     const rect = stuck.getBoundingClientRect();
     const left = rect.left + window.scrollX;
     const top = rect.top + window.scrollY;
@@ -530,7 +564,7 @@ document.addEventListener('click', function (e) {
     stuck.style.left = left + 'px';
     stuck.style.top = top + 'px';
 
-    // Fade out using your CSS transition, then remove after ~5s
+    // Fade out using the CSS transition, then remove after ~5s
     requestAnimationFrame(() => {
       stuck.style.opacity = '0';
     });
@@ -539,13 +573,17 @@ document.addEventListener('click', function (e) {
       if (stuck && stuck.parentNode) {
         stuck.parentNode.removeChild(stuck);
       }
-    }, 5000); // match transition: opacity 5s
+    }, 5000);
+
+    cancelPendingTouch();
   }
 
-  // Start drag handlers (both mouse + touch)
-  avatar.addEventListener('mousedown', startDrag);
-  avatar.addEventListener('touchstart', startDrag, { passive: false });
+  avatar.addEventListener('mousedown', onMouseDown);
+  avatar.addEventListener('touchstart', onTouchStart, { passive: false });
+  window.addEventListener('touchend', cancelPendingTouch);
+  window.addEventListener('touchcancel', cancelPendingTouch);
 })();
 </script>
+
             
 </html>
