@@ -333,38 +333,58 @@
       return response.text();
     })
     .then(text => {
-      // Split announcements on lines with --- (surrounded by newlines)
-      const blocks = text.split(/\n-{3,}\s*\n/g);
+      const lines = text.split('\n');
+      const sections = [];
+      const datePattern = /^(\d{4}-\d{2}-\d{2})(.*)$/;
 
-      const sections = blocks
-        .map(block => {
-          const rawLines = block.split('\n');
+      let i = 0;
+      while (i < lines.length) {
+        // Skip blank lines until we hit a date line
+        while (i < lines.length && !lines[i].trim()) {
+          i++;
+        }
+        if (i >= lines.length) break;
 
-          // Skip leading blank lines, but KEEP blanks after the date
-          let i = 0;
-          while (i < rawLines.length && !rawLines[i].trim()) {
-            i++;
+        const maybeDate = lines[i].trim();
+        const dateMatch = maybeDate.match(datePattern);
+        if (!dateMatch) {
+          // Not a date line: skip it (or you could choose to break)
+          i++;
+          continue;
+        }
+
+        const dateLine = maybeDate;
+        i++;
+
+        // Collect body lines until the next date line or end of file
+        const bodyLines = [];
+        while (i < lines.length) {
+          const line = lines[i];
+          const trimmed = line.trim();
+
+          // Stop if we hit another date line
+          if (trimmed && datePattern.test(trimmed)) {
+            break;
           }
-          if (i >= rawLines.length) return '';
 
-          const dateLine = rawLines[i].trim();           // first non-empty line
-          const bodyMd  = rawLines.slice(i + 1).join('\n'); // rest, with blanks intact
+          bodyLines.push(line);
+          i++;
+        }
 
-          // Try to extract ISO date (first 10 chars like 2025-11-26)
-          let datetimeAttr = '';
-          const isoMatch = dateLine.match(/^(\d{4}-\d{2}-\d{2})/);
-          if (isoMatch) {
-            datetimeAttr = ` datetime="${isoMatch[1]}"`;
-          }
+        const bodyMd = bodyLines.join('\n');
 
-          const dateHtml =
-            `<p><time${datetimeAttr}>${escapeHtml(dateLine)}</time></p>`;
+        // Build <time> with datetime from the first 10 chars (YYYY-MM-DD)
+        const iso = dateMatch[1]; // e.g. "2025-11-28"
+        const datetimeAttr = ` datetime="${iso}"`;
+        const dateHtml =
+          `<p><time${datetimeAttr}>${escapeHtml(dateLine)}</time></p>`;
 
-          const bodyHtml = bodyMd.trim() ? marked.parse(bodyMd) : '';
+        const bodyHtml = bodyMd.trim() ? marked.parse(bodyMd) : '';
 
-          return `<section class="announcement">${dateHtml}${bodyHtml}</section>`;
-        })
-        .filter(Boolean);
+        sections.push(
+          `<section class="announcement">${dateHtml}${bodyHtml}</section>`
+        );
+      }
 
       container.innerHTML = sections.join('\n');
     })
