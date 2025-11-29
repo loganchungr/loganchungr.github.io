@@ -161,6 +161,22 @@ blockquote {
     background: #ff948f;  /* keep pink background */
 }
 
+.panel-explorer > .two-column {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 10px;
+    grid-auto-rows: minmax(200px, 1fr);
+    background: #ff948f;
+    border: none;
+    padding: 0;
+}
+
+.explorer-item {
+    padding: 0;
+    border: 1px solid #969696;
+    border-radius: 5px;
+}
+
 footer {
     text-align: center;
 }
@@ -464,10 +480,10 @@ summary.portfolio-link::marker {
 #view-calendar:checked  ~ .view-panels .panel-calendar {
     display: block;
 }
-#view-explorer:checked       ~ .view-panels .panel-explorer {
+#view-log:checked       ~ .view-panels .panel-log {
     display: block;
 }
-#view-log:checked       ~ .view-panels .panel-log {
+#view-explorer:checked       ~ .view-panels .panel-explorer {
     display: block;
 }
 
@@ -475,8 +491,8 @@ summary.portfolio-link::marker {
 /* active tab: black, slightly larger, bold */
 #view-portfolio:checked ~ .view-tabs label[for="view-portfolio"],
 #view-calendar:checked  ~ .view-tabs label[for="view-calendar"],
-#view-explorer:checked       ~ .view-tabs label[for="view-explorer"],
-#view-log:checked       ~ .view-tabs label[for="view-log"], {
+#view-log:checked       ~ .view-tabs label[for="view-log"], 
+#view-explorer:checked       ~ .view-tabs label[for="view-explorer"], {
     color: #000;
     font-weight: bold;
     font-size: 1em;
