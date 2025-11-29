@@ -29,12 +29,11 @@
               <img id="avatar" src="avatar.png" alt="Portrait of Logan Chung">
             </header>
             
-        <section class="section-wrapper" id="announcements">
-            <h2>announcements</h2>
-                <section><p> 
-                    <time>2025-11-26 Wed</time>
-                    <strong>HARK! Season 11: 🤲 TABULA RASA 🤲</strong> will take place on <strong><u>Friday, December 19th, 2025</u></strong> at <a href="https://maps.app.goo.gl/Vv3iG9bP2T78eVM96"><strong>Dinky's Davern</strong></a> in Ridgewood, Queens.
-                </p></section>
+            <section class="section-wrapper" id="announcements">
+              <h2>announcements</h2>
+                  <div id="announcements-content">
+                    <p><em>Loading announcements…</em></p>
+                  </div>
             </section>
                          
 <section class="section-wrapper" id="workspace">
@@ -283,20 +282,71 @@
 </body>
             
 
-<!-- Sandbox editor -->
+<!-- JS ZONE JS ZONE -->
 
+<!-- Markdown parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<!-- Announcements Parser -->
     <script>
-    
-    var contents = document.querySelectorAll('[contenteditable]');
+(function () {
+  const container = document.getElementById('announcements-content');
+  if (!container || typeof marked === 'undefined') return;
 
-    for (let content of contents) {
-      content.addEventListener('input', function() {
-        console.log('input changed to: ' + content.innerHTML);
-      });
-    }
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
 
-    </script>
-    
+  fetch('announcements.md')
+    .then(response => {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.text();
+    })
+    .then(text => {
+      // Split announcements on lines with --- (surrounded by newlines)
+      const blocks = text.split(/\n-{3,}\s*\n/g);
+
+      const sections = blocks
+        .map(block => {
+          const lines = block
+            .split('\n')
+            .map(l => l.trim())
+            .filter(l => l.length > 0);
+
+          if (!lines.length) return '';
+
+          const dateLine = lines[0];                 // first line = date text
+          const bodyMd = lines.slice(1).join('\n');  // rest = Markdown body
+
+          // Try to extract ISO date (first 10 chars like 2025-11-26)
+          let datetimeAttr = '';
+          const isoMatch = dateLine.match(/^(\d{4}-\d{2}-\d{2})/);
+          if (isoMatch) {
+            datetimeAttr = ` datetime="${isoMatch[1]}"`;
+          }
+
+          const dateHtml =
+            `<p><time${datetimeAttr}>${escapeHtml(dateLine)}</time></p>`;
+
+          const bodyHtml = bodyMd ? marked.parse(bodyMd) : '';
+
+          return `<section class="announcement">${dateHtml}${bodyHtml}</section>`;
+        })
+        .filter(Boolean);
+
+      container.innerHTML = sections.join('\n');
+    })
+    .catch(err => {
+      console.error('Error loading announcements:', err);
+      container.innerHTML =
+        '<p><em>Couldn’t load announcements right now.</em></p>';
+    });
+})();
+</script>
+
+
 <!-- Scripts for portfolio-detail closure -->
     
     <script>
