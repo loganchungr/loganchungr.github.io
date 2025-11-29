@@ -172,7 +172,9 @@ blockquote {
 }
 
 .explorer-item {
-    background: #ff948f;
+    padding: 0;
+    border: 1px solid #969696;
+    border-radius: 5px;
 }
 
 footer {
