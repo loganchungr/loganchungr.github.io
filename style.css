@@ -438,7 +438,9 @@ summary.portfolio-link::marker {
 
 /* panels wrapper */
 .view-panels {
-    background: #ff948f;
+    background: #000;
+    border: 1px solid #969696;
+    border-radius: 5px;
 }
 
 /* base panel style: hidden by default */
