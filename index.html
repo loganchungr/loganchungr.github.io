@@ -217,7 +217,7 @@
       </iframe>
     </section>
 
-<!-- PANEL D: explorer -->
+<!-- PANEL D: EXPLORER -->
     <section class="view-panel panel-explorer">
 
       <!-- Selector row, edit these to add more items later -->
@@ -236,6 +236,22 @@
           data-title="Poem of the Day"
           data-description="">
           Poem
+        </button>
+
+        <button
+          class="explore-tab"
+          data-src="https://libraryofbabel.info/search.html"
+          data-title="Library of Babel"
+          data-description="">
+          Babel
+        </button>
+
+        <button
+          class="explore-tab"
+          data-src="https://walzr.com/IMG_0001/"
+          data-title="IMG_0001"
+          data-description="">
+          IMG_0001
         </button>
     
         <!-- later you can add more -->
@@ -334,6 +350,7 @@
       return response.text();
     })
     .then(text => {
+      // For each line: if it starts with YYYY-MM-DD, wrap it in <time>
       const datePattern = /^(\s*)(\d{4}-\d{2}-\d{2})(.*)$/;
 
       const processed = text
@@ -343,7 +360,7 @@
           if (!match) return line;
 
           const leadingSpaces = match[1] || '';
-          const iso = match[2];       // "2025-11-28"
+          const iso = match[2];        // "2025-11-28"
           const rest = match[3] || ''; // " Fri" etc.
 
           const label = (iso + rest).trimEnd();
@@ -356,6 +373,7 @@
         })
         .join('\n');
 
+      // Now just let Markdown handle everything (paragraphs, --- etc)
       container.innerHTML = marked.parse(processed);
     })
     .catch(err => {
@@ -365,6 +383,7 @@
     });
 })();
 </script>
+
 
 <!-- Scripts for portfolio-detail closure -->
     
