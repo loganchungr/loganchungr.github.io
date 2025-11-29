@@ -377,6 +377,69 @@
 })();
 </script>
 
+<script>
+(function () {
+  const avatar = document.getElementById('avatar');
+  if (!avatar) return;
+
+  avatar.style.cursor = 'grab';
+  avatar.setAttribute('draggable', 'false'); // disable native image dragging
+
+  let isDragging = false;
+  let ghost = null;
+
+  function onPointerDown(e) {
+    e.preventDefault(); // stop default drag image / text selection
+    isDragging = true;
+    avatar.style.cursor = 'grabbing';
+
+    // Create a clone that will follow the pointer
+    ghost = avatar.cloneNode(true);
+    ghost.removeAttribute('id');          // avoid duplicate IDs
+    ghost.classList.add('avatar-stuck');
+    ghost.style.position = 'fixed';
+    ghost.style.left = e.clientX + 'px';
+    ghost.style.top = e.clientY + 'px';
+    ghost.style.transform = 'translate(-50%, -50%)';
+    ghost.style.zIndex = '999';
+    ghost.style.pointerEvents = 'none';
+
+    document.body.appendChild(ghost);
+
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
+  }
+
+  function onPointerMove(e) {
+    if (!isDragging || !ghost) return;
+    ghost.style.left = e.clientX + 'px';
+    ghost.style.top = e.clientY + 'px';
+  }
+
+  function onPointerUp(e) {
+    if (!isDragging || !ghost) return;
+
+    isDragging = false;
+    avatar.style.cursor = 'grab';
+
+    // Convert the ghost to page coordinates so it "sticks" in the document
+    ghost.style.position = 'absolute';
+    ghost.style.left = e.pageX + 'px';
+    ghost.style.top = e.pageY + 'px';
+    // keep pointer-events: none so it's just a sticker
+
+    window.removeEventListener('pointermove', onPointerMove);
+    window.removeEventListener('pointerup', onPointerUp);
+    window.removeEventListener('pointercancel', onPointerUp);
+
+    // Don't remove the element — leaving it in the DOM is what makes it "stuck"
+    ghost = null; // drop our reference so the next drag makes a new one
+  }
+
+  avatar.addEventListener('pointerdown', onPointerDown);
+})();
+</script>
 
             
 </html>
