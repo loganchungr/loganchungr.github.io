@@ -217,25 +217,56 @@
       </iframe>
     </section>
 
-  <!-- PANEL D: explorer -->
+<!-- PANEL D: explorer -->
     <section class="view-panel panel-explorer">
-        <section class="two-column">
-            <section class="explorer-item">
-        <!-- <p class="section-description">I'd like to someday soon have this look more like a board of sticky-notes :) In the meantime, you can leave a public comment on this document <a href="https://docs.google.com/document/d/1GaqVHSZaKfyfi6wlLYJr-2o0e3qHRbvoAWt3ApTJ9vU/edit?usp=sharing">here</a>. -->
-                <iframe src="https://aporee.org/maps/" 
-                  width="100%" 
-                  height="550px" 
-                  style="border:none; border-radius:5px; background: #fffbfa;">
-              </iframe>
-            </section>
-            <section class="explorer-item">
-                <iframe src="https://www.poetryfoundation.org/poems/poem-of-the-day"
-                    width="100%"
-                    height="550px"
-                    style="border:none; border-radius:5px; background: #fffbfa;">
-                </iframe>
-            </section>
+
+      <!-- Selector row -->
+      <div class="explore-controls">
+        <button
+          class="explore-tab is-active"
+          data-src="https://aporee.org/maps/ap/?loc=SomeAporeeEmbedURL"
+          data-title="Aporee: sound map"
+          data-description="A map of field recordings from around the world. Provided by Aporee.org.">
+          Aporee
+        </button>
+    
+        <button
+          class="explore-tab"
+          data-src="https://www.poetryfoundation.org/poems/poem-of-the-day"
+          data-title="Poem of the Day"
+          data-description="Each day, a new poem selected by the Poetry Foundation.">
+          Poem of the day
+        </button>
+    
+        <!-- later you can add more -->
+        <!--
+        <button
+          class="explore-tab"
+          data-src="https://example.com/some-other-showcase"
+          data-title="Some Other Thing"
+          data-description="A short blurb about it.">
+          Other thing
+        </button>
+        -->
+      </div>
+    
+      <!-- Viewport -->
+      <div class="explore-view">
+        <h3 id="explore-title">Aporee: sound map</h3>
+        <p id="explore-description">
+          A map of field recordings from around the world.
+        </p>
+    
+        <iframe
+          id="explore-frame"
+          src="https://aporee.org/maps/ap/?loc=SomeAporeeEmbedURL"
+          loading="lazy"
+          scrolling="yes">
+        </iframe>
+      </div>
+    
     </section>
+
       
   </div><!-- /.view-panels -->
 </section>
@@ -467,7 +498,48 @@ document.addEventListener('click', function (e) {
 })();
 </script>
 
+<!--Explorer Selector Script-->
+    <script>
+    (function () {
+      const tabs = document.querySelectorAll('.explore-tab');
+      const frame = document.getElementById('explore-frame');
+      const titleEl = document.getElementById('explore-title');
+      const descEl = document.getElementById('explore-description');
+    
+      if (!tabs.length || !frame) return;
+    
+      function activate(tab) {
+        // update active state
+        tabs.forEach(t => t.classList.remove('is-active'));
+        tab.classList.add('is-active');
+    
+        // swap iframe src
+        const src = tab.dataset.src;
+        if (src) frame.src = src;
+    
+        // update title/description
+        if (titleEl) {
+          titleEl.textContent = tab.dataset.title || tab.textContent.trim();
+        }
+        if (descEl) {
+          const desc = tab.dataset.description || '';
+          descEl.textContent = desc;
+          descEl.style.display = desc ? '' : 'none';
+        }
+      }
+    
+      // set up click listeners
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => activate(tab));
+      });
+    
+      // ensure the initially-marked .is-active tab controls the frame on load
+      const initial = document.querySelector('.explore-tab.is-active') || tabs[0];
+      if (initial) activate(initial);
+    })();
+    </script>
 
+    
 <!-- STICKY AVATAR :) -->
 <script>
 (function () {
