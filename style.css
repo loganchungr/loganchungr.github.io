@@ -555,14 +555,15 @@ summary.portfolio-link::marker {
 }
 
 /* the iframe itself */
-.panel-explorer iframe {
-    display: block;                /* fixes the little bump we already dealt with */
+panel-explorer iframe {
+    display: block;
     width: 100%;
-    height: 600px;                 /* tweak as you like */
+    /* height: 600px; */
     border-radius: 5px;
-    border: 0.5px solid #969696;
-    background: #fffbfa;
+    border: none;
+    background: #ff948f;
 }
+
 
 
 
