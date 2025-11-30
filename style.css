@@ -613,7 +613,8 @@ panel-explorer iframe {
 
     /* --- mobile tab layout: horizontal scroll --- */
     .explore-tab { 
-        padding: 5px 18px;
+        padding: 5px 10px;
+        font-size: 0.75em;
     }
     
     .view-tabs {
@@ -632,7 +633,7 @@ panel-explorer iframe {
 
     .view-tab {
         display: inline-block;
-        padding: 0px 10px;
+        padding: 0px 3px;
         font-size: 0.75em;
     }
 
