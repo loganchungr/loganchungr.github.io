@@ -14,7 +14,7 @@
   <!-- Admin-specific styles -->
   <style>
 
-    .body { 
+    body { 
       font-family:'system-ui';
       font-size: 13px;
     }
@@ -376,7 +376,7 @@
               <p class="admin-hint">Choose one or more. The first selected will color the icon.</p>
                 <div class="admin-tags">
                   <label><input type="checkbox" class="log-tag-checkbox" value="music"> music</label>
-                  <label><input type="checkbox" class="log-tag-checkbox" value="writing-language"> writing &amp; language</label>
+                  <label><input type="checkbox" class="log-tag-checkbox" value="writing"> writing/language</label>
                   <label><input type="checkbox" class="log-tag-checkbox" value="politics"> politics</label>
                   <label><input type="checkbox" class="log-tag-checkbox" value="culture"> culture</label>
                   <label><input type="checkbox" class="log-tag-checkbox" value="internet"> internet</label>
@@ -385,6 +385,13 @@
                 </div>
               <p class="admin-hint">You can also type extra tags, separated by commas:</p>
             <input id="log-tags-extra" class="admin-input" type="text" placeholder="extra tags (optional)">
+          </div>
+          
+          <div class="admin-field">
+            <label>
+              <input type="checkbox" id="log-favorite">
+              Mark as favorite (add star)
+            </label>
           </div>
 
 
@@ -534,28 +541,37 @@
       }
 
      function buildLogSnippet() {
-        const href = document.getElementById('log-href').value.trim();
-        const titleRaw = document.getElementById('log-title').value.trim();
-      
-        const checked = Array.from(document.querySelectorAll('.log-tag-checkbox:checked'))
-          .map(cb => cb.value.trim())
-          .filter(Boolean);
-      
-        const extraRaw = document.getElementById('log-tags-extra').value.trim();
-        const extra = extraRaw
-          ? extraRaw.split(',').map(t => t.trim()).filter(Boolean)
-          : [];
-      
-        const allTags = [...checked, ...extra];
-        if (!href || !titleRaw) return '';
-      
-        const primary = allTags[0] || 'other';
-        const classAttr = ` class="tag-${primary}"`;
-        const dataAttr = allTags.length ? ` data-tags="${allTags.join(', ')}"` : '';
-      
-        // title may contain HTML (e.g. <i>), so we don't escape it
-        return `<a href="${href}"${classAttr}${dataAttr}>${titleRaw}</a>`;
-      }
+      const href = document.getElementById('log-href').value.trim();
+      const titleRaw = document.getElementById('log-title').value.trim();
+    
+      const checked = Array.from(document.querySelectorAll('.log-tag-checkbox:checked'))
+        .map(cb => cb.value.trim())
+        .filter(Boolean);
+    
+      const extraRaw = document.getElementById('log-tags-extra').value.trim();
+      const extra = extraRaw
+        ? extraRaw.split(',').map(t => t.trim()).filter(Boolean)
+        : [];
+    
+      const allTags = [...checked, ...extra];
+      if (!href || !titleRaw) return '';
+    
+      const primary = allTags[0] || 'other';
+    
+      // NEW: favorite checkbox
+      const favoriteBox = document.getElementById('log-favorite');
+      const isFavorite = favoriteBox && favoriteBox.checked;
+    
+      const classes = [`tag-${primary}`];
+      if (isFavorite) classes.push('favorite');
+    
+      const classAttr = ` class="${classes.join(' ')}"`;
+      const dataAttr = allTags.length ? ` data-tags="${allTags.join(', ')}"` : '';
+    
+      // title may contain HTML (e.g. <i>), so we don't escape it
+      return `<a href="${href}"${classAttr}${dataAttr}>${titleRaw}</a>`;
+    }
+
 
 
       function buildExplorerSnippet() {
