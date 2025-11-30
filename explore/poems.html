@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Poems</title>
+
+  <!-- reuse your main styles (adjust these paths to match your repo) -->
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/home.css" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--offwhite, #fffbfa);
+    }
+
+    .poem-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .poem-column {
+      background-color: var(--offwhite, #fffbfa);
+      border-radius: 10px;
+      border: none;
+      padding: 0px;
+      line-height: 1.3;
+    }
+
+    .poem-column h3 {
+      margin-bottom: 0.3rem;
+    }
+
+    .poem-column p {
+      margin-bottom: 0.5rem;
+    }
+
+    .poem-column iframe {
+      width: 100%;
+      height: 92vh;
+      border: 0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 600px) {
+      .poem-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .poem-column iframe {
+        height: 72vh;
+      }
+    }
+  </style>
+</head>
+  
+<body>
+  <main class="poem-layout">
+    <section class="poem-column">
+      <iframe
+        src="https://docs.google.com/document/d/e/2PACX-1vTZe5fvmibqJAiJ5HaXy9Vpe7XmMOpp8nQeXJhgTLNN2ZM_nUiUEt25Zd9I2CtbxlMr8MslbigE4n4e/pub?embedded=true"
+        title="Logan's poem"
+        loading="lazy"
+      ></iframe>
+    </section>
+
+    <section class="poem-column">
+      <iframe
+        src="https://docs.google.com/document/d/e/2PACX-1vSy1EGoAkVE3ZoMuFP0EjEUVtiupYLtOf--2RDB1MCMsF0D_GTubl4YTtbMdt-KOrC7H154tSc92otl/pub?embedded=true"
+        title="Another poem"
+        loading="lazy"
+      ></iframe>
+    </section>
+  </main>
+</body>
+</html>
