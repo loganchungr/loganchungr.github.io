@@ -21,15 +21,13 @@ a:hover {
 
 h1 { 
     font-size: 150%;
+    margin-bottom: .3em;
 }
 
 h2 {
     font-size: 125%;
 }
 
-h1, h2, h3, h4 {
-    margin-bottom: .3em;
-}
 
 p .section-description {
     background: #fffbfa;
@@ -530,10 +528,10 @@ summary.portfolio-link::marker {
 
 /* individual selector pill */
 .explore-tab {
-    border: 1px dashed #969696;
+    border: .5px dashed #969696;
     border-radius: 50px;
     background: #ff948f;
-    padding: 2px 8px;
+    padding: 3px 18px;
     font-size: .8em;
     font-family: 'Courier New';
     cursor: pointer;
@@ -544,6 +542,7 @@ summary.portfolio-link::marker {
 .explore-tab.is-active {
     background: #fffbfa;
     font-weight: bold;
+    border: 1px dashed #ff948f;
 }
 
 /* viewport area */
