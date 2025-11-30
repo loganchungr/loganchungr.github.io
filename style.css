@@ -612,6 +612,10 @@ panel-explorer iframe {
     }
 
     /* --- mobile tab layout: horizontal scroll --- */
+    .explore-tab { 
+        padding: 5px 18px;
+    }
+    
     .view-tabs {
         display: block;              /* override desktop flex layout */
         overflow-x: auto;            /* horizontal scroll when needed */
