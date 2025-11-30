@@ -726,7 +726,7 @@ document.addEventListener('click', function (e) {
             .then(function (response) {
                 return response.json()
             }).then(function (json) {
-                song.innerHTML = json['track']['name'] + ' - ' + json['track']['artist']['#text'];
+                song.innerHTML = json['track']['name'] + ' by ' + json['track']['artist']['#text'];
             });
     </script>
             
