@@ -372,9 +372,21 @@
           </div>
 
           <div class="admin-field">
-            <label for="log-classes">Extra classes (optional)</label>
-            <input id="log-classes" class="admin-input" type="text" placeholder="fold favorite">
+            <label>Tags</label>
+              <p class="admin-hint">Choose one or more. The first selected will color the icon.</p>
+                <div class="admin-tags">
+                  <label><input type="checkbox" class="log-tag-checkbox" value="music"> music</label>
+                  <label><input type="checkbox" class="log-tag-checkbox" value="writing-language"> writing &amp; language</label>
+                  <label><input type="checkbox" class="log-tag-checkbox" value="politics"> politics</label>
+                  <label><input type="checkbox" class="log-tag-checkbox" value="culture"> culture</label>
+                  <label><input type="checkbox" class="log-tag-checkbox" value="internet"> internet</label>
+                  <label><input type="checkbox" class="log-tag-checkbox" value="life"> life</label>
+                  <label><input type="checkbox" class="log-tag-checkbox" value="other"> other</label>
+                </div>
+              <p class="admin-hint">You can also type extra tags, separated by commas:</p>
+            <input id="log-tags-extra" class="admin-input" type="text" placeholder="extra tags (optional)">
           </div>
+
 
           <button class="admin-button" type="submit">Generate log link snippet</button>
         </form>
@@ -521,17 +533,30 @@
         return lines.join('\n');
       }
 
-      function buildLogSnippet() {
+     function buildLogSnippet() {
         const href = document.getElementById('log-href').value.trim();
         const titleRaw = document.getElementById('log-title').value.trim();
-        const classes = document.getElementById('log-classes').value.trim();
-
+      
+        const checked = Array.from(document.querySelectorAll('.log-tag-checkbox:checked'))
+          .map(cb => cb.value.trim())
+          .filter(Boolean);
+      
+        const extraRaw = document.getElementById('log-tags-extra').value.trim();
+        const extra = extraRaw
+          ? extraRaw.split(',').map(t => t.trim()).filter(Boolean)
+          : [];
+      
+        const allTags = [...checked, ...extra];
         if (!href || !titleRaw) return '';
-
-        const classAttr = classes ? ` class="${classes}"` : '';
+      
+        const primary = allTags[0] || 'other';
+        const classAttr = ` class="tag-${primary}"`;
+        const dataAttr = allTags.length ? ` data-tags="${allTags.join(', ')}"` : '';
+      
         // title may contain HTML (e.g. <i>), so we don't escape it
-        return `<a href="${href}"${classAttr}>${titleRaw}</a>`;
+        return `<a href="${href}"${classAttr}${dataAttr}>${titleRaw}</a>`;
       }
+
 
       function buildExplorerSnippet() {
         const title = document.getElementById('exp-title').value.trim();
