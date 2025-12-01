@@ -15,6 +15,12 @@
       background: #ff948f;
     }
 
+  .poem-layout-wrapper {
+      background: #ff948f;
+      margin: 0;
+      padding: 0;
+    }
+
   .poem-layout {
       display: grid;
       background: #ff948f;
@@ -48,7 +54,43 @@
       overflow: hidden;
     }
 
+    .poem-mobile-controls {
+      display: none;         /* shown only on mobile */
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 4px 0 8px;
+      font-size: 0.85rem;
+      }
+    
+      .poem-mobile-button {
+          border-radius: 999px;
+          border: 1px solid rgba(0, 0, 0, 0.7);
+          background: #fffbfa;
+          padding: 2px 10px;
+          cursor: pointer;
+          font: inherit;
+      }
+
+      .poem-mobile-button:active {
+        transform: translateY(1px);
+      }
+
+      .poem-mobile-label {
+        opacity: 0.7;
+      }
+    
+  /* MOBILE */
     @media (max-width: 600px) {
+      
+      .poem-column {
+        display: none;
+      }
+
+      .poem-column.is-active {
+        display: block;
+      }
+      
       .poem-layout {
         grid-template-columns: 1fr;
       }
@@ -61,22 +103,85 @@
 </head>
   
 <body>
-  <main class="poem-layout">
-    <section class="poem-column">
-      <iframe
-        src="https://docs.google.com/document/d/e/2PACX-1vTZe5fvmibqJAiJ5HaXy9Vpe7XmMOpp8nQeXJhgTLNN2ZM_nUiUEt25Zd9I2CtbxlMr8MslbigE4n4e/pub?embedded=true"
-        title="Logan's poem"
-        loading="lazy"
-      ></iframe>
-    </section>
+  <main class="poem-layout-wrapper">
+    <div class="poem-layout" id="poem-layout">
+      <section class="poem-column is-active" data-index="0">
+        <iframe
+          src="https://docs.google.com/document/d/e/2PACX-1vTZe5fvmibqJAiJ5HaXy9Vpe7XmMOpp8nQeXJhgTLNN2ZM_nUiUEt25Zd9I2CtbxlMr8MslbigE4n4e/pub?embedded=true"
+          title="Logan's poem"
+          loading="lazy"
+        ></iframe>
+      </section>
 
-    <section class="poem-column">
-      <iframe
-        src="https://docs.google.com/document/d/e/2PACX-1vSy1EGoAkVE3ZoMuFP0EjEUVtiupYLtOf--2RDB1MCMsF0D_GTubl4YTtbMdt-KOrC7H154tSc92otl/pub?embedded=true"
-        title="Another poem"
-        loading="lazy"
-      ></iframe>
-    </section>
+      <section class="poem-column" data-index"1">
+        <iframe
+          src="https://docs.google.com/document/d/e/2PACX-1vSy1EGoAkVE3ZoMuFP0EjEUVtiupYLtOf--2RDB1MCMsF0D_GTubl4YTtbMdt-KOrC7H154tSc92otl/pub?embedded=true"
+          title="Another poem"
+          loading="lazy"
+        ></iframe>
+      </section>
+    </div>
+
+  <!-- MOBILE -->
+    <div class="poem-mobile-controls" aria-label="Switch poem panel">
+      <button
+        type="button"
+        class="poem-mobile-button"
+        id="poem-prev"
+        aria-label="Previous poem panel"
+      >
+        ‹
+      </button>
+      <span class="poem-mobile-label" id="poem-label">1 / 2</span>
+      <button
+        type="button"
+        class="poem-mobile-button"
+        id="poem-next"
+        aria-label="Next poem panel"
+      >
+        ›
+      </button>
+    </div>
   </main>
+
+
+<script>
+    (function () {
+      const layout = document.getElementById('poem-layout');
+      if (!layout) return;
+
+      const columns = Array.from(layout.querySelectorAll('.poem-column'));
+      if (columns.length === 0) return;
+
+      const prevBtn = document.getElementById('poem-prev');
+      const nextBtn = document.getElementById('poem-next');
+      const label = document.getElementById('poem-label');
+
+      let current = 0;
+
+      function updateView() {
+        columns.forEach((col, idx) => {
+          col.classList.toggle('is-active', idx === current);
+        });
+        if (label) {
+          label.textContent = (current + 1) + ' / ' + columns.length;
+        }
+      }
+
+      function go(delta) {
+        current = (current + delta + columns.length) % columns.length;
+        updateView();
+      }
+
+      if (prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', () => go(-1));
+        nextBtn.addEventListener('click', () => go(1));
+      }
+
+      // initialize
+      updateView();
+    })();
+  </script>
+        
 </body>
 </html>
