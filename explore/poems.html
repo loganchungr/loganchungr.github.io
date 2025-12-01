@@ -55,19 +55,20 @@
     }
 
     .poem-mobile-controls {
-      display: none;         /* shown only on mobile */
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 4px 0 8px;
-      font-size: 0.85rem;
-      }
+        display: none;
+        font-weight: bold;
+        align-items: center;
+        justify-content: left;
+        gap: 0px;
+        padding: 0px 0px 5px 0px;
+        font-size: 1em;
+    }
+
     
       .poem-mobile-button {
-          border-radius: 999px;
-          border: 1px solid rgba(0, 0, 0, 0.7);
-          background: #fffbfa;
-          padding: 2px 10px;
+          border: none;
+          background: none;
+          padding: 0 10pxpx;
           cursor: pointer;
           font: inherit;
       }
@@ -96,7 +97,7 @@
       }
 
       .poem-column iframe {
-        height: 72vh;
+        height: 94vh;
       }
 
       .poem-mobile-controls {
@@ -109,6 +110,27 @@
   
 <body>
   <main class="poem-layout-wrapper">
+      <!-- MOBILE -->
+    <div class="poem-mobile-controls" aria-label="Switch poem panel">
+      <button
+        type="button"
+        class="poem-mobile-button"
+        id="poem-prev"
+        aria-label="Previous poem panel"
+      >
+        ‹
+      </button>
+      
+      <button
+        type="button"
+        class="poem-mobile-button"
+        id="poem-next"
+        aria-label="Next poem panel"
+      >
+        ›
+      </button>
+    </div>
+    
     <div class="poem-layout" id="poem-layout">
       <section class="poem-column is-active" data-index="0">
         <iframe
@@ -125,27 +147,6 @@
           loading="lazy"
         ></iframe>
       </section>
-    </div>
-
-  <!-- MOBILE -->
-    <div class="poem-mobile-controls" aria-label="Switch poem panel">
-      <button
-        type="button"
-        class="poem-mobile-button"
-        id="poem-prev"
-        aria-label="Previous poem panel"
-      >
-        ‹
-      </button>
-      <span class="poem-mobile-label" id="poem-label">1 / 2</span>
-      <button
-        type="button"
-        class="poem-mobile-button"
-        id="poem-next"
-        aria-label="Next poem panel"
-      >
-        ›
-      </button>
     </div>
   </main>
 
