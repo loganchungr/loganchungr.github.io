@@ -112,24 +112,25 @@
   <main class="poem-layout-wrapper">
       <!-- MOBILE -->
     <div class="poem-mobile-controls" aria-label="Switch poem panel">
-      <button
-        type="button"
-        class="poem-mobile-button"
-        id="poem-prev"
-        aria-label="Previous poem panel"
-      >
-        ‹
-      </button>
+        <button
+          type="button"
+          class="poem-mobile-button"
+          id="poem-prev"
+          aria-label="Previous poem panel"
+        >
+          ‹
+        </button>
       
-      <button
-        type="button"
-        class="poem-mobile-button"
-        id="poem-next"
-        aria-label="Next poem panel"
-      >
-        ›
-      </button>
-    </div>
+        <button
+          type="button"
+          class="poem-mobile-button"
+          id="poem-next"
+          aria-label="Next poem panel"
+        >
+          ›
+        </button>
+      </div>
+
     
     <div class="poem-layout" id="poem-layout">
 
@@ -166,42 +167,42 @@
 
 
 <script>
-    (function () {
-      const layout = document.getElementById('poem-layout');
-      if (!layout) return;
+  (function () {
+    const layout = document.getElementById('poem-layout');
+    if (!layout) return;
 
-      const columns = Array.from(layout.querySelectorAll('.poem-column'));
-      if (columns.length === 0) return;
+    const columns = Array.from(layout.querySelectorAll('.poem-column'));
+    if (columns.length === 0) return;
 
-      const prevBtn = document.getElementById('poem-prev');
-      const nextBtn = document.getElementById('poem-next');
-      const label = document.getElementById('poem-label');
+    const prevBtn = document.getElementById('poem-prev');
+    const nextBtn = document.getElementById('poem-next');
 
-      let current = 0;
+    // start from the one marked is-active, or 0
+    let current = columns.findIndex(col =>
+      col.classList.contains('is-active')
+    );
+    if (current === -1) current = 0;
 
-      function updateView() {
-        columns.forEach((col, idx) => {
-          col.classList.toggle('is-active', idx === current);
-        });
-        if (label) {
-          label.textContent = (current + 1) + ' / ' + columns.length;
-        }
-      }
+    function updateView() {
+      columns.forEach((col, idx) => {
+        col.classList.toggle('is-active', idx === current);
+      });
+    }
 
-      function go(delta) {
-        current = (current + delta + columns.length) % columns.length;
-        updateView();
-      }
-
-      if (prevBtn && nextBtn) {
-        prevBtn.addEventListener('click', () => go(-1));
-        nextBtn.addEventListener('click', () => go(1));
-      }
-
-      // initialize
+    function go(delta) {
+      current = (current + delta + columns.length) % columns.length;
       updateView();
-    })();
-  </script>
+    }
+
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => go(-1));
+      nextBtn.addEventListener('click', () => go(1));
+    }
+
+    updateView();
+  })();
+</script>
+
         
 </body>
 <!-- nice!-->
