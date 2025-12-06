@@ -31,12 +31,21 @@
     }
 
     .poem-column {
+      /* hide everything by default, JS will mark the visible ones */
+      display: none;
+    
       background-color: var(--offwhite, #fffbfa);
       border-radius: 5px;
       border: 0.5px solid #969696;
       padding: 0px;
       line-height: 1.3;
     }
+    
+    /* anything “active” for the current page becomes visible */
+    .poem-column.is-active {
+      display: block;
+    }
+
 
     .poem-column h3 {
       margin-bottom: 0.3rem;
@@ -55,7 +64,7 @@
     }
 
     .poem-mobile-controls {
-        display: none;
+        display: flex;
         font-weight: bold;
         align-items: center;
         justify-content: center;
@@ -176,21 +185,46 @@
 
     const prevBtn = document.getElementById('poem-prev');
     const nextBtn = document.getElementById('poem-next');
+    const label = document.getElementById('poem-label'); // optional; you don't have to add this
 
-    // start from the one marked is-active, or 0
-    let current = columns.findIndex(col =>
-      col.classList.contains('is-active')
-    );
-    if (current === -1) current = 0;
+    let currentPage = 0;
+
+    // Match the CSS breakpoint:
+    // - mobile (<= 600px): 1 poem per "page"
+    // - desktop (> 600px): 2 poems per "page"
+    function getPageSize() {
+      return window.matchMedia('(max-width: 600px)').matches ? 1 : 2;
+    }
 
     function updateView() {
+      const pageSize = getPageSize();
+      const totalPages = Math.ceil(columns.length / pageSize) || 1;
+
+      // keep currentPage in range
+      if (currentPage >= totalPages) currentPage = totalPages - 1;
+      if (currentPage < 0) currentPage = 0;
+
+      const start = currentPage * pageSize;
+      const end = start + pageSize;
+
+      // show only the poems for this "page"
       columns.forEach((col, idx) => {
-        col.classList.toggle('is-active', idx === current);
+        const isVisible = idx >= start && idx < end;
+        col.classList.toggle('is-active', isVisible);
       });
+
+      // if you ever add a label element, this will show "1 / N"
+      if (label) {
+        label.textContent = (currentPage + 1) + ' / ' + totalPages;
+      }
     }
 
     function go(delta) {
-      current = (current + delta + columns.length) % columns.length;
+      const pageSize = getPageSize();
+      const totalPages = Math.ceil(columns.length / pageSize);
+      if (totalPages <= 1) return; // nothing to page through
+
+      currentPage = (currentPage + delta + totalPages) % totalPages;
       updateView();
     }
 
@@ -199,9 +233,14 @@
       nextBtn.addEventListener('click', () => go(1));
     }
 
+    // re-evaluate when viewport crosses the breakpoint
+    window.addEventListener('resize', updateView);
+
+    // initial render
     updateView();
   })();
 </script>
+
 
         
 </body>
