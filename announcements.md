@@ -1,2 +1,2 @@
-2026-01-06 Tue
-I miss Brian Wilson!
+2026-05-02 Sat
+"Baby Don't Hurt Me" by Emma Ogier.... I have a problem
