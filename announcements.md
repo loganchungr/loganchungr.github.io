@@ -1,3 +1,6 @@
+2026-05-14 Thu
+AF's interview style compared w/ JS is actually interesting bc AF skips past the need for credulous inquiry and goes straight to JS's wide-eyed incredulous desperation. which tracks with exactly How things have been going across their respective eras 
+
 2026-05-13 Wed 
 my influences while watching spring slide into summer: driving cars / Los Angeles, California / Bruce Hornsby, Richard Thompson, Steve Jordan, Bonnie Raitt, Emma Ogier / making-it-work
 
