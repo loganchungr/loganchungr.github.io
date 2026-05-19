@@ -1,5 +1,5 @@
-2026-05-14 Thu
-AF's interview style compared w/ JS is actually interesting bc AF skips past the need for credulous inquiry and goes straight to JS's wide-eyed incredulous desperation. which tracks with exactly How things have been going across their respective eras 
+2026-05-19 Tue
+have not been writing lately, like at all — not since the end of The Trip. part of this has been a voluntary experiment but I've also not been reading. what will I even remember of this complicated time :/ what retrospective value can pictures and vlogs and posts hold?
 
 2026-05-13 Wed 
 my influences while watching spring slide into summer: driving cars / Los Angeles, California / Bruce Hornsby, Richard Thompson, Steve Jordan, Bonnie Raitt, Emma Ogier / making-it-work
