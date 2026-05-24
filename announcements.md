@@ -1,3 +1,6 @@
+2026-05-23 Sat
+crazy week for anniversaries. and for Stephen Colbert
+
 2026-05-19 Tue
 have not been writing lately, like at all — not since the end of The Trip. part of this has been a voluntary experiment but I've also not been reading. what will I even remember of this complicated time :/ what retrospective value can pictures and vlogs and posts hold?
 
