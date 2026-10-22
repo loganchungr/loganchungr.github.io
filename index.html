@@ -120,7 +120,7 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
   </div>
   <div id="results" hidden></div>
   <div class="tools">
-    <div class="search"><input id="q" type="text" placeholder="Search entries (press /)" aria-label="Search entries" autocomplete="off"><button id="clear" class="tag" hidden>Clear</button></div>
+    <div class="search"><input id="q" type="text" placeholder="Search entries" aria-label="Search entries" autocomplete="off"><button id="clear" class="tag" hidden>Clear</button></div>
     <div class="tagrow" id="tags"></div>
   </div>
 </main>
@@ -162,7 +162,7 @@ demo.push({date:"2026-10-22",title:"Hudson Valley",body:"# Hudson Valley\n\n![Pl
 
 /* ---- Tiny Markdown renderer ---- */
 const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-function inline(s){
+function inlinee(s){
   s = esc(s);
   const codes = [];
   s = s.replace(/`([^`]+)`/g,(_,c)=>{codes.push(c);return "\u0000"+(codes.length-1)+"\u0000"});
