@@ -65,7 +65,7 @@ button:disabled{opacity:.5;cursor:default}
 const SIGNUP_URL = "";
 
 const form = document.getElementById("signup"), msg = document.getElementById("msg");
-form.addEventListener("submit", async ev => {
+if (form) form.addEventListener("submit", async ev => {  // form is commented out for now
   ev.preventDefault();
   const email = form.email.value.trim();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { msg.textContent = "Enter a valid email address."; return; }
@@ -91,7 +91,9 @@ form.addEventListener("submit", async ev => {
       .then(function (response) {
           return response.json()
       }).then(function (json) {
-          song.innerHTML = json['track']['name'] + ' by ' + json['track']['artist']['#text'];
+          song.textContent = json['track']['name'] + ' by ' + json['track']['artist']['#text'];
+      }).catch(function () {
+          song.textContent = '(unavailable right now)';
       });
 </script>
             
