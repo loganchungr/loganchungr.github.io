@@ -234,7 +234,7 @@ function render(){
     const list = inMonth.filter(e=>e.d>=ws && e.d<=we);
     const label = mon3(ws)+" "+ws.getDate()+"–"+(ws.getMonth()===we.getMonth()?"":mon3(we)+" ")+we.getDate();
     const now = +ws === +cw;
-    if(ws <= cw || list.length) rows.push(`<section class="week"><div class="wl">${label}${now?'<br><span class="now">this week</span>':""}</div><div class="tiles">`+
+    if(ws <= cw || list.length) rows.push(`<section class="week"><div class="wl">${label}${now?'<br><span class="now">*</span>':""}</div><div class="tiles">`+
       (list.length ? list.map(tile).join("") : now ? `<span class="none nudge">Nothing yet this week.</span>` : `<span class="none">—</span>`)+
       `</div></section>`);
     ws = new Date(ws.getFullYear(),ws.getMonth(),ws.getDate()+7);
