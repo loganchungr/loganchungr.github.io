@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lookout · Loggin’ Chung</title>
+<style>
+:root{--bg:#eef1f4;--panel:#fbfcfd;--ink:#1a2130;--muted:#667085;--line:#cfd6df;--accent:#FF948F;--mono:"Courier New",Courier,monospace;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#12161e;--panel:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--mono)}
+main{max-width:64rem;padding:3rem 1.5rem 5rem}
+h1{font:700 clamp(2.2rem,8vw,4rem)/1 var(--mono);margin:0 0 .5rem}
+h1 a{color:inherit;text-decoration:none}
+.links{display:flex;gap:1.5rem;margin:0 0 2.5rem}
+.links a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:.25em}
+.links a:hover,.links a[aria-current]{background:var(--accent);color:#1a2130;text-decoration-color:transparent}
+h2{font:400 1.75rem/1 var(--mono);margin:0 0 1.25rem}
+.frame{border:1px solid var(--line);border-radius:3px;background:var(--panel);overflow:hidden}
+iframe{display:block;width:100%;height:min(75vh,40rem);border:0}
+.empty{padding:2rem;color:var(--muted);margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+  <h1><a href="index.html">Loggin’ Chung</a></h1>
+  <nav class="links"><a href="lookout.html" aria-current="page">lookout</a><a href="context.html">context</a></nav>
+  <h2>Lookout</h2>
+  <div class="frame" id="frame"></div>
+</main>
+<script>
+/* Paste your Google Calendar embed link here.
+   In Google Calendar: Settings → your calendar → Integrate calendar → copy the src URL from the embed code
+   (it starts with https://calendar.google.com/calendar/embed?src=...). */
+const CAL_SRC = "";
+
+const f = document.getElementById("frame");
+if (CAL_SRC) {
+  const i = document.createElement("iframe");
+  i.src = CAL_SRC; i.title = "Calendar"; i.loading = "lazy";
+  f.appendChild(i);
+} else {
+  f.innerHTML = '<p class="empty">No calendar yet. Add the embed link to <code>CAL_SRC</code> in lookout.html.</p>';
+}
+</script>
+</body>
+</html>
