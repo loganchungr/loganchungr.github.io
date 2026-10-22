@@ -32,7 +32,7 @@ h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 .bar button{font:inherit;background:none;border:1px solid var(--line);color:var(--ink);width:2.25rem;height:2.25rem;border-radius:50%;cursor:pointer}
 .bar button:hover:not(:disabled){border-color:var(--accent);color:var(--accent-ink)}
 .bar button:disabled{opacity:.3;cursor:default}
-.week{display:grid;grid-template-columns:7.5rem 1fr;gap:1rem;padding:1rem 0;border-top:1px solid var(--line)}
+.week{display:grid;grid-template-columns:1fr;gap:1rem;padding:1rem 0;border-top:1px solid var(--line)}
 .week:last-child{border-bottom:1px solid var(--line)}
 .wl{color:var(--muted);font-size:.85rem;padding-top:.2rem}
 .tiles{display:flex;flex-wrap:nowrap;overflow-x:auto;flex-shrink:0;gap:.75rem;min-height:2rem}
@@ -232,9 +232,8 @@ function render(){
   while(ws <= monthEnd){
     const we = new Date(ws.getFullYear(),ws.getMonth(),ws.getDate()+6);
     const list = inMonth.filter(e=>e.d>=ws && e.d<=we);
-    const label = mon3(ws)+" "+ws.getDate()+"–"+(ws.getMonth()===we.getMonth()?"":mon3(we)+" ")+we.getDate();
     const now = +ws === +cw;
-    if(ws <= cw || list.length) rows.push(`<section class="week"><div class="wl">${label}${now?'<span class="now">*</span>':""}</div><div class="tiles">`+
+    if(ws <= cw || list.length) rows.push(`<section class="week"><div class="tiles">`+
       (list.length ? list.reverse().map(tile).join("") : now ? `<span class="none nudge">Nothing yet this week.</span>` : `<span class="none">—</span>`)+
       `</div></section>`);
     ws = new Date(ws.getFullYear(),ws.getMonth(),ws.getDate()+7);
