@@ -291,7 +291,7 @@ async function loadEntries(){
   return Promise.all(files.filter(f=>/^\d{4}-\d{2}-\d{2}.*\.md$/i.test(f.name)).map(async f=>{
     const body = await (await fetch(FOLDER+"/"+encodeURIComponent(f.name))).text();
     const h = body.match(/^#\s+(.+)$/m);
-    return {id:f.name, date:f.name.slice(0,10), title:h?h[1].trim():(f.name.slice(11,-3).replace(/-/g," ")||f.name.slice(0,10)), body};
+    return {id:f.name, date:f.name.slice(0,10), title:h?h[1].replace(/[*_`]/g,"").trim():(f.name.slice(11,-3).replace(/-/g," ")||f.name.slice(0,10)), body};
   }));
 }
 loadEntries().catch(()=>{const n=$("note");n.textContent="Showing sample entries. Couldn’t read the entries folder from GitHub.";n.hidden=false;return demo})
