@@ -17,13 +17,13 @@ all that being said, I'm a Benjamin Labatut Believer, ever since I read his prio
 
 Labatut understands that artistic knowledge and scientific knowledge have more in common than they do in opposition. he also understands that what we sometimes call "divine inspiration" can feel like demonic possession — and crucially, he is able to levy his chosen medium against these false dichotomies, using prose to conjure the spiritual mysteries at the heart of both endeavors.
 
-· · ─ ·✶· ─ · ·
+---
 
 ![Hieronymus Bosch, Cutting the Stone](entries/images/labatut-bosch-cutting-the-stone.jpg)
 
 *Cutting the Stone* (aka *The Extraction of the Stone of Madness* or *The Cure of Folly*), Heironymous Bosch
 
-· · ─ ·✶· ─ · ·
+---
 
 in interviews, Labatut speaks emphatically, desperately, with a pleading and almost preacherly cadence, about the essentiality of uncertainty, the sacredness of literature, and the murky, beautiful truths that can be found at the limits of human understanding.
 
@@ -33,13 +33,13 @@ I think Labatut would agree with my belief that our current discourse around tec
 
 instead, what Labatut's work offers is a kind of *shamanistic* approach to questions about progress. he sees a clear parallel between the pursuit of "pure" forms of knowledge — scientific, technological, digital — and the kind of creative inspiration that informs literature and poetry.
 
-· · ─ ·✶· ─ · ·
+---
 
 ![Marble sculpture of Prometheus by Nicolas-Sébastien Adam](entries/images/labatut-prometheus.jpg)
 
 *Prometheus*, Nicolas-Sébastien Adam
 
-· · ─ ·✶· ─ · ·
+---
 
 Labatut himself preaches that literature is a kind of demented, "fucked-up grandmother of science," and that fiction is one of the most powerful "tools" that we have to pursue truth, one which allows us to get away from the digital, discrete "facts" of the universe. one cannot digitalize every aspect of "continuous" human life.
 
@@ -47,13 +47,13 @@ this last quote comes from a recent appearance Labatut made at an AI conference 
 
 it is hard for me to imagine any other modern novelist being alloted space to speak at such a conference, and it is probably good that a piece of contemporary literature is on the radar of the kinds of people who would organize or attend such an event, but it also points to Labatut's rather precarious position.
 
-· · ─ ·✶· ─ · ·
+---
 
 ![Labatut and Natalie Portman in a video call](entries/images/labatut-with-portman.jpg)
 
 He has also spoken with Natalie Portman
 
-· · ─ ·✶· ─ · ·
+---
 
 it is no leap for me to assume that the men and women in charge of our current desperate charge towards the disastrous event-horizon of AGI think of themselves as great artists — two categories of person that literature has traditionally treated with the fawning awe with which Labatut treats his scientists and mathematicians.
 
@@ -63,23 +63,23 @@ setting aside the very valid critiques of "Great Man theories" of history for no
 
 literature, fiction, and the arts fill in the gaps between the metricized, digitalized conception of human existence pursued by our greatest scientists, mathematicians, and technologists. the unexplainable highlights the fundamental hollowness of a purely rational view of nature, inside and out. one can easily foresee, however, a darkly humorous situation where the technocratic class miss this point entirely.
 
-· · ─ ·✶· ─ · ·
+---
 
 ![Labatut speaking outdoors in an interview](entries/images/labatut-interview.jpg)
 
 the Relaxed Labatut believes in geniuses.
 
-· · ─ ·✶· ─ · ·
+---
 
 elsewhere, Labatut has spoken of the past as a vast, unexplored territory, endlessly mineable by literature in search of enrichment and meaning. writing at a temporal (and factual) distance from the men who set the course for our modern machinated malaise allows him to insert spiritual, almost demonic elements into otherwise dryly historical tales.
 
 his inventors and researchers are mad, possessed, obsessive, irrational, more like figures from religious folklore than disciplined men of reason and dry calculatory modernity. wisdom is knowing that regardless of one's chosen method of pursuing truth — be it through science, religion, or art — what lies at the end is the same uncertainty, and that itself is truth, and that truth is the one essential fact of our fragile existence Down Here.
 
-· · ─ ·✶· ─ · ·
+---
 
 ![Labatut on stage at the Sana conference, seated across from his interviewer](entries/images/labatut-sana-stage.jpg)
 
-· · ─ ·✶· ─ · ·
+---
 
 placed in front of the contemporary counterparts, however, one can feel Labatut's discomfort. watching him onstage at Sana, Labatut's usual self-assuredness is replaced with shakiness. he fidgets constantly with his pant leg. "What do you mean when you say human beings are *continuous*?" Sun asks him. later, Labatut tells his audience that they should be thinking more about the gods.
 
