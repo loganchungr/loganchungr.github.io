@@ -129,9 +129,9 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
 <dialog id="lb" aria-label="Entry">
   <button class="close" id="x" aria-label="Close">✕</button>
   <div class="wrap">
-    <button class="nav" id="prev" aria-label="Earlier entry">←</button>
+    <button class="nav" id="prev" aria-label="Newer entry">←</button>
     <article id="art"></article>
-    <button class="nav" id="next" aria-label="Later entry">→</button>
+    <button class="nav" id="next" aria-label="Older entry">→</button>
   </div>
 </dialog>
 
@@ -253,21 +253,21 @@ function show(i){
   cur = i; const e = entries[i];
   $("art").innerHTML = `<p class="when">${e.d.toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"})}</p>`+md(e.body);
   $("art").scrollTop = 0;
-  const p = list.indexOf(i); $("prev").disabled = p<=0; $("next").disabled = p<0||p===list.length-1;
+  const p = list.indexOf(i); $("prev").disabled = p<0||p===list.length-1; $("next").disabled = p<=0;
   view = {y:e.d.getFullYear(), m:e.d.getMonth()}; render();
   if(!lb.open) lb.showModal();
 }
 $("cal").addEventListener("click",ev=>{const t=ev.target.closest(".tile");if(t)show(+t.dataset.i)});
 function step(n){const p=list.indexOf(cur)+n;if(p>=0&&p<list.length)show(list[p])}
-$("prev").onclick=()=>step(-1); $("next").onclick=()=>step(1);
+$("prev").onclick=()=>step(1); $("next").onclick=()=>step(-1);
 $("x").onclick=()=>lb.close();
 const zoom = $("zoom");
 $("art").addEventListener("click",ev=>{const im=ev.target.closest("img");if(!im)return;$("zimg").src=im.src;$("zimg").alt=im.alt;zoom.showModal()});
 zoom.addEventListener("click",()=>zoom.close());
 lb.addEventListener("click",ev=>{if(ev.target===lb||ev.target.classList.contains("wrap"))lb.close()});
 lb.addEventListener("keydown",ev=>{
-  if(ev.key==="ArrowLeft"){ev.preventDefault();step(-1)}
-  if(ev.key==="ArrowRight"){ev.preventDefault();step(1)}
+  if(ev.key==="ArrowLeft"){ev.preventDefault();step(1)}
+  if(ev.key==="ArrowRight"){ev.preventDefault();step(-1)}
 });
 /* ---- Search & tags ---- */
 let list = entries.map((_,i)=>i), q = "", sel = new Set();
