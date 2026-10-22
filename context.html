@@ -49,11 +49,12 @@ button:disabled{opacity:.5;cursor:default}
       <input type="email" name="email" placeholder="you@example.com" aria-label="Email address" autocomplete="email" required>
       <button type="submit">Sign up</button>
     </form>
+    <p><em>By the way, my most recently played song is <b><span id="song">&#8987;</span></b>.</em></p>
     <p id="msg" role="status" aria-live="polite"></p>
   </section>
 </main>
 <script>
-/* Paste your Apps Script web app URL here (see README, "Mailing list"). */
+/* Email signups AppScript to go here */
 const SIGNUP_URL = "";
 
 const form = document.getElementById("signup"), msg = document.getElementById("msg");
@@ -72,5 +73,20 @@ form.addEventListener("submit", async ev => {
   btn.disabled = false;
 });
 </script>
+
+<!-- Last.fm grabber--> 
+
+<script type="text/javascript">
+  let user = 'overlookedpizza';
+  let url = 'https://lastfm-last-played.biancarosa.com.br/' + user + '/latest-song';
+  let song = document.querySelector('#song');
+  fetch(url)
+      .then(function (response) {
+          return response.json()
+      }).then(function (json) {
+          song.innerHTML = json['track']['name'] + ' by ' + json['track']['artist']['#text'];
+      });
+</script>
+            
 </body>
 </html>
