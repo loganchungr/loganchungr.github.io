@@ -235,7 +235,7 @@ function render(){
     const label = mon3(ws)+" "+ws.getDate()+"–"+(ws.getMonth()===we.getMonth()?"":mon3(we)+" ")+we.getDate();
     const now = +ws === +cw;
     if(ws <= cw || list.length) rows.push(`<section class="week"><div class="wl">${label}${now?'<span class="now">*</span>':""}</div><div class="tiles">`+
-      (list.length ? list.map(tile).join("") : now ? `<span class="none nudge">Nothing yet this week.</span>` : `<span class="none">—</span>`)+
+      (list.length ? list.reverse().map(tile).join("") : now ? `<span class="none nudge">Nothing yet this week.</span>` : `<span class="none">—</span>`)+
       `</div></section>`);
     ws = new Date(ws.getFullYear(),ws.getMonth(),ws.getDate()+7);
   }
