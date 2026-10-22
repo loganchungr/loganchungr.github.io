@@ -49,10 +49,15 @@ button:disabled{opacity:.5;cursor:default}
       <input type="email" name="email" placeholder="you@example.com" aria-label="Email address" autocomplete="email" required>
       <button type="submit">Sign up</button>
     </form>
-    <p><br><br><em>By the way, my most recently played song is <b><span id="song">&#8987;</span></b>.</em></p>
-    <p id="msg" role="status" aria-live="polite"></p>
   </section>
+
+  <footer>
+    <p><em>...by the way, my most recently played song is <b><span id="song">&#8987;</span></b>.</em></p>
+    <p id="msg" role="status" aria-live="polite"></p>
+  </footer>
+  
 </main>
+  
 <script>
 /* Email signups AppScript to go here */
 const SIGNUP_URL = "";
