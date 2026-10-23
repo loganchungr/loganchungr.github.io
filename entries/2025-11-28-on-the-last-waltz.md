@@ -25,3 +25,5 @@ Drab as it is, the song’s inclusion, and the preceding dialogue, is essential 
 “The Night They Drove Old Dixie Down,” of course, is the culmination of the culmination, the raison d'etre for the entirety of the folk rock movement, if not rock and pop songwriting more generally. It combines the epic and the personal, allowing each to inhabit the other, as great art does, but which songs are ill-disposed to do. A song for ghosts with grief of all origins. I’ve seen this song *do things* to people, unexplainable things.
 
 So many of our primary characters are Canadian, but what does that matter? There’s a grand North American tradition taking place here that crosses the boundaries of purely American history. Joni Mitchell sings of [Coyote](https://en.wikipedia.org/wiki/Coyote_(mythology))... A wonder that some of us revisit this song, this night, on this holiday. We are haunted by the same things, the same lost places. All of our changes were there.
+
+#music #favorite

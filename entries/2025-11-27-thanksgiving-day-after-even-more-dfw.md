@@ -7,3 +7,5 @@ and indeed, reading DFW, even at a young age, even before I’d seen *Twin Peaks
 I hadn’t read “Forever Overhead” in a long while. it hit hard, my Saturn having returned, cleaning up after my dinner for one in May’s beautiful apartment. the title reads differently to me now, screams almost of an unsticking-in-time, one could say I’m still that boy somewhere, I never left the creek, we never left the high dive. whereas in youth, from that high perspective you have forever before you, at some point you realize you’re in the water and you can still remember so vividly what the view was like up there, how it felt: the fear, the exhilaration. and so the whole thing becomes an exercise in empathy and remembrance. for the floppy flappy awkward boy on the rung of something Big: life. cheesy, but DFW took it seriously and gave it the beauty it deserves, it’s such a shame that he couldn’t give that grace to his own.
 
 feeling Thankful.
+
+#books #life
