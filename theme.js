@@ -13,8 +13,8 @@
 
   // Colors for an explicit choice. The selectors are specific enough to beat each page's own styles.
   var css =
-    'html[data-theme="light"]:root{--bg:#fffbfa;--panel:#fff8f6;--tile:#fff8f6;--ink:#000000;--muted:#6b6b6b;--line:#969696;--scrim:rgba(0,0,0,.5);color-scheme:light}' +
-    'html[data-theme="dark"]:root{--bg:#12161e;--panel:#1b212c;--tile:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--scrim:rgba(0,0,0,.65);color-scheme:dark}' +
+    'html[data-theme="light"]:root{--bgimg:none;--bg:#fffbfa;--panel:#fff8f6;--tile:#fff8f6;--ink:#000000;--muted:#6b6b6b;--line:#969696;--scrim:rgba(0,0,0,.5);color-scheme:light}' +
+    'html[data-theme="dark"]:root{--bgimg:linear-gradient(rgba(18,22,30,.55),rgba(18,22,30,.55)),url(images/pale-blue-dot.jpg);--bg:#12161e;--panel:#1b212c;--tile:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--scrim:rgba(0,0,0,.65);color-scheme:dark}' +
     '.theme-toggle{position:fixed;left:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:5;width:2.25rem;height:2.25rem;padding:0;display:grid;place-items:center;border-radius:50%;border:1px dotted var(--line);background:var(--panel);color:var(--ink);opacity:.65;cursor:pointer}' +
     '.theme-toggle:hover,.theme-toggle:focus-visible{opacity:1}' +
     '.theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}' +
