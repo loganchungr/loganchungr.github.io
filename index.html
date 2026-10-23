@@ -29,12 +29,12 @@ h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 .links a:hover{background:var(--accent);color:#000;text-decoration-color:transparent}
 .bar{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.25rem}
 .bar h2{font:400 1.75rem/1 var(--display);margin:0;min-width:9.5rem}
-.bar button{font:inherit;background:none;border:1px dashed var(--line);color:var(--ink);width:2.25rem;height:2.25rem;border-radius:50%;cursor:pointer}
+.bar button{font:inherit;background:none;border:1px dotted var(--line);color:var(--ink);width:2.25rem;height:2.25rem;border-radius:50%;cursor:pointer}
 .bar button:hover:not(:disabled){border-color:var(--accent);color:var(--accent-ink)}
 .bar button:disabled{opacity:.3;cursor:default}
 .dow,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.3rem;max-width:60rem}
 .dow{color:var(--muted);font-size:.8rem;margin-bottom:.4rem}
-.day{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;gap:.25rem;padding:.4rem;border:1px dashed var(--line);border-radius:1px;color:var(--muted);font-size:.85rem;line-height:1}
+.day{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;gap:.25rem;padding:.4rem;border:1px dotted var(--line);border-radius:1px;color:var(--muted);font-size:.85rem;line-height:1}
 .day.out{border-color:transparent}
 .day.has{padding:0;border:0}
 .day.past{background:linear-gradient(to bottom right,transparent calc(50% - .5px),var(--slash) 50%,transparent calc(50% + .5px))}
@@ -64,7 +64,7 @@ h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 [hidden]{display:none!important}
 .tools{display:flex;flex-direction:column;gap:.9rem;margin-top:2.5rem}
 .search{display:flex;gap:.5rem;align-items:center;max-width:26rem}
-.search input{flex:1;font:inherit;padding:.5rem .75rem;border:1px dashed var(--line);border-radius:1px;background:var(--panel);color:var(--ink)}
+.search input{flex:1;font:inherit;padding:.5rem .75rem;border:1px dotted var(--line);border-radius:1px;background:var(--panel);color:var(--ink)}
 .tagrow{display:flex;flex-wrap:nowrap;gap:1rem;overflow-x:auto;padding-bottom:.5rem;max-width:26rem}
 /* Tags are quiet grey text; hovering or selecting one fills it like the nav links. */
 .tag{flex-shrink:0;white-space:nowrap;font:inherit;font-size:.85rem;line-height:1.5;color:var(--muted);border:0;background:none;padding:0;cursor:pointer;text-decoration:none;display:inline-block}
@@ -90,8 +90,8 @@ mark{background:color-mix(in srgb,var(--accent) 25%,transparent);color:inherit}
 dialog{border:0;padding:0;background:transparent;width:100%;max-width:none;height:100%;max-height:none;color:var(--ink)}
 dialog::backdrop{background:var(--scrim)}
 .wrap{min-height:100%;display:grid;grid-template-columns:3rem minmax(0,44rem) 3rem;gap:1rem;justify-content:center;align-items:center;padding:2rem 1rem}
-article{font-size:.85rem;background:var(--panel);border:1px dashed var(--line);border-radius:1px;padding:2.25rem 2.5rem;max-height:calc(100vh - 4rem);overflow:auto}
-.nav{width:3rem;height:3rem;border-radius:50%;border:1px dashed var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:1.2rem;cursor:pointer}
+article{font-size:.85rem;background:var(--panel);border:1px dotted var(--line);border-radius:1px;padding:2.25rem 2.5rem;max-height:calc(100vh - 4rem);overflow:auto}
+.nav{width:3rem;height:3rem;border-radius:50%;border:1px dotted var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:1.2rem;cursor:pointer}
 .nav:hover:not(:disabled){border-color:var(--accent);color:var(--accent-ink)}
 .nav:disabled{opacity:.3;cursor:default}
 .close{position:fixed;top:calc(.75rem + env(safe-area-inset-top,0px));right:1rem;background:none;border:0;color:#fff;font-size:1.6rem;cursor:pointer}
@@ -124,7 +124,7 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
   .nav{position:fixed;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:1;width:2.75rem;height:2.75rem;box-shadow:0 2px 10px rgba(0,0,0,.3)}
   .nav:disabled{visibility:hidden}
   #prev{left:calc(1rem + env(safe-area-inset-left,0px))}#next{right:calc(1rem + env(safe-area-inset-right,0px))}
-  .close{z-index:1;width:2.25rem;height:2.25rem;padding:0;border-radius:50%;border:1px dashed var(--line);background:var(--panel);color:var(--ink);font-size:1rem;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+  .close{z-index:1;width:2.25rem;height:2.25rem;padding:0;border-radius:50%;border:1px dotted var(--line);background:var(--panel);color:var(--ink);font-size:1rem;box-shadow:0 2px 10px rgba(0,0,0,.3)}
 }
 @media (prefers-reduced-motion:reduce){.tile{transition:none}}
 </style>

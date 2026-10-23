@@ -15,7 +15,7 @@
   var css =
     'html[data-theme="light"]:root{--bg:#fffbfa;--panel:#fff8f6;--tile:#fff8f6;--ink:#000000;--muted:#6b6b6b;--line:#969696;--scrim:rgba(0,0,0,.5);color-scheme:light}' +
     'html[data-theme="dark"]:root{--bg:#12161e;--panel:#1b212c;--tile:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--scrim:rgba(0,0,0,.65);color-scheme:dark}' +
-    '.theme-toggle{position:fixed;left:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:5;width:2.25rem;height:2.25rem;padding:0;display:grid;place-items:center;border-radius:50%;border:1px dashed var(--line);background:var(--panel);color:var(--ink);opacity:.65;cursor:pointer}' +
+    '.theme-toggle{position:fixed;left:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:5;width:2.25rem;height:2.25rem;padding:0;display:grid;place-items:center;border-radius:50%;border:1px dotted var(--line);background:var(--panel);color:var(--ink);opacity:.65;cursor:pointer}' +
     '.theme-toggle:hover,.theme-toggle:focus-visible{opacity:1}' +
     '.theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}' +
     '.theme-toggle svg{width:1.1rem;height:1.1rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}';
