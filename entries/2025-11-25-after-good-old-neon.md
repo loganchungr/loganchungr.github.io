@@ -6,4 +6,4 @@ you have to surrender to your experiences and trust yourself that they are real,
 
 how then to say together, "not another word." first by remembering the keyhole, by remembering how to open the doors, by remembering we're all dealing with an entire universe of incommunicable Stuff inside of us that aches to be seen, heard, accepted, loved. I love how he affirms forcefully that the part of us that believes in these things is the "realer" part, and that it takes "firepower" to allow it to steer the car, even though the turning on those "high beams" might in some ways simply make the "fog" that much thicker. but anyways. not another word!
 
-#writing #life #favorite
+#books #language #life #favorite

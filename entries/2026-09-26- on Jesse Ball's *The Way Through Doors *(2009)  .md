@@ -21,4 +21,4 @@ and, true, a hundred different stories are unfolding upon us at once, and "chara
   
 but ultimately, by around "page 1000", I found myself feeling that Ball (or his narrator(s)) had not nailed a compelling enough execution for me to be too-terribly interested in seeing this one through to its conclusion — though I did, because it is terrifically readable. I hear that all his books are quite different from one another, but each unpretentiously experimental and thought-provoking. perhaps I will pick one up sometime but I'm not feeling as eager as I was when I initially opened the first door.
 
-#writing
+#books #language

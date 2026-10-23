@@ -30,4 +30,4 @@ but unfortunately, for the most part, Part I feel like a cheap setup for Part II
 
 I wonder also whether the rapid-fire, very contemporary form will age well either; it felt as arbitrary as the book's bifurcated dialogic structure.... these two things did not need to go together, and if they had to, I wish the first half had been anywhere near as organized, beautiful, or at least thoughtful as the conclusion.
 
-#writing #internet
+#books #language #internet
