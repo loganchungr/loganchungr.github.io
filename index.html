@@ -34,9 +34,9 @@ h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 .bar button{font:inherit;background:none;border:1px dotted var(--line);color:var(--ink);width:2.25rem;height:2.25rem;border-radius:50%;cursor:pointer}
 .bar button:hover:not(:disabled){border-color:var(--accent);color:var(--accent-ink)}
 .bar button:disabled{opacity:.3;cursor:default}
-/* The calendar's width follows the window's height, so a six-week month plus the search and tags fit on screen.
-   About 25rem goes to everything else; a six-row grid is 6/7 as tall as it is wide. */
-.dow,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.3rem;max-width:min(60rem,max(24rem,(100vh - 25rem) * 7 / 6))}
+/* The calendar's width follows the window's height, so a five-week month plus the search and tags fit on screen.
+   About 25rem goes to everything else; a five-row grid is 5/7 as tall as it is wide. Six-week months run a little past. */
+.dow,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.3rem;max-width:min(60rem,max(24rem,(100vh - 25rem) * 7 / 5))}
 .dow{color:var(--muted);font-size:.8rem;margin-bottom:.4rem}
 .day{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;gap:.25rem;padding:.4rem;border:1px dotted var(--line);border-radius:1px;color:var(--muted);font-size:.85rem;line-height:1}
 .day.out{border-color:transparent}
