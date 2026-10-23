@@ -37,6 +37,7 @@ h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 .day{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;gap:.25rem;padding:.5rem;border:1px solid var(--line);border-radius:3px;color:var(--muted);font-size:.85rem;line-height:1}
 .day.out{border-color:transparent}
 .day.has{padding:0;border:0}
+.day.past{background:linear-gradient(to top right,transparent calc(50% - .5px),color-mix(in srgb,var(--line) 55%,transparent) 50%,transparent calc(50% + .5px))}
 .day.today{border-color:var(--accent);color:var(--accent-ink)}
 .day.today .tile{border-color:var(--accent)}
 .tile{flex:1;min-height:0;width:100%;padding:.6rem;text-align:left;display:flex;flex-direction:column;justify-content:space-between;
@@ -234,12 +235,13 @@ const tile = (e,k) => {
 function render(){
   $("mt").textContent = MON[view.m]+" "+view.y;
   const monthEnd = new Date(view.y,view.m+1,0), cells = [];
+  const midnight = new Date(today.getFullYear(),today.getMonth(),today.getDate());
   const isToday = d => d.getFullYear()===today.getFullYear() && d.getMonth()===today.getMonth() && d.getDate()===today.getDate();
   for(let d = weekStart(new Date(view.y,view.m,1)); d <= monthEnd || d.getDay()!==1; d = new Date(d.getFullYear(),d.getMonth(),d.getDate()+1)){
     if(d.getMonth()!==view.m){cells.push(`<div class="day out"></div>`);continue}
-    const day = entries.filter(e=>+e.d===+d), now = isToday(d) ? " today" : "";
+    const day = entries.filter(e=>+e.d===+d), now = isToday(d) ? " today" : d < midnight ? " past" : "";
     cells.push(day.length ? `<div class="day has${now}">${day.map(tile).join("")}</div>`
-      : `<div class="day${now}"${now?' aria-current="date"':""}>${d.getDate()}</div>`);
+      : `<div class="day${now}"${now===" today"?' aria-current="date"':""}>${d.getDate()}</div>`);
   }
   $("cal").innerHTML = cells.join("");
   $("pm").disabled = view.y===last.getFullYear() && view.m===last.getMonth();
