@@ -65,12 +65,11 @@ h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 .tools{display:flex;flex-direction:column;gap:.9rem;margin-top:2.5rem}
 .search{display:flex;gap:.5rem;align-items:center;max-width:26rem}
 .search input{flex:1;font:inherit;padding:.5rem .75rem;border:1px dashed var(--line);border-radius:1px;background:var(--panel);color:var(--ink)}
-.tagrow{display:flex;flex-wrap:nowrap;gap:.4rem;overflow-x:auto;padding-bottom:.5rem}
-.tag{flex-shrink:0;white-space:nowrap;font:inherit;font-size:.85rem;line-height:1.5;color:var(--accent-ink);border:1px solid var(--line);background:none;border-radius:999px;padding:.05rem .65rem;cursor:pointer;text-decoration:none;display:inline-block}
-.tag:hover{border-color:var(--accent)}
-.tag small{color:var(--muted);margin-left:.3rem}
-.tag.on{background:var(--accent);color:#1a2130;border-color:var(--accent)}
-.tag.on small{color:inherit}
+.tagrow{display:flex;flex-wrap:nowrap;gap:1rem;overflow-x:auto;padding-bottom:.5rem}
+/* Tags are quiet grey text; hovering or selecting one fills it like the nav links. */
+.tag{flex-shrink:0;white-space:nowrap;font:inherit;font-size:.85rem;line-height:1.5;color:var(--muted);border:0;background:none;padding:0;cursor:pointer;text-decoration:none;display:inline-block}
+.tag small{margin-left:.3rem}
+.tag:hover,.tag.on{background:var(--accent);color:#1a2130}
 .count{color:var(--muted);font-size:.9rem;margin:0 0 .5rem}
 .rm{font:400 1.5rem/1 var(--display);margin:1.5rem 0 .4rem}
 .res{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:.8rem 0;font:inherit;color:var(--ink);cursor:pointer}
