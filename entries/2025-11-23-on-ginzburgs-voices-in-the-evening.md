@@ -12,4 +12,4 @@ lastly: one has to wonder, in her descriptions of ambivalent relationships and m
 
 I love this writing and I love this writer. I can't wait to read more. Reading Natalia Ginzburg does what my absolute favorite fiction and essays do: it makes me a better, more patient, more gracious, more observant participant in history, in friendship, and in my communities. Her writing, in its plainness and rhythm and reality, inspires me to find the music in all of these things, the beautiful and the ugly.
 
-#books #politics #favorite
+#lit #politics #favorite
