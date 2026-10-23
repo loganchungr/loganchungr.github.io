@@ -2,10 +2,10 @@
   
 ![8909586-L.jpg](images/1424D04F-CBB8-4567-9298-DDB98776C019.jpg)  
   
-## a blathering, blithering, glossolalia ?  
+## a blathering, blithering, glossolalia?  
   
 :/// this could have been an essay?  
-  
+
 *Topeka School *was tough, almost a minor heartbreak. Last year I lent my beloved copy of @10:04 * *to a dear friend — I ++never++ lend out my books, but I adore that novel and she wanted to read it — only to have her slap it down in front of me a week or so later, declaring only, "Pretentious! Self-involved! Bullshit."  
   
 Well... to each their own. I'll still defend *10:04 *from its detractors, even while granting that Lerner is indeed self-involved and pretentious. With that prior project, however, his compositional skill and the relatively limited focus allow him to transcend or sidestep these facts of himself. No such luck with *The Topeka School.*  
