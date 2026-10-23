@@ -16,11 +16,9 @@ body{font-size:1rem}
 .bar h2{margin:0;min-width:9.5rem}
 .bar .circle{width:2.25rem;height:2.25rem;background:none}
 /* The calendar's width follows the window's height, so a five-week month plus the search and tags fit on screen.
-   About 25rem goes to everything else (more when the chyron shows); a five-row grid is 5/7 as tall as it is wide.
+   About 25rem goes to everything else (a bit more when the chyron shows); a five-row grid is 5/7 as tall as it is wide.
    Six-week months run a little past. */
-main{--cal-width:min(60rem,max(24rem,(100vh - var(--chrome,25rem)) * 7 / 5))}
-main:has(.chyron:not([hidden])){--chrome:26.5rem}
-.dow,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.3rem;max-width:var(--cal-width)}
+.dow,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.3rem;max-width:min(60rem,max(24rem,(100vh - var(--chrome,25rem)) * 7 / 5))}
 .dow{color:var(--muted);font-size:.8rem;margin-bottom:.4rem}
 .day{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;gap:.25rem;padding:.4rem;border:1px dotted var(--line);border-radius:1px;color:var(--muted);font-size:.85rem;line-height:1}
 .day.out{border-color:transparent}
@@ -52,8 +50,12 @@ main:has(.chyron:not([hidden])){--chrome:26.5rem}
 /* Calendar tiles show just the date (and cover photo); titles appear in the picker and the post. */
 #cal .tile .t,#cal .tile.multi .s span{display:none}
 
-/* ---- Missives: a chyron of the newest short notes, under the nav ---- */
-.chyron{max-width:var(--cal-width);overflow:hidden;white-space:nowrap;margin:-1.5rem 0 1.25rem;padding:.25rem 0;border-block:1px dotted var(--line);font-size:.75rem;cursor:default}
+/* ---- Missives: a chyron of the newest short notes, stuck to the bottom of the screen ---- */
+.chyron{position:fixed;left:0;right:0;bottom:0;z-index:4;overflow:hidden;white-space:nowrap;padding:.3rem 1.5rem calc(.3rem + env(safe-area-inset-bottom,0px));
+  border-top:1px dotted var(--line);background:color-mix(in srgb,var(--bg) 92%,transparent);font-size:.75rem;cursor:default}
+body:has(.chyron:not([hidden])){--chrome:26.75rem}
+body:has(.chyron:not([hidden])) main{padding-bottom:6rem}
+body:has(.chyron:not([hidden])) .theme-toggle{bottom:calc(2.6rem + env(safe-area-inset-bottom,0px))}
 .chyron .track{display:inline-flex;animation:ticker var(--dur,40s) linear infinite}
 .chyron:hover .track,.chyron.paused .track{animation-play-state:paused}
 .chyron .m::after{content:"✶";color:var(--accent);font-size:.65rem;font-style:normal;padding:0 1.25rem}
@@ -129,7 +131,6 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
 <main>
   <h1>Loggin’ Chung</h1>
   <nav class="links"><a href="lookout.html">lookout</a><a href="context.html">context</a></nav>
-  <div class="chyron" id="chyron" aria-label="Missives" hidden><div class="track"></div></div>
   <p class="sub" id="note" hidden></p>
   <div id="calwrap">
   <div class="bar">
@@ -146,6 +147,7 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
     <div class="tagrow" id="tags"></div>
   </div>
 </main>
+<div class="chyron" id="chyron" aria-label="Missives" hidden><div class="track"></div></div>
 
 <dialog id="lb" aria-label="Entry">
   <button class="close" id="x" aria-label="Close">✕</button>
