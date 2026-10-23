@@ -22,4 +22,4 @@ And when placed in contrast to the novel's overarching premise, these moments al
   
 Even if I were to grant that this premise's *interestingness* outweighs its *taxingness*, I'm still left wondering about its *usefulness*. Which, as a practicant of the world's least empirically useful medium (I am a musician), "usefulness" is actually critical metric I disdain — this book really has turned me into my own worst enemy :(. ... But Lerner himself seems to have fretted about this aspect as well — hence the novel's infamous ending portion, which accomplishes nothing other than to leave the entire composition as meaningless as its characters fear speech itself has become.
 
-#books #politics
+#lit #politics
