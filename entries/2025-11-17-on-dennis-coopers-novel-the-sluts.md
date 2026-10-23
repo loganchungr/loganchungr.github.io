@@ -8,4 +8,4 @@ throughout all this, Cooper never lets you become inured to the violence. the si
 
 unsure whether I will pick up any more of his novels, though I still find them interesting and curiously fascinating. this one took me a long time to finish due to its graphic subject matter. though maybe it will help now that I have some sort of idea as to its purpose in his writing. nevertheless I will need a break.
 
-#books #language #culture
+#books #culture

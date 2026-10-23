@@ -6,4 +6,4 @@ at some point I picked up a comparison between this and Hemingway, which is not 
 
 was struck by the seemingly simple-mindedness of our main character as well as the notions of wildness and deferred animalism. a strong entry, maybe one of the strongest yet, in my survey for an emergent proto-"American magical realism."
 
-#books #language
+#books
