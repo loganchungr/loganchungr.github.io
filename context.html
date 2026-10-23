@@ -27,16 +27,10 @@ form button:disabled{opacity:.5;cursor:default}
 .pt .t{position:absolute;left:.55rem;right:.55rem;bottom:.5rem;z-index:1;font-size:.75rem;line-height:1.25;text-shadow:0 1px 3px rgb(0 0 0/.5);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 
 /* ---- Project lightbox ---- */
-.wrap{grid-template-columns:3rem minmax(0,36rem) 3rem}
-#art{padding:2rem 2.25rem}
+#lb{--lb-width:36rem;--lb-pad:2rem 2.25rem}
 #art img{display:block;width:100%;max-width:16rem;aspect-ratio:1;object-fit:cover;border-radius:1px;margin:0 0 1.25rem}
 #art h2{font:700 1.4rem/1.2 var(--font);margin:0 0 .25rem}
 #art .yr{color:var(--muted);margin:0 0 1rem}
-@media (max-width:48rem){
-  .wrap{grid-template-columns:1fr 1fr;grid-template-areas:"a a" "p n";padding:3rem .75rem 1.5rem}
-  #art{grid-area:a;padding:1.5rem 1.25rem;max-height:none}
-  #prev{grid-area:p;justify-self:start}#next{grid-area:n;justify-self:end}
-}
 </style>
 </head>
 <body>

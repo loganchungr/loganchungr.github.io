@@ -14,7 +14,12 @@ Commit and push. The home page reads the folder each time it loads, so nothing e
 
 ## Lists
 
-The lists page (`lists.html`) shows one box per Markdown file in `lists/`. In each file, the first `# heading` is the list's title, and lines starting with `1.` (numbered) or `-` (bullets) are its items. *Italics*, **bold** and [links](https://example.com) work inside items. Lists appear in filename order, so name files like `01-books.md` to reorder them. Lists longer than 8 items start collapsed with a "show all" link.
+The lists page (`lists.html`) shows one square tile per Markdown file in `lists/`, previewing the first few items. Clicking a tile opens the whole list.
+
+- An optional first line `# title` names the list. Without it, the tile shows just the items.
+- Every other line is an item. A leading `- ` or `1.` is fine but not needed.
+- Links work as `[text](https://…)`, or paste a bare `https://` address and it becomes a link.
+- Lists appear in filename order, so name files like `01-albums.md` to reorder them.
 
 ## Styles
 

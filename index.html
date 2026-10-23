@@ -93,15 +93,6 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
 #zoom[open]{display:grid;place-items:center;cursor:zoom-out}
 #zoom img{max-width:96vw;max-height:94vh;object-fit:contain}
 
-@media (max-width:48rem){
-  /* On phones the arrows float in the bottom corners, so you can move between posts without scrolling to the end. */
-  .wrap{grid-template-columns:1fr;padding:3rem .75rem calc(5rem + env(safe-area-inset-bottom,0px))}
-  #art{padding:1.5rem 1.25rem;max-height:none}
-  .nav{position:fixed;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:1;width:2.75rem;height:2.75rem;box-shadow:0 2px 10px rgb(0 0 0/.3)}
-  .nav:disabled{visibility:hidden}
-  #prev{left:calc(1rem + env(safe-area-inset-left,0px))}#next{right:calc(1rem + env(safe-area-inset-right,0px))}
-  .close{z-index:1;width:2.25rem;height:2.25rem;padding:0;border-radius:50%;border:1px dotted var(--line);background:var(--panel);color:var(--ink);font-size:1rem;box-shadow:0 2px 10px rgb(0 0 0/.3)}
-}
 @media (max-width:40rem){
   .dow,.grid{gap:.2rem}
   .day{padding:.3rem;font-size:.75rem}
