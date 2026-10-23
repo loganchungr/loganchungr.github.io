@@ -1,9 +1,9 @@
 # on Ben Lerner's *The Topeka School *(2019)  
-  
-![8909586-L.jpg](images/1424D04F-CBB8-4567-9298-DDB98776C019.jpg)  
-  
+
 ## a blathering, blithering, glossolalia?  
-  
+
+![8909586-L.jpg](images/1424D04F-CBB8-4567-9298-DDB98776C019.jpg)  
+    
 :/// this could have been an essay?  
 
 *Topeka School *was tough, almost a minor heartbreak. Last year I lent my beloved copy of @10:04 * *to a dear friend — I ++never++ lend out my books, but I adore that novel and she wanted to read it — only to have her slap it down in front of me a week or so later, declaring only, "Pretentious! Self-involved! Bullshit."  
