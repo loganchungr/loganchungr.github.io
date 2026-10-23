@@ -5,35 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script src="theme.js"></script>
 <title>Loggin’ Chung</title>
+<link rel="stylesheet" href="site.css">
 <style>
-:root{
-  --bg:#fffbfa; --panel:#fff8f6; --ink:#000000; --muted:#6b6b6b; --line:#969696;
-  --tile:#fff8f6; --bgimg:none; --slash:rgba(150,150,150,.3); --accent:#FF948F;--accent-ink:#FF948F; --scrim:rgba(0,0,0,.5);
-  --serif:"Courier New",Courier,monospace;
-  --display:"Courier New",Courier,monospace;
-  color-scheme:light;
-  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#12161e;--panel:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--tile:#1b212c;--field:transparent;--bgimg:linear-gradient(rgba(18,22,30,.55),rgba(18,22,30,.55)),url(images/pale-blue-dot.jpg);--slash:rgba(48,57,73,.55);--accent:#FF948F;--accent-ink:#FF948F;--scrim:rgba(0,0,0,.65);color-scheme:dark}
-}
-:root[data-theme="dark"]{--bg:#12161e;--panel:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--tile:#1b212c;--field:transparent;--bgimg:linear-gradient(rgba(18,22,30,.55),rgba(18,22,30,.55)),url(images/pale-blue-dot.jpg);--slash:rgba(48,57,73,.55);--accent:#FF948F;--accent-ink:#FF948F;--scrim:rgba(0,0,0,.65);color-scheme:dark}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--serif)}
-/* Dark theme only: a blurred Pale Blue Dot behind everything, under a wash of the background so text stays readable. */
-body::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--bgimg) center/cover no-repeat}
-main{max-width:64rem;padding:3rem 1.5rem 5rem;margin:0}
-h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
+/* Home page: month calendar, search and tags, and the post viewer. Shared styles are in site.css. */
+body{font-size:1rem}
 .sub{color:var(--muted);margin:0 0 2.5rem;max-width:34rem}
-.links{display:flex;gap:1.5rem}
-.links a{color:var(--ink);text-decoration:underline dotted;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:.25em}
-.links a:hover{background:var(--accent);color:#000;text-decoration-color:transparent}
+
+/* ---- Calendar ---- */
 .bar{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.25rem}
-.bar h2{font:400 1.75rem/1 var(--display);margin:0;min-width:9.5rem}
-.bar button{font:inherit;background:none;border:1px dotted var(--line);color:var(--ink);width:2.25rem;height:2.25rem;border-radius:50%;cursor:pointer}
-.bar button:hover:not(:disabled){border-color:var(--accent);color:var(--accent-ink)}
-.bar button:disabled{opacity:.3;cursor:default}
+.bar h2{margin:0;min-width:9.5rem}
+.bar .circle{width:2.25rem;height:2.25rem;background:none}
 /* The calendar's width follows the window's height, so a five-week month plus the search and tags fit on screen.
    About 25rem goes to everything else; a five-row grid is 5/7 as tall as it is wide. Six-week months run a little past. */
 .dow,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.3rem;max-width:min(60rem,max(24rem,(100vh - 25rem) * 7 / 5))}
@@ -42,97 +23,92 @@ h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 .day.out{border-color:transparent}
 .day.has{padding:0;border:0}
 .day.past{background:linear-gradient(to bottom right,transparent calc(50% - .5px),var(--slash) 50%,transparent calc(50% + .5px))}
-.day.today{border-color:var(--accent);color:var(--accent-ink)}
+.day.today{border-color:var(--accent);color:var(--accent)}
 .day.today .tile{border-color:var(--accent)}
+
+/* ---- Post tiles ---- */
 .tile{flex:1;min-height:0;width:100%;padding:.5rem;text-align:left;display:flex;flex-direction:column;justify-content:space-between;
-  background:var(--tile);border:1px solid var(--line);border-radius:1px;color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s,transform .15s}
+  background:var(--panel);border:1px solid var(--line);border-radius:1px;color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s,transform .15s}
 .tile:hover{border-color:var(--accent);transform:translateY(-2px)}
-.tile .d{font:700 clamp(1rem,3vw,1.9rem)/1 var(--display);color:var(--accent-ink)}
-.tile.photo{position:relative;overflow:hidden;color:#fff;border-color:transparent}
-.tile.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.tile.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.4),rgba(0,0,0,0) 35%,rgba(0,0,0,0) 50%,rgba(0,0,0,.7))}
-.tile.photo .d,.tile.photo .t{position:relative;z-index:1;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
-.tile.photo:hover{border-color:var(--accent)}
+.tile .d{font:700 clamp(1rem,3vw,1.9rem)/1 var(--font);color:var(--accent)}
 .tile .t{font-size:.82rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tile .n{position:absolute;top:.5rem;right:.5rem;z-index:1;background:rgb(0 0 0/.55);color:#fff;font-size:.75rem;line-height:1;padding:.25rem .5rem;border-radius:999px}
+.tile.photo{position:relative;overflow:hidden;color:#fff;border-color:transparent}
+.tile.photo:hover{border-color:var(--accent)}
+.tile.photo img,.tile.multi .s img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tile.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgb(0 0 0/.4),transparent 35% 50%,rgb(0 0 0/.7))}
+.tile.photo .d,.tile.photo .t{position:relative;z-index:1;color:#fff;text-shadow:0 1px 3px rgb(0 0 0/.5)}
 /* A day with several posts splits its tile: two side by side, three or more in a grid of four. */
 .tile.multi{position:relative;overflow:hidden;padding:0}
 .tile.multi .sub{position:absolute;inset:0;width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
 .tile.multi .sub.four{grid-template-rows:1fr 1fr}
-.tile.multi .s{position:relative;min-width:0;min-height:0;overflow:hidden;background:var(--tile);display:flex;align-items:flex-end;padding:.4rem;font-size:.7rem;line-height:1.25}
-.tile.multi .s img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tile.multi .s{position:relative;min-width:0;min-height:0;overflow:hidden;background:var(--panel);display:flex;align-items:flex-end;padding:.4rem;font-size:.7rem;line-height:1.25}
 .tile.multi .s span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tile.multi .d{position:absolute;top:.5rem;left:.5rem;z-index:1}
-.tile.multi.dark .d{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
-.tile .n{position:absolute;top:.5rem;right:.5rem;z-index:1;background:rgba(0,0,0,.55);color:#fff;font-size:.75rem;line-height:1;padding:.25rem .5rem;border-radius:999px}
-:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
-[hidden]{display:none!important}
+.tile.multi.dark .d{color:#fff;text-shadow:0 1px 3px rgb(0 0 0/.6)}
+/* Calendar tiles show just the date (and cover photo); titles appear in the picker and the post. */
+#cal .tile .t,#cal .tile.multi .s span{display:none}
+
+/* ---- Search and tags ---- */
 .tools{display:flex;flex-direction:column;gap:.9rem;margin-top:2.5rem}
 .search{display:flex;gap:.5rem;align-items:center;max-width:26rem}
-.search input{flex:1;font:inherit;padding:.5rem .75rem;border:1px dotted var(--line);border-radius:1px;background:var(--field,var(--panel));color:var(--ink)}
+.search input{flex:1}
 .tagrow{display:flex;flex-wrap:nowrap;gap:1rem;overflow-x:auto;padding-bottom:.5rem;max-width:26rem}
 /* Tags are quiet grey text; hovering or selecting one fills it like the nav links. */
 .tag{flex-shrink:0;white-space:nowrap;font:inherit;font-size:.85rem;line-height:1.5;color:var(--muted);border:0;background:none;padding:0;cursor:pointer;text-decoration:none;display:inline-block}
 .tag small{margin-left:.3rem}
 .tag:hover,.tag.on{background:var(--accent);color:#000}
 .count{color:var(--muted);font-size:.9rem;margin:0 0 .5rem}
-.rm{font:400 1.5rem/1 var(--display);margin:1.5rem 0 .4rem}
+.rm{font:400 1.5rem/1 var(--font);margin:1.5rem 0 .4rem}
 .res{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:.8rem 0;font:inherit;color:var(--ink);cursor:pointer}
-.res:hover .rt{color:var(--accent-ink)}
+.res:hover .rt{color:var(--accent)}
 .rd{color:var(--muted);font-size:.85rem;margin-right:.5rem}
 .rt{font-weight:600}
 .rs{color:var(--muted);font-size:.9rem}
 mark{background:color-mix(in srgb,var(--accent) 25%,transparent);color:inherit}
-@media (max-width:40rem){
-  .dow,.grid{gap:.2rem}
-  .day{padding:.3rem;font-size:.75rem}
-  .tile{padding:.3rem}
-  #cal .tile .t,#cal .tile.multi .s span{display:none}
-  .tile.multi .d{top:.3rem;left:.3rem}
-  #cal .tile .n{top:.2rem;right:.2rem;font-size:.55rem;padding:.1rem .25rem}
-}
 
-dialog{border:0;padding:0;background:transparent;width:100%;max-width:none;height:100%;max-height:none;color:var(--ink)}
-dialog::backdrop{background:var(--scrim)}
-.wrap{min-height:100%;display:grid;grid-template-columns:3rem minmax(0,44rem) 3rem;gap:1rem;justify-content:center;align-items:center;padding:2rem 1rem}
-article{font-size:.9rem;background:var(--panel);border:1px dotted var(--line);border-radius:1px;padding:2.25rem 2.5rem;max-height:calc(100vh - 4rem);overflow:auto}
-.nav{width:3rem;height:3rem;border-radius:50%;border:1px dotted var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:1.2rem;cursor:pointer}
-.nav:hover:not(:disabled){border-color:var(--accent);color:var(--accent-ink)}
-.nav:disabled{opacity:.3;cursor:default}
-.close{position:fixed;top:calc(.75rem + env(safe-area-inset-top,0px));right:1rem;background:none;border:0;color:#fff;font-size:1.6rem;cursor:pointer}
+/* ---- Post viewer ---- */
+article{font-size:.9rem}
 .when{color:var(--muted);font-size:.9rem;margin:0 0 .25rem}
 article h1{font-size:2rem;margin:0 0 1.25rem}
-article h2{font:400 1.7rem/1.15 var(--display);margin:1.8rem 0 .5rem}
-article h3{font:600 1.05rem/1.3 var(--serif);margin:1.5rem 0 .4rem}
+article h2{font-size:1.7rem;line-height:1.15;margin:1.8rem 0 .5rem}
+article h3{margin-top:1.5rem}
 article p,article ul,article ol,article blockquote,article pre{margin:0 0 1rem}
-article a{color:var(--accent-ink);text-decoration-style:dotted;text-underline-offset:.2em}
+article a{color:var(--accent);text-decoration:underline dotted;text-underline-offset:.2em}
+article a:hover{background:none;color:var(--accent)}
 article blockquote{border-left:3px solid var(--accent);padding-left:1rem;color:var(--muted);font-style:italic}
+article blockquote p{margin:0 0 .35rem}
+article blockquote p:last-child{margin:0}
 article code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em;background:var(--bg);padding:.1em .3em;border-radius:3px}
 article pre{background:var(--bg);padding:1rem;overflow-x:auto;border-radius:3px}
 article pre code{background:none;padding:0}
 article hr{border:0;border-top:1px solid var(--line);margin:1.5rem 0}
-article blockquote p{margin:0 0 .35rem}
-article blockquote p:last-child{margin:0}
 article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radius:3px;cursor:zoom-in}
 .pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(8rem,1fr));gap:.75rem}
 .pick .tile{aspect-ratio:1}
 .pick img{margin:0;cursor:pointer}
 .back{font:inherit;background:none;border:0;padding:0;color:inherit;text-decoration:underline dotted;text-underline-offset:.2em;cursor:pointer}
 .back:hover{color:var(--ink)}
-#zoom::backdrop{background:rgba(0,0,0,.9)}
+#zoom::backdrop{background:rgb(0 0 0/.9)}
 #zoom[open]{display:grid;place-items:center;cursor:zoom-out}
 #zoom img{max-width:96vw;max-height:94vh;object-fit:contain}
+
 @media (max-width:48rem){
   /* On phones the arrows float in the bottom corners, so you can move between posts without scrolling to the end. */
   .wrap{grid-template-columns:1fr;padding:3rem .75rem calc(5rem + env(safe-area-inset-bottom,0px))}
-  article{padding:1.5rem 1.25rem;max-height:none}
-  .nav{position:fixed;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:1;width:2.75rem;height:2.75rem;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+  #art{padding:1.5rem 1.25rem;max-height:none}
+  .nav{position:fixed;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:1;width:2.75rem;height:2.75rem;box-shadow:0 2px 10px rgb(0 0 0/.3)}
   .nav:disabled{visibility:hidden}
   #prev{left:calc(1rem + env(safe-area-inset-left,0px))}#next{right:calc(1rem + env(safe-area-inset-right,0px))}
-  .close{z-index:1;width:2.25rem;height:2.25rem;padding:0;border-radius:50%;border:1px dotted var(--line);background:var(--panel);color:var(--ink);font-size:1rem;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+  .close{z-index:1;width:2.25rem;height:2.25rem;padding:0;border-radius:50%;border:1px dotted var(--line);background:var(--panel);color:var(--ink);font-size:1rem;box-shadow:0 2px 10px rgb(0 0 0/.3)}
 }
-/* Calendar tiles show just the date (and cover photo); titles appear in the picker and the post. */
-#cal .tile .t,#cal .tile.multi .s span{display:none}
-@media (prefers-reduced-motion:reduce){.tile{transition:none}}
+@media (max-width:40rem){
+  .dow,.grid{gap:.2rem}
+  .day{padding:.3rem;font-size:.75rem}
+  .tile{padding:.3rem}
+  .tile.multi .d{top:.3rem;left:.3rem}
+  #cal .tile .n{top:.2rem;right:.2rem;font-size:.55rem;padding:.1rem .25rem}
+}
 </style>
   
 </head>
@@ -140,13 +116,13 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
 <body>
 <main>
   <h1>Loggin’ Chung</h1>
-  <nav class="sub links"><a href="lookout.html">lookout</a><a href="context.html">context</a></nav>
+  <nav class="links"><a href="lookout.html">lookout</a><a href="context.html">context</a></nav>
   <p class="sub" id="note" hidden></p>
   <div id="calwrap">
   <div class="bar">
-    <button id="pm" aria-label="Previous month">←</button>
+    <button class="circle" id="pm" aria-label="Previous month">←</button>
     <h2 id="mt"></h2>
-    <button id="nm" aria-label="Next month">→</button>
+    <button class="circle" id="nm" aria-label="Next month">→</button>
   </div>
   <div class="dow" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
   <div class="grid" id="cal"></div>
@@ -161,9 +137,9 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
 <dialog id="lb" aria-label="Entry">
   <button class="close" id="x" aria-label="Close">✕</button>
   <div class="wrap">
-    <button class="nav" id="prev" aria-label="Older entry">←</button>
+    <button class="circle nav" id="prev" aria-label="Older entry">←</button>
     <article id="art"></article>
-    <button class="nav" id="next" aria-label="Newer entry">→</button>
+    <button class="circle nav" id="next" aria-label="Newer entry">→</button>
   </div>
 </dialog>
 

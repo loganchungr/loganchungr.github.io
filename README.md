@@ -12,6 +12,17 @@ Add a file to `entries/` named `YYYY-MM-DD-anything.md`, for example `2026-10-23
 
 Commit and push. The home page reads the folder each time it loads, so nothing else needs updating.
 
+## Styles
+
+Every page links `site.css`, which holds what they share: colors for both themes, fonts, links and nav, dotted boxes, round buttons, the lightbox, and the Pale Blue Dot background in dark mode. Each page's own `<style>` block holds only what's unique to it. To change a color or border everywhere, edit `site.css`.
+
+`theme.js` picks light or dark (from the device setting, or the toggle button it adds) and sets `data-theme` on the page; it has no styles of its own. A new page needs both lines in its `<head>`:
+
+```html
+<script src="theme.js"></script>
+<link rel="stylesheet" href="site.css">
+```
+
 ## Hosting on GitHub Pages
 
 1. Push this folder’s contents to a GitHub repo (`index.html`, `entries/`, `.nojekyll`).
