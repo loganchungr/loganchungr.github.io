@@ -113,7 +113,8 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
 .pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(8rem,1fr));gap:.75rem}
 .pick .tile{aspect-ratio:1}
 .pick img{margin:0;cursor:pointer}
-.back{font:inherit;background:none;border:0;padding:0;color:var(--accent-ink);text-decoration:underline;cursor:pointer}
+.back{font:inherit;background:none;border:0;padding:0;color:inherit;text-decoration:underline;text-underline-offset:.2em;cursor:pointer}
+.back:hover{color:var(--ink)}
 #zoom::backdrop{background:rgba(0,0,0,.9)}
 #zoom[open]{display:grid;place-items:center;cursor:zoom-out}
 #zoom img{max-width:96vw;max-height:94vh;object-fit:contain}
@@ -285,7 +286,7 @@ function present(e,html,from,to){
 function show(i){
   if(i<0||i>=entries.length) return;
   const e = entries[i], p = list.indexOf(i), n = entries.filter(x=>x.date===e.date).length;
-  present(e,`<p class="when">${longDate(e.d)}`+(n>1?` · <button class="back" data-day="${e.date}">all ${n} posts from this day</button>`:"")+`</p>`+md(e.body),p,p);
+  present(e,`<p class="when">${longDate(e.d)}`+(n>1?` · <button class="back" data-day="${e.date}">${n} posts</button>`:"")+`</p>`+md(e.body),p,p);
 }
 function showDay(date){
   const ps = list.map((i,p)=>[i,p]).filter(([i])=>entries[i].date===date);
