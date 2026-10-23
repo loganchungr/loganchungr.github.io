@@ -16,9 +16,9 @@ body{font-size:1rem}
 .bar h2{margin:0;min-width:9.5rem}
 .bar .circle{width:2.25rem;height:2.25rem;background:none}
 /* The calendar's width follows the window's height, so a five-week month plus the search and tags fit on screen.
-   About 25rem goes to everything else (a bit more when the chyron shows); a five-row grid is 5/7 as tall as it is wide.
+   About 24rem goes to everything else (a bit more when the chyron shows); a five-row grid is 5/7 as tall as it is wide.
    Six-week months run a little past. */
-.dow,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.3rem;max-width:min(60rem,max(24rem,(100vh - var(--chrome,25rem)) * 7 / 5))}
+.dow,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.3rem;max-width:min(60rem,max(24rem,(100vh - var(--chrome,23.75rem)) * 7 / 5))}
 .dow{color:var(--muted);font-size:.8rem;margin-bottom:.4rem}
 .day{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;gap:.25rem;padding:.4rem;border:1px dotted var(--line);border-radius:1px;color:var(--muted);font-size:.85rem;line-height:1}
 .day.out{border-color:transparent}
@@ -53,7 +53,7 @@ body{font-size:1rem}
 /* ---- Missives: a chyron of the newest short notes, stuck to the bottom of the screen ---- */
 .chyron{position:fixed;left:0;right:0;bottom:0;z-index:4;overflow:hidden;white-space:nowrap;padding:.3rem 1.5rem calc(.3rem + env(safe-area-inset-bottom,0px));
   border-top:1px dotted var(--line);background:color-mix(in srgb,var(--bg) 92%,transparent);font-size:.75rem;cursor:default}
-body:has(.chyron:not([hidden])){--chrome:26.75rem}
+body:has(.chyron:not([hidden])){--chrome:25.5rem}
 body:has(.chyron:not([hidden])) main{padding-bottom:6rem}
 body:has(.chyron:not([hidden])) .theme-toggle{bottom:calc(2.6rem + env(safe-area-inset-bottom,0px))}
 .chyron .track{display:inline-flex;animation:ticker var(--dur,40s) linear infinite}
