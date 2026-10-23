@@ -16,8 +16,9 @@ body{font-size:1rem}
 .bar h2{margin:0;min-width:9.5rem}
 .bar .circle{width:2.25rem;height:2.25rem;background:none}
 /* The calendar's width follows the window's height, so a five-week month plus the search and tags fit on screen.
-   About 25rem goes to everything else; a five-row grid is 5/7 as tall as it is wide. Six-week months run a little past. */
-.dow,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.3rem;max-width:min(60rem,max(24rem,(100vh - 25rem) * 7 / 5))}
+   About 25rem goes to everything else (a bit more when the chyron shows); a five-row grid is 5/7 as tall as it is wide.
+   Six-week months run a little past. */
+.dow,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.3rem;max-width:min(60rem,max(24rem,(100vh - var(--chrome,25rem)) * 7 / 5))}
 .dow{color:var(--muted);font-size:.8rem;margin-bottom:.4rem}
 .day{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;gap:.25rem;padding:.4rem;border:1px dotted var(--line);border-radius:1px;color:var(--muted);font-size:.85rem;line-height:1}
 .day.out{border-color:transparent}
@@ -48,6 +49,19 @@ body{font-size:1rem}
 .tile.multi.dark .d{color:#fff;text-shadow:0 1px 3px rgb(0 0 0/.6)}
 /* Calendar tiles show just the date (and cover photo); titles appear in the picker and the post. */
 #cal .tile .t,#cal .tile.multi .s span{display:none}
+
+/* ---- Missives: a chyron of the newest short notes, stuck to the bottom of the screen ---- */
+.chyron{position:fixed;left:0;right:0;bottom:0;z-index:4;overflow:hidden;white-space:nowrap;padding:.3rem 1.5rem calc(.3rem + env(safe-area-inset-bottom,0px));
+  border-top:1px dotted var(--line);background:color-mix(in srgb,var(--bg) 92%,transparent);font-size:.75rem;cursor:default}
+body:has(.chyron:not([hidden])){--chrome:26.75rem}
+body:has(.chyron:not([hidden])) main{padding-bottom:6rem}
+body:has(.chyron:not([hidden])) .theme-toggle{bottom:calc(2.6rem + env(safe-area-inset-bottom,0px))}
+.chyron .track{display:inline-flex;animation:ticker var(--dur,40s) linear infinite}
+.chyron:hover .track,.chyron.paused .track{animation-play-state:paused}
+.chyron .m::after{content:"✶";color:var(--accent);font-size:.65rem;font-style:normal;padding:0 1.25rem}
+.chyron .ago{color:var(--muted);font-size:.65rem;font-style:normal;margin-left:.5rem;font-variant-numeric:tabular-nums}
+@keyframes ticker{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.chyron{overflow-x:auto}.chyron .track{animation:none}.chyron [aria-hidden]{display:none}}
 
 /* ---- Search and tags ---- */
 .tools{display:flex;flex-direction:column;gap:.9rem;margin-top:2.5rem}
@@ -133,6 +147,7 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
     <div class="tagrow" id="tags"></div>
   </div>
 </main>
+<div class="chyron" id="chyron" aria-label="Missives" hidden><div class="track"></div></div>
 
 <dialog id="lb" aria-label="Entry">
   <button class="close" id="x" aria-label="Close">✕</button>
@@ -346,6 +361,28 @@ async function loadEntries(){
     return {id:f.name, date:f.name.slice(0,10), title:h?h[1].replace(/[*_`]/g,"").trim():(f.name.slice(11,-3).replace(/-/g," ")||f.name.slice(0,10)), body, untitled:!h};
   }));
 }
+/* ---- Missives: the newest few files in missives/, named by date and time (2026-10-24-091512.md), scroll past in the chyron ---- */
+const MISSIVES = "missives", KEEP = 10;
+const stamp = n => {const [,y,mo,d,h=0,mi=0,se=0]=n.match(/^(\d{4})-(\d{2})-(\d{2})(?:-(\d{2})(\d{2})(\d{2})?)?/);return new Date(y,mo-1,d,h,mi,se)};
+const pad = n => String(n).padStart(2,"0");
+// Age in two or three characters: 05m, 23h, 2d.
+const ago = d => {const m=Math.max(1,Math.floor((Date.now()-d)/6e4));return m<60?pad(m)+"m":m<=1440?pad(Math.round(m/60))+"h":Math.floor(m/1440)+"d"};
+async function loadMissives(){
+  const files = await (await fetch("https://api.github.com/repos/"+repoName()+"/contents/"+MISSIVES+(BRANCH?"?ref="+BRANCH:""))).json();
+  if(!Array.isArray(files)) return [];
+  const md = files.filter(f=>/^\d{4}-\d{2}-\d{2}.*\.md$/i.test(f.name)).sort((a,b)=>b.name.localeCompare(a.name)).slice(0,KEEP);
+  return Promise.all(md.map(async f=>({d:stamp(f.name.slice(0,-3)), text:await (await fetch(MISSIVES+"/"+encodeURIComponent(f.name))).text()})));
+}
+function chyron(list){
+  if(!list.length) return;
+  const group = list.map(m=>`<span class="m"><em>${inline(m.text.replace(/^#+\s*/,"").replace(/\s+/g," ").trim())}</em><span class="ago">${ago(m.d)}</span></span>`).join("");
+  const c = $("chyron"), t = c.firstElementChild;
+  t.innerHTML = `<span>${group}</span><span aria-hidden="true">${group}</span>`;  // a second copy makes the loop seamless
+  c.hidden = false;
+  t.style.setProperty("--dur", Math.max(20, t.firstElementChild.offsetWidth/40)+"s");  // about 40px a second
+  c.onclick = () => c.classList.toggle("paused");  // tap to pause on phones
+}
+loadMissives().then(chyron).catch(()=>{});
 loadEntries().catch(()=>{const n=$("note");n.textContent="Showing sample entries. Couldn’t read the entries folder from GitHub.";n.hidden=false;return demo})
   .then(raw=>{ingest(raw);draw();render()});
 </script>
