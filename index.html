@@ -7,17 +7,17 @@
 <title>Loggin’ Chung</title>
 <style>
 :root{
-  --bg:#fffbfa; --panel:#ffffff; --ink:#1a2130; --muted:#667085; --line:#cfd6df;
-  --tile:#ffffff; --accent:#FF948F;--accent-ink:#FF948F; --scrim:rgba(20,28,44,.55);
+  --bg:#fffbfa; --panel:#fff5f3; --ink:#000000; --muted:#6b6b6b; --line:#969696;
+  --tile:#fff5f3; --slash:rgba(150,150,150,.3); --accent:#FF948F;--accent-ink:#FF948F; --scrim:rgba(0,0,0,.5);
   --serif:"Courier New",Courier,monospace;
   --display:"Courier New",Courier,monospace;
   color-scheme:light;
   box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#12161e;--panel:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--tile:#1b212c;--accent:#FF948F;--accent-ink:#FF948F;--scrim:rgba(0,0,0,.65);color-scheme:dark}
+  :root:not([data-theme="light"]){--bg:#12161e;--panel:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--tile:#1b212c;--slash:rgba(48,57,73,.55);--accent:#FF948F;--accent-ink:#FF948F;--scrim:rgba(0,0,0,.65);color-scheme:dark}
 }
-:root[data-theme="dark"]{--bg:#12161e;--panel:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--tile:#1b212c;--accent:#FF948F;--accent-ink:#FF948F;--scrim:rgba(0,0,0,.65);color-scheme:dark}
+:root[data-theme="dark"]{--bg:#12161e;--panel:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--tile:#1b212c;--slash:rgba(48,57,73,.55);--accent:#FF948F;--accent-ink:#FF948F;--scrim:rgba(0,0,0,.65);color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--serif)}
@@ -26,7 +26,7 @@ h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 .sub{color:var(--muted);margin:0 0 2.5rem;max-width:34rem}
 .links{display:flex;gap:1.5rem}
 .links a{color:var(--ink);text-decoration:underline dashed;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:.25em}
-.links a:hover{background:var(--accent);color:#1a2130;text-decoration-color:transparent}
+.links a:hover{background:var(--accent);color:#000;text-decoration-color:transparent}
 .bar{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.25rem}
 .bar h2{font:400 1.75rem/1 var(--display);margin:0;min-width:9.5rem}
 .bar button{font:inherit;background:none;border:1px dashed var(--line);color:var(--ink);width:2.25rem;height:2.25rem;border-radius:50%;cursor:pointer}
@@ -37,7 +37,7 @@ h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 .day{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;gap:.25rem;padding:.4rem;border:1px dashed var(--line);border-radius:1px;color:var(--muted);font-size:.85rem;line-height:1}
 .day.out{border-color:transparent}
 .day.has{padding:0;border:0}
-.day.past{background:linear-gradient(to bottom right,transparent calc(50% - .5px),color-mix(in srgb,var(--line) 55%,transparent) 50%,transparent calc(50% + .5px))}
+.day.past{background:linear-gradient(to bottom right,transparent calc(50% - .5px),var(--slash) 50%,transparent calc(50% + .5px))}
 .day.today{border-color:var(--accent);color:var(--accent-ink)}
 .day.today .tile{border-color:var(--accent)}
 .tile{flex:1;min-height:0;width:100%;padding:.5rem;text-align:left;display:flex;flex-direction:column;justify-content:space-between;
@@ -69,7 +69,7 @@ h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 /* Tags are quiet grey text; hovering or selecting one fills it like the nav links. */
 .tag{flex-shrink:0;white-space:nowrap;font:inherit;font-size:.85rem;line-height:1.5;color:var(--muted);border:0;background:none;padding:0;cursor:pointer;text-decoration:none;display:inline-block}
 .tag small{margin-left:.3rem}
-.tag:hover,.tag.on{background:var(--accent);color:#1a2130}
+.tag:hover,.tag.on{background:var(--accent);color:#000}
 .count{color:var(--muted);font-size:.9rem;margin:0 0 .5rem}
 .rm{font:400 1.5rem/1 var(--display);margin:1.5rem 0 .4rem}
 .res{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:.8rem 0;font:inherit;color:var(--ink);cursor:pointer}
