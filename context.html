@@ -9,7 +9,7 @@
 :root{--bgimg:none;--bg:#fffbfa;--panel:#fff8f6;--ink:#000000;--muted:#6b6b6b;--line:#969696;--accent:#FF948F;--scrim:rgba(0,0,0,.5);--mono:"Courier New",Courier,monospace;color-scheme:light}
 @media (prefers-color-scheme:dark){:root{--field:transparent;--bgimg:linear-gradient(rgba(18,22,30,.55),rgba(18,22,30,.55)),url(images/pale-blue-dot.jpg);--bg:#12161e;--panel:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--scrim:rgba(0,0,0,.65);color-scheme:dark}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 .85rem/1.6 var(--mono)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 .9rem/1.6 var(--mono)}
 /* Dark theme only: a blurred Pale Blue Dot behind everything, under a wash of the background so text stays readable. */
 body::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--bgimg) center/cover no-repeat}
 main{max-width:64rem;padding:3rem 1.5rem 5rem}
