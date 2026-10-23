@@ -1,7 +1,9 @@
 # after *Once Upon a Time in Harlem *(2019)  
 ![once-upon-a-time-in-harlem.jpg](images/EC3B728A-0296-4045-B8EB-965C28CDF9A4.jpg)  
-## ### 2026, dirs. William & David Greaves  
-  
+### 2026, dirs. William & David Greaves  
+
+_[Letterboxd Link]_(https://letterboxd.com/mufasa_lives/film/once-upon-a-time-in-harlem/)
+
 ---   
   
 My accidental personal Doc-tober continues with this beautiful piece of living history featuring a multi-generational menagerie of artists and activists grappling with the collective legacy of what they once experienced as simply community. The idea of a cocktail party as an engine for oral history is cool as hell, and at Duke Ellington's place, no less!   
