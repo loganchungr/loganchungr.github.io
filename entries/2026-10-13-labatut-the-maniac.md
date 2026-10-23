@@ -88,3 +88,5 @@ his inventors and researchers are mad, possessed, obsessive, irrational, more li
 placed in front of the contemporary counterparts, however, one can feel Labatut's discomfort. watching him onstage at Sana, Labatut's usual self-assuredness is replaced with shakiness. he fidgets constantly with his pant leg. "What do you mean when you say human beings are *continuous*?" Sun asks him. later, Labatut tells his audience that they should be thinking more about the gods.
 
 one wonders what the tech workers in the audience might have made of this. these are the Millennials and Gen Z laptop drones who have inherited the reins of progress from his characters. here, Labatut's impassioned tone sounds more like exasperation. it is the fundamental friction of his project with another brittle fact of life on earth: sometimes, the most powerful people are not spiritual at all, nor are they passionate, principled, or even inspired — sometimes, they are simply *stupid*.
+
+#writing

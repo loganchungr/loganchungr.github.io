@@ -7,3 +7,5 @@ Any truly twenty-first century strike will have to reckon with technology. Indiv
 general post
 
 Since the New Year I’ve found it difficult to read anything. This happens to me in waves and I’ve learned not to fret about it. Often during these seasons I will watch movies instead.
+
+#politics #internet #life

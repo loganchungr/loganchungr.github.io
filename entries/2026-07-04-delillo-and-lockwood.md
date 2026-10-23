@@ -29,3 +29,5 @@ the most successful moments in Part I find Lockwood zooming out and speaking alm
 but unfortunately, for the most part, Part I feel like a cheap setup for Part II, which was even more beautiful than I remember, and if the entire point of this book is an exercise in contrasts, then I suppose she's succeeded, because the narrator's shift is so stark, our protagonist now so whole and fully realized, that it makes me wonder whether all the slop and muddiness of Part I wasn't purposeful after all.
 
 I wonder also whether the rapid-fire, very contemporary form will age well either; it felt as arbitrary as the book's bifurcated dialogic structure.... these two things did not need to go together, and if they had to, I wish the first half had been anywhere near as organized, beautiful, or at least thoughtful as the conclusion.
+
+#writing #internet

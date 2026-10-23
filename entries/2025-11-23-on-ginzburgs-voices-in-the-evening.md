@@ -11,3 +11,5 @@ I'm not sure how she wins me over, but somewhere in the music of this writing Gi
 lastly: one has to wonder, in her descriptions of ambivalent relationships and marriages, what she is leaning back on, so many years after the tragic loss of her own husband, about whom she seemed to have had a long-running push-pull (see: "the right person" passage from "Human Relationships" in "The Little Virtues") of surety. how does one step forward from that and address one's feelings after such a fiery, tragic ending? also: RIP Vincenzino, a brilliant and tragic passage.
 
 I love this writing and I love this writer. I can't wait to read more. Reading Natalia Ginzburg does what my absolute favorite fiction and essays do: it makes me a better, more patient, more gracious, more observant participant in history, in friendship, and in my communities. Her writing, in its plainness and rhythm and reality, inspires me to find the music in all of these things, the beautiful and the ugly.
+
+#writing #politics #favorite
