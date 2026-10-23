@@ -19,7 +19,7 @@ body{font-size:1rem}
    About 25rem goes to everything else (more when the chyron shows); a five-row grid is 5/7 as tall as it is wide.
    Six-week months run a little past. */
 main{--cal-width:min(60rem,max(24rem,(100vh - var(--chrome,25rem)) * 7 / 5))}
-main:has(.chyron:not([hidden])){--chrome:27.75rem}
+main:has(.chyron:not([hidden])){--chrome:26.5rem}
 .dow,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.3rem;max-width:var(--cal-width)}
 .dow{color:var(--muted);font-size:.8rem;margin-bottom:.4rem}
 .day{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;gap:.25rem;padding:.4rem;border:1px dotted var(--line);border-radius:1px;color:var(--muted);font-size:.85rem;line-height:1}
@@ -53,11 +53,11 @@ main:has(.chyron:not([hidden])){--chrome:27.75rem}
 #cal .tile .t,#cal .tile.multi .s span{display:none}
 
 /* ---- Missives: a chyron of the newest short notes, under the nav ---- */
-.chyron{max-width:var(--cal-width);overflow:hidden;white-space:nowrap;margin:-1.25rem 0 1.5rem;padding:.45rem 0;border-block:1px dotted var(--line);cursor:default}
+.chyron{max-width:var(--cal-width);overflow:hidden;white-space:nowrap;margin:-1.5rem 0 1.25rem;padding:.25rem 0;border-block:1px dotted var(--line);font-size:.75rem;cursor:default}
 .chyron .track{display:inline-flex;animation:ticker var(--dur,40s) linear infinite}
 .chyron:hover .track,.chyron.paused .track{animation-play-state:paused}
-.chyron .m::after{content:"✶";color:var(--accent);font-style:normal;padding:0 1.5rem}
-.chyron .ago{color:var(--muted);font-size:.75rem;font-style:normal;margin-left:.6rem}
+.chyron .m::after{content:"✶";color:var(--accent);font-size:.65rem;font-style:normal;padding:0 1.25rem}
+.chyron .ago{color:var(--muted);font-size:.65rem;font-style:normal;margin-left:.5rem;font-variant-numeric:tabular-nums}
 @keyframes ticker{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.chyron{overflow-x:auto}.chyron .track{animation:none}.chyron [aria-hidden]{display:none}}
 
@@ -359,14 +359,17 @@ async function loadEntries(){
     return {id:f.name, date:f.name.slice(0,10), title:h?h[1].replace(/[*_`]/g,"").trim():(f.name.slice(11,-3).replace(/-/g," ")||f.name.slice(0,10)), body, untitled:!h};
   }));
 }
-/* ---- Missives: the newest few files in missives/, named by date (and time), scroll past in the chyron ---- */
+/* ---- Missives: the newest few files in missives/, named by date and time (2026-10-24-091512.md), scroll past in the chyron ---- */
 const MISSIVES = "missives", KEEP = 10;
-const ago = d => {const n=Math.floor((today-d)/864e5);return n<1?"today":n<2?"yesterday":n<7?n+" days ago":mon3(d)+" "+d.getDate()};
+const stamp = n => {const [,y,mo,d,h=0,mi=0,se=0]=n.match(/^(\d{4})-(\d{2})-(\d{2})(?:-(\d{2})(\d{2})(\d{2})?)?/);return new Date(y,mo-1,d,h,mi,se)};
+const pad = n => String(n).padStart(2,"0");
+// Age in two or three characters: 05m, 23h, 2d.
+const ago = d => {const m=Math.max(1,Math.floor((Date.now()-d)/6e4));return m<60?pad(m)+"m":m<=1440?pad(Math.round(m/60))+"h":Math.floor(m/1440)+"d"};
 async function loadMissives(){
   const files = await (await fetch("https://api.github.com/repos/"+repoName()+"/contents/"+MISSIVES+(BRANCH?"?ref="+BRANCH:""))).json();
   if(!Array.isArray(files)) return [];
   const md = files.filter(f=>/^\d{4}-\d{2}-\d{2}.*\.md$/i.test(f.name)).sort((a,b)=>b.name.localeCompare(a.name)).slice(0,KEEP);
-  return Promise.all(md.map(async f=>({d:parse(f.name.slice(0,10)), text:await (await fetch(MISSIVES+"/"+encodeURIComponent(f.name))).text()})));
+  return Promise.all(md.map(async f=>({d:stamp(f.name.slice(0,-3)), text:await (await fetch(MISSIVES+"/"+encodeURIComponent(f.name))).text()})));
 }
 function chyron(list){
   if(!list.length) return;
