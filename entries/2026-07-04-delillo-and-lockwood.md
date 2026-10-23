@@ -1,4 +1,6 @@
-# on DeLillo’s *White Noise*
+# on DeLillo & revisiting Lockwood
+
+## on *White Noise*
 
 *White Noise* was a slightly different book than I was expecting but I very much enjoyed reading it. Reports of an Airborne Toxic Event-driven plot are greatly exaggerated. In the book, DeLillo paints a portrait of a (vaguely) contemporary society roughly thus:
 
@@ -8,13 +10,13 @@ DeLillo does this through the most glancingly incisive prose, forays into wooden
 
 As someone who struggles with the zaniness and *arcanity* of Pynchon — perhaps because I am stupid, or too overstimulated by modern society, or had the disprivilege of being born too steeped in that language-sodden world DeLillo inferred in this book — I am glad to have embarked upon my first DeLillan dose of (post)modern American skepticism, even if I have a creeping unease about his philosophy that will need to be further excavated.
 
-# bridge-beat…
+## bridge-beat…
 
 Perhaps one of the most interesting elements of *White Noise* (this can probably apply to *IJ* as well) is how well it captures the humdrum feeling of overstimulation that defines contemporary existence, despite rarely touching directly on the sources of this overstimulation and despite predating the Internet by a decade. DeLillo will occasionally mention the radio and television, but even the nature of the longer conversations between characters begins to feel familiar — it’s almost like they are supplying noise for one another; they are waiting for podcasts to be invented and so they must make their own philosophical babble in the meantime.
 
 Lockwood, meanwhile, fully suffused in a drastically more saturated informational environment, struggles to paint as convincing of a picture. Is she simply too close? Is it possible through fiction or prose to capture the feeling of swimming in this stuff, this “white noise”? Imagine taking your fingers to a screen full of static — the visual equivalent of white noise — and combing through it as you might part a doorway covered by streamers and tinsel. But there’s nothing inside, just more noise, more sparkle, more stuff to comb through. Better, perhaps, or at least easier, to back away and focus on what’s happening outside the frame.
 
-# revisiting Patricia Lockwood’s *No One is Talking About This*
+## revisiting Patricia Lockwood’s *No One is Talking About This*
 
 …jotting down this review during a week in which everyone in "The Portal" — as our narrator might say — is reflecting on "Woke 1," and how it was "crazy." I first read this book shortly after its release, when Woke 1 was in its denouement, and when much of the Portal's discourse around the book centered on how Patricia Lockwood had purportedly managed to capture in prose The Experience of Being Online These Days.
 
