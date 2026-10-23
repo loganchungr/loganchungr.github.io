@@ -1,5 +1,7 @@
 # on Labatut’s MANIAC
 
+![cover](images/14036185-L.jpg?)
+
 ### maybe the only man I'd trust to write an ostensibly literary novel about the iPhone. 
 
 before i get to rambling, some more direct thoughts on *The MANIAC:*
