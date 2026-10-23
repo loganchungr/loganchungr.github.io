@@ -114,9 +114,9 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
   <p class="sub" id="note" hidden></p>
   <div id="calwrap">
   <div class="bar">
-    <button id="pm" aria-label="Previous month">←</button>
+    <button id="pm" aria-label="Next month">←</button>
     <h2 id="mt"></h2>
-    <button id="nm" aria-label="Next month">→</button>
+    <button id="nm" aria-label="Previous month">→</button>
   </div>
   <div id="cal"></div>
   </div>
@@ -240,11 +240,11 @@ function render(){
     ws = new Date(ws.getFullYear(),ws.getMonth(),ws.getDate()+7);
   }
   $("cal").innerHTML = rows.reverse().join("");
-  $("pm").disabled = view.y===first.getFullYear() && view.m===first.getMonth();
-  $("nm").disabled = view.y===last.getFullYear() && view.m===last.getMonth();
+  $("pm").disabled = view.y===last.getFullYear() && view.m===last.getMonth();
+  $("nm").disabled = view.y===first.getFullYear() && view.m===first.getMonth();
 }
 function shift(n){const d=new Date(view.y,view.m+n,1);view={y:d.getFullYear(),m:d.getMonth()};render()}
-$("pm").onclick=()=>shift(-1); $("nm").onclick=()=>shift(1);
+$("pm").onclick=()=>shift(1); $("nm").onclick=()=>shift(-1);
 
 /* ---- Lightbox ---- */
 const lb = $("lb");
