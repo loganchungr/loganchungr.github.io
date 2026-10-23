@@ -61,6 +61,12 @@ body:has(.chyron:not([hidden])) .theme-toggle{bottom:calc(2.6rem + env(safe-area
 .chyron .m::after{content:"✶";color:var(--accent);font-size:.65rem;font-style:normal;padding:0 1.25rem}
 .chyron .ago{color:var(--muted);font-size:.65rem;font-style:normal;margin-left:.5rem;font-variant-numeric:tabular-nums}
 @keyframes ticker{to{transform:translateX(-50%)}}
+@media (max-width:40rem){
+  /* On phones: smaller text, and only half the home-bar allowance so the band stays slim */
+  .chyron{font-size:.65rem;padding:.2rem 1rem calc(.2rem + env(safe-area-inset-bottom,0px) / 2)}
+  .chyron .m::after{padding:0 .9rem}
+  body:has(.chyron:not([hidden])) .theme-toggle{bottom:calc(2.1rem + env(safe-area-inset-bottom,0px) / 2)}
+}
 @media (prefers-reduced-motion:reduce){.chyron{overflow-x:auto}.chyron .track{animation:none}.chyron [aria-hidden]{display:none}}
 
 /* ---- Search and tags ---- */
