@@ -34,14 +34,14 @@ h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 .bar button:disabled{opacity:.3;cursor:default}
 .dow,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.5rem;max-width:60rem}
 .dow{color:var(--muted);font-size:.8rem;margin-bottom:.4rem}
-.day{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;gap:.25rem;padding:.5rem;border:1px solid var(--line);border-radius:3px;color:var(--muted);font-size:.85rem;line-height:1}
+.day{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;gap:.25rem;padding:.5rem;border:1px dashed var(--line);border-radius:1px;color:var(--muted);font-size:.85rem;line-height:1}
 .day.out{border-color:transparent}
 .day.has{padding:0;border:0}
 .day.past{background:linear-gradient(to bottom right,transparent calc(50% - .5px),color-mix(in srgb,var(--line) 55%,transparent) 50%,transparent calc(50% + .5px))}
 .day.today{border-color:var(--accent);color:var(--accent-ink)}
 .day.today .tile{border-color:var(--accent)}
 .tile{flex:1;min-height:0;width:100%;padding:.6rem;text-align:left;display:flex;flex-direction:column;justify-content:space-between;
-  background:var(--tile);border:1px solid var(--line);border-radius:3px;color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s,transform .15s}
+  background:var(--tile);border:1px solid var(--line);border-radius:1px;color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s,transform .15s}
 .tile:hover{border-color:var(--accent);transform:translateY(-2px)}
 .tile .d{font:700 clamp(1rem,3vw,1.9rem)/1 var(--display);color:var(--accent-ink)}
 .tile.photo{position:relative;overflow:hidden;color:#fff;border-color:transparent}
