@@ -1,6 +1,6 @@
 # on Jesse Ball's *The Way Through Doors *(2009)  
   
-![7093948-L.webp](images/C5D3B5E4-E66F-4FFB-AC05-C346D8B8730D.jpg)  
+![cover](images/7093948-L.jpeg)  
   
 > *Who can say therefore where a certain person is, for what is it that anchors a person? Is it their place in the story to which you are a part? Many stories hereabouts run side by side, and you cannot be at pains to unpin them, for they are sharp, and you will only sting the tips of your fingers.*  
   
