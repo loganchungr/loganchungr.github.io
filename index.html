@@ -35,7 +35,8 @@ h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 .week{display:grid;grid-template-columns:1fr;gap:1rem;padding:1rem 0;border-top:1px solid var(--line)}
 .week:last-child{border-bottom:1px solid var(--line)}
 .wl{color:var(--muted);font-size:.85rem;padding-top:.2rem}
-.tiles{display:flex;flex-wrap:nowrap;overflow-x:auto;flex-shrink:0;gap:.75rem;min-height:2rem}
+/* Padding gives hover lifts and focus rings room inside the scrolling row; the margin cancels it out. */
+.tiles{display:flex;flex-wrap:nowrap;overflow-x:auto;flex-shrink:0;gap:.75rem;min-height:2rem;padding:.35rem;margin:-.35rem}
 .none{color:var(--line);align-self:center}
 .tile{width:8.25rem;height:8.25rem;padding:.7rem;text-align:left;display:flex;flex-direction:column;justify-content:space-between;
   background:var(--tile);border:1px solid var(--line);border-radius:3px;color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s,transform .15s}
