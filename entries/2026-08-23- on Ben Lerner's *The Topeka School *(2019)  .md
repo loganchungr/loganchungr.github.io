@@ -1,8 +1,10 @@
 # on Ben Lerner's *The Topeka School *(2019)  
 
+![8909586-L.jpg](images/1424D04F-CBB8-4567-9298-DDB98776C019.jpg)  
+
 ## a blathering, blithering, glossolalia?  
 
-![8909586-L.jpg](images/1424D04F-CBB8-4567-9298-DDB98776C019.jpg)  
+---
     
 :/// this could have been an essay?  
 
