@@ -26,4 +26,4 @@ Drab as it is, the song’s inclusion, and the preceding dialogue, is essential 
 
 So many of our primary characters are Canadian, but what does that matter? There’s a grand North American tradition taking place here that crosses the boundaries of purely American history. Joni Mitchell sings of [Coyote](https://en.wikipedia.org/wiki/Coyote_(mythology))... A wonder that some of us revisit this song, this night, on this holiday. We are haunted by the same things, the same lost places. All of our changes were there.
 
-#music #favorite
+#music #favorite #film #america
