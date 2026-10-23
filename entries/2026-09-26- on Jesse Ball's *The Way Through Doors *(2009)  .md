@@ -6,6 +6,8 @@
   
   
 ---  
+
+### somewhere between Calvino and... Lemony Snicket?
   
 some friends of mine recommended Jesse Ball while we were somewhat drunkenly discussing contemporary fiction writers whose work is defined by *heart* rather than misanthropy — i.e., writers whose work radiates love for human beings. I trust my friends' tastes immensely and went within a day or two to the Strand, the only store with this novel, which was Ball's first, in stock.  
   
