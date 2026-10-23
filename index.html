@@ -8,21 +8,21 @@
 <style>
 :root{
   --bg:#fffbfa; --panel:#fff8f6; --ink:#000000; --muted:#6b6b6b; --line:#969696;
-  --tile:#fff8f6; --wash:rgba(255,251,250,.8); --slash:rgba(150,150,150,.3); --accent:#FF948F;--accent-ink:#FF948F; --scrim:rgba(0,0,0,.5);
+  --tile:#fff8f6; --bgimg:none; --slash:rgba(150,150,150,.3); --accent:#FF948F;--accent-ink:#FF948F; --scrim:rgba(0,0,0,.5);
   --serif:"Courier New",Courier,monospace;
   --display:"Courier New",Courier,monospace;
   color-scheme:light;
   box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#12161e;--panel:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--tile:#1b212c;--wash:rgba(18,22,30,.55);--slash:rgba(48,57,73,.55);--accent:#FF948F;--accent-ink:#FF948F;--scrim:rgba(0,0,0,.65);color-scheme:dark}
+  :root:not([data-theme="light"]){--bg:#12161e;--panel:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--tile:#1b212c;--bgimg:linear-gradient(rgba(18,22,30,.55),rgba(18,22,30,.55)),url(images/pale-blue-dot.jpg);--slash:rgba(48,57,73,.55);--accent:#FF948F;--accent-ink:#FF948F;--scrim:rgba(0,0,0,.65);color-scheme:dark}
 }
-:root[data-theme="dark"]{--bg:#12161e;--panel:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--tile:#1b212c;--wash:rgba(18,22,30,.55);--slash:rgba(48,57,73,.55);--accent:#FF948F;--accent-ink:#FF948F;--scrim:rgba(0,0,0,.65);color-scheme:dark}
+:root[data-theme="dark"]{--bg:#12161e;--panel:#1b212c;--ink:#e6eaf1;--muted:#8b95a7;--line:#303949;--tile:#1b212c;--bgimg:linear-gradient(rgba(18,22,30,.55),rgba(18,22,30,.55)),url(images/pale-blue-dot.jpg);--slash:rgba(48,57,73,.55);--accent:#FF948F;--accent-ink:#FF948F;--scrim:rgba(0,0,0,.65);color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--serif)}
-/* Blurred Pale Blue Dot behind everything, under a wash of the theme's background so text stays readable. */
-body::before{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(var(--wash),var(--wash)),url(images/pale-blue-dot.jpg) center/cover no-repeat}
+/* Dark theme only: a blurred Pale Blue Dot behind everything, under a wash of the background so text stays readable. */
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--bgimg) center/cover no-repeat}
 main{max-width:64rem;padding:3rem 1.5rem 5rem;margin:0}
 h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--display);margin:0 0 .5rem}
 .sub{color:var(--muted);margin:0 0 2.5rem;max-width:34rem}
