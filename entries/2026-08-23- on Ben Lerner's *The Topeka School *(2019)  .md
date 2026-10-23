@@ -2,7 +2,7 @@
 
 ![8909586-L.jpg](images/1424D04F-CBB8-4567-9298-DDB98776C019.jpg)  
 
-## a blathering, blithering, glossolalia?  
+### a blathering, blithering, glossolalia?  
 
 ---
     
