@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="theme.js"></script>
+<title>Lists · Loggin’ Chung</title>
+<link rel="stylesheet" href="site.css">
+<style>
+/* Lists page: one dotted box per list. Shared styles are in site.css. */
+.boxes{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,17rem),1fr));gap:.75rem;align-items:start;max-width:60rem}
+.box{border:1px dotted var(--line);border-radius:1px;background:var(--field);padding:1rem 1.1rem}
+.box header{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin:0 0 .6rem}
+.box h2{font:600 1.05rem/1.3 var(--font);margin:0}
+.box .n{color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums}
+.box ol,.box ul{margin:0;padding-left:1.8rem}
+.box li{padding:.1rem 0}
+.box li::marker{color:var(--muted);font-variant-numeric:tabular-nums}
+.more{font:inherit;font-size:.8rem;background:none;border:0;padding:0;margin-top:.5rem;color:var(--muted);text-decoration:underline dotted;text-underline-offset:.2em;cursor:pointer}
+.more:hover{color:var(--ink)}
+.note{color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <h1><a href="https://loganchungr.github.io/">Loggin’ Chung</a></h1>
+  <nav class="links"><a href="https://loganchungr.github.io/">home</a><a href="lookout.html">lookout</a><a href="lists.html" aria-current="page">lists</a><a href="context.html">context</a></nav>
+  <div class="boxes" id="boxes"><p class="note">Loading lists…</p></div>
+</main>
+<script>
+/* Each list is a Markdown file in lists/: the first "# heading" is its title, and its "1." or "-" lines are its items.
+   Lists appear in filename order, so prefix names with numbers (01-books.md) to reorder them. */
+const REPO = "loganchungr/loganchungr.github.io", FOLDER = "lists", BRANCH = "update-2";
+const SHOW = 8;  // longer lists start collapsed to this many items
+
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const inline = s => esc(s)
+  .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
+  .replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")
+  .replace(/\*([^*]+)\*/g,"<em>$1</em>");
+
+function parse(name, src){
+  const lines = src.replace(/\r/g,"").split("\n"), h = lines.find(l => /^#\s/.test(l));
+  const items = lines.filter(l => /^\s*(\d+\.|[-*])\s+/.test(l));
+  return {
+    title: h ? h.replace(/^#\s+/,"").trim() : name.replace(/\.md$/i,"").replace(/^\d+-/,"").replace(/-/g," "),
+    numbered: items.length > 0 && /^\s*\d+\./.test(items[0]),
+    items: items.map(l => l.replace(/^\s*(\d+\.|[-*])\s+/,"").trim())
+  };
+}
+function box(list){
+  const tag = list.numbered ? "ol" : "ul", extra = list.items.length - SHOW;
+  return `<section class="box"><header><h2>${inline(list.title)}</h2><span class="n">${list.items.length}</span></header>
+    <${tag}>${list.items.map((t,i) => `<li${i >= SHOW ? " hidden" : ""}>${inline(t)}</li>`).join("")}</${tag}>
+    ${extra > 0 ? `<button class="more" aria-expanded="false">show all ${list.items.length}</button>` : ""}</section>`;
+}
+
+const out = document.getElementById("boxes");
+out.addEventListener("click", ev => {
+  const b = ev.target.closest(".more"); if (!b) return;
+  const open = b.getAttribute("aria-expanded") !== "true";
+  b.closest(".box").querySelectorAll("li").forEach((li,i) => li.hidden = !open && i >= SHOW);
+  b.setAttribute("aria-expanded", open);
+  b.textContent = open ? "show fewer" : "show all " + b.closest(".box").querySelectorAll("li").length;
+});
+
+(async () => {
+  try {
+    const files = await (await fetch(`https://api.github.com/repos/${REPO}/contents/${FOLDER}?ref=${BRANCH}`)).json();
+    if (!Array.isArray(files)) throw new Error("No folder");
+    const md = files.filter(f => /\.md$/i.test(f.name)).sort((a,b) => a.name.localeCompare(b.name));
+    const lists = await Promise.all(md.map(async f => parse(f.name, await (await fetch(FOLDER + "/" + encodeURIComponent(f.name))).text())));
+    out.innerHTML = lists.length ? lists.map(box).join("") : `<p class="note">No lists yet.</p>`;
+  } catch (e) {
+    out.innerHTML = `<p class="note">Couldn’t read the lists folder from GitHub. Try again in a minute.</p>`;
+  }
+})();
+</script>
+</body>
+</html>

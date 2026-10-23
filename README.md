@@ -12,6 +12,10 @@ Add a file to `entries/` named `YYYY-MM-DD-anything.md`, for example `2026-10-23
 
 Commit and push. The home page reads the folder each time it loads, so nothing else needs updating.
 
+## Lists
+
+The lists page (`lists.html`) shows one box per Markdown file in `lists/`. In each file, the first `# heading` is the list's title, and lines starting with `1.` (numbered) or `-` (bullets) are its items. *Italics*, **bold** and [links](https://example.com) work inside items. Lists appear in filename order, so name files like `01-books.md` to reorder them. Lists longer than 8 items start collapsed with a "show all" link.
+
 ## Styles
 
 Every page links `site.css`, which holds what they share: colors for both themes, fonts, links and nav, dotted boxes, round buttons, the lightbox, and the Pale Blue Dot background in dark mode. Each page's own `<style>` block holds only what's unique to it. To change a color or border everywhere, edit `site.css`.
