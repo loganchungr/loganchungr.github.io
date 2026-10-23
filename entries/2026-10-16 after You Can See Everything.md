@@ -16,3 +16,5 @@ Even as it turns itself inside out and kaleidoscopes way beyond the boundaries o
 No human being who has ever lived is more qualified than Nathan Fielder to capture Elizabeth Holmes in her "element," whatever the fuck that is. I have always loved how he frames himself in rooms, decked out with various monitoring devices, openly avatar-ing his place as a stand-in for his audience, all of us desperate to find the impossible borders between fact and fiction, communication and performance.
 
 Disturbingly moving, at the credits I suddenly felt like crying. Something about the impenetrable irrationality of the human psyche and the impossibility of ever really reaching another person, yes, but then also something about how don't we also sometimes come into contact with something beyond that, even the most unreachable among us? Is that truth?? and what of it can be communicated? Who's on first???
+
+#film
