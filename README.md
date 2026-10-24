@@ -1,6 +1,6 @@
 # Loggin’ Chung
 
-A personal log. One `index.html`, no build step. Posts are Markdown files in `entries/`.
+A personal log. Posts are Markdown files in `entries/`; GitHub turns them into pages each time something is pushed.
 
 ## Writing a post
 
@@ -9,8 +9,12 @@ Add a file to `entries/` named `YYYY-MM-DD-anything.md`, for example `2026-10-23
 - The date comes from the filename and decides which day of the calendar the post lands on. To backdate a post, start its title with the date instead: `# 2026-10-22 after a long day` lands on October 22, and the date is trimmed from the title. Impossible dates (like `2026-20-10`) are ignored.
 - The title is the first `# Heading` in the file. If there isn’t one, the title comes from the filename.
 - Tag a post by typing `#hashtags` anywhere in the text. Hashtags inside code are ignored.
+- Everything else is standard Markdown (the same rules GitHub's preview follows), and plain HTML works too. This site adds only a few rules of its own:
+  - `## Heading 2`s are centered.
+  - Photos on lines next to each other (blank lines between are fine) become a grid of squares; a lone photo stays full width.
+  - Outside links open in a new tab.
 
-Commit and push. The home page reads the folder each time it loads, so nothing else needs updating.
+Commit and push. The site republishes itself in about a minute, so nothing else needs updating.
 
 ## Styles
 
@@ -23,19 +27,19 @@ Every page links `site.css`, which holds what they share: colors for both themes
 <link rel="stylesheet" href="site.css">
 ```
 
-## Hosting on GitHub Pages
+## Publishing
 
-1. Push this folder’s contents to a GitHub repo (`index.html`, `entries/`, `.nojekyll`).
-2. In the repo, open Settings → Pages, and publish from the main branch, root folder.
-3. Visit `https://<your-username>.github.io/<repo-name>/`.
+Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build/build.js` and puts the result on GitHub Pages. The build copies the site as is and adds:
 
-The page works out the repo name from that address. On a custom domain, or when testing locally, set `REPO` near the top of the script in `index.html`:
+- `posts/`: each post as its own page. The lightbox loads these one at a time, and each also works on its own at its own address.
+- `posts.json`: the small index the calendar draws from (dates, titles, tags, cover photos) plus the newest missives.
+- `search.json`: every post's plain text, loaded only when someone uses the search box.
 
-```js
-const REPO = "your-username/your-repo";
-```
+So a visitor downloads the page, one small index, and only the posts they open, however many posts there are. Progress and any errors show on the repo's Actions tab, which also has a "Run workflow" button to republish by hand.
 
-If the page can’t read the folder, it shows sample entries and a note saying so.
+This needs Settings → Pages → Source set to **GitHub Actions** (one time).
+
+To preview locally: `node build/build.js`, then `python3 -m http.server -d _site` and open http://localhost:8000.
 
 ## Mailing list
 
@@ -50,8 +54,3 @@ The signup form on `context.html` sends addresses to a Google Sheet through a sm
 Addresses appear in the Sheet with a timestamp. Duplicates are ignored. If you later edit the script, use Deploy → Manage deployments → Edit → New version, or the change won’t go live. The Sheet stays private to your Google account. The URL only lets people add an address, not read the list.
 
 To send to the list, you’ll need a way to send bulk email with an unsubscribe link and a postal address in each message. Don’t send to it from a personal inbox.
-
-## Notes
-
-- The page lists `entries/` through GitHub’s public API, which allows about 60 requests per hour per visitor. That’s plenty for a personal log.
-- To test locally, serve the folder (`python3 -m http.server`) and set `REPO` as above.

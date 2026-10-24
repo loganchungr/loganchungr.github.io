@@ -51,7 +51,7 @@ I separate from the crew at Bedford and sit for an hour and change reading and w
   
 I hug Carol outside of Baby's and she says she was just thinking about me. I miss her all the time. It's our season, I say. It's my first time seeing Billy's street sign. During the show I stand with Renny's parents and Lucie. Renny asks me if I can believe it's been two years since we played here for the last album release and I tell the truth: I cannot believe it. And I am overjoyed for James.   
   
-Renny is such a special talent. I want to grab his parents by the shoulders and tell them this, but I wouldn't really need to tell *them* of all people. Maybe something more like:* I'M A BELIEVER! MARY AND JOSEPH, I BELIEVE IN YOUR SON!! *  
+Renny is such a special talent. I want to grab his parents by the shoulders and tell them this, but I wouldn't really need to tell *them* of all people. Maybe something more like: *I'M A BELIEVER! MARY AND JOSEPH, I BELIEVE IN YOUR SON!!*   
   
 > *Prospect Park, I′m sitting up straight*  
 > 
@@ -59,7 +59,7 @@ Renny is such a special talent. I want to grab his parents by the shoulders and 
 > 
 > *It′s May of 2024 and I'm writing*  
 > 
-> *To get myself out of a death-induced funk *  
+> *To get myself out of a death-induced funk*   
 > 
 > *People go out the same way they came*  
 > 

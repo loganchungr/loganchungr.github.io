@@ -1,0 +1,36 @@
+# Publishes the site whenever something lands on update-2 (a post from the shortcut, an edit, anything).
+# It runs build/build.js, which turns the posts into pages, then puts the result on GitHub Pages.
+# Needs Settings → Pages → Source set to "GitHub Actions".
+name: Publish site
+
+on:
+  push:
+    branches: [update-2]
+  workflow_dispatch:   # adds a "Run workflow" button on the Actions tab, to republish by hand
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:   # if two posts arrive close together, publish them in order
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: node build/build.js
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4

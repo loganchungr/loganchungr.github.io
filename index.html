@@ -91,7 +91,7 @@ mark{background:color-mix(in srgb,var(--accent) 25%,transparent);color:inherit}
 article{font-size:.9rem}
 .when{color:var(--muted);font-size:.9rem;margin:0 0 .25rem}
 article h1{font-size:2rem;margin:0 0 1.25rem}
-article h2{font-size:1.7rem;line-height:1.15;margin:1.8rem 0 .5rem}
+article h2{font-size:1.7rem;line-height:1.15;margin:1.8rem 0 .5rem;text-align:center}  /* site rule: ## headings are centered */
 article h3{margin-top:1.5rem}
 article p,article ul,article ol,article blockquote,article pre{margin:0 0 1rem}
 article a{color:var(--accent);text-decoration:underline dotted;text-underline-offset:.2em}
@@ -177,83 +177,14 @@ article img{display:block;width:auto;max-width:100%;height:auto;max-height:min(2
 </dialog>
 
 <script>
-/* ---- Config ---- */
-const REPO = "";           // "yourname/yourrepo"; leave empty to auto-detect on yourname.github.io
-const FOLDER = "entries";  // folder of posts named YYYY-MM-DD-anything.md
-const BRANCH = "update-2";         // leave empty for the default branch
-/* Photo paths in a post are read relative to the entries folder, so ![](images/a.jpg) works,
-   and so does ![](entries/images/a.jpg). Full web addresses are left alone. */
-const imgSrc = s => /^(https?:|data:|\/|entries\/)/i.test(s) ? s : FOLDER+"/"+s;
-
-/* ---- Sample entries, shown only if the repo can't be read. Safe to delete. ---- */
-const demo = [
- {date:"2026-09-03",title:"Starting over, again",body:"# Starting over, again\n\nI keep a **new notebook** every few months. This one is a website.\n\n- Fewer excuses\n- No formatting rituals\n- Everything in one place\n\nA first post. #meta #notebook"},
- {date:"2026-09-10",title:"On slow mornings",body:"# On slow mornings\n\nThe best hour of the day is the one before anyone expects anything of me.\n\n> Do less, but notice more.\n\nI’m trying to protect it.\n\n#mornings #slowliving"},
- {date:"2026-09-18",title:"Reading list, September",body:"# Reading list, September\n\n1. A novel I keep abandoning\n2. A book of essays on walking\n3. Old *New Yorker* issues\n\nSee [the library](https://example.com) for holds."},
- {date:"2026-09-29",title:"What I’d tell my past self",body:"# What I’d tell my past self\n\nStart before you’re ready. The *draft* is allowed to be bad."},
- {date:"2026-10-01",title:"October, a plan",body:"# October, a plan\n\nThree small goals:\n\n1. Write every week\n2. Walk daily\n3. Ship one tiny project\n\nSee also #walking and #meta."},
- {date:"2026-10-06",title:"Notes on a long walk",body:"# Notes on a long walk\n\nSix miles, no podcast. Ideas arrive when you stop asking for them.\n\n---\n\nA short list of things I noticed:\n\n- A heron on the canal\n- Someone practicing trumpet\n- My own pace slowing down\n\n#walking #notes"},
- {date:"2026-10-08",title:"Tools I actually use",body:"# Tools I actually use\n\n## Writing\n\nPlain text, `vim`, and a folder.\n\n## Thinking\n\nPaper. Always paper.\n\n```\nnotes/\n  2026/\n    10.md\n```\n\n#tools #notes"},
- {date:"2026-10-14",title:"A small argument for boredom",body:"# A small argument for boredom\n\nBoredom is the **gap** where your own thoughts get room.\n\n> The mind wanders to where it wants to go.\n\nSo I’m leaving more gaps.\n\n#boredom #notes"},
- {date:"2026-10-16",title:"Recipe: lazy soup",body:"# Recipe: lazy soup\n\n1. Onion, garlic, oil\n2. Whatever vegetables are tired\n3. Stock, salt, lemon\n\nSimmer until you stop checking on it."},
- {date:"2026-10-20",title:"Week in review",body:"# Week in review\n\nGood: finished the draft.\n\nBad: skipped two walks.\n\nNext: **less planning, more doing**.\n\n#weekly"},
- {date:"2026-10-21",title:"On keeping a site small",body:"# On keeping a site small\n\nThis page is HTML, CSS, and one script. No framework, no build step.\n\nThe constraint is the feature.\n\n#meta #notebook"}
-];
-/* Sample photo dump with gradient placeholders. Safe to delete. */
-const ph = (a,b) => "data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+a+'"/><stop offset="1" stop-color="'+b+'"/></linearGradient></defs><rect width="800" height="600" fill="url(#g)"/></svg>').replace(/\(/g,"%28").replace(/\)/g,"%29");
-demo.push({date:"2026-10-22",title:"Hudson Valley",body:"# Hudson Valley\n\n![Placeholder photo, morning fog]("+ph("#b8c4d6","#eef1f4")+")\n\nCold morning, fog coming off the river.\n\n![Placeholder photo, barn at dusk]("+ph("#FF948F","#5a3b4e")+")\n![Placeholder photo, trail]("+ph("#8fb3a3","#2f4a45")+")\n\nThe light lasted about ten minutes. #photos"});
-
-/* ---- Tiny Markdown renderer ---- */
+/* Posts come from posts.json, which build/build.js makes from entries/ each time the site is published. */
 const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-function inline(s){
-  s = esc(s);
-  const codes = [];
-  s = s.replace(/`([^`]+)`/g,(_,c)=>{codes.push(c);return "\u0000"+(codes.length-1)+"\u0000"});
-  s = s.replace(/(^|\s)#([A-Za-z][\w-]*)/g,(_,p,t)=>p+'<a href="#" class="tag" data-tag="'+t.toLowerCase()+'">#'+t+'</a>');
-  // _italics_ (as the notes app writes them): only at word edges, so snake_case and web addresses are left alone
-  s = s.replace(/(^|[^\w])_(?=\S)([^_]*?\S)_(?!\w)/g,"$1<em>$2</em>");
-  s = s.replace(/\[([^\]]+)\]\(((?:https?:|mailto:|#)[^)\s]*)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
-       .replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")
-       .replace(/\*([^*]+)\*/g,"<em>$1</em>");
-  return s.replace(/\u0000(\d+)\u0000/g,(_,i)=>"<code>"+codes[i]+"</code>");
-}
-const IMG = /^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/;  // a line that is just a photo
-function md(src){
-  const L = src.replace(/\r/g,"").split("\n"); let out = "", i = 0;
-  while(i < L.length){
-    const l = L[i];
-    if(!l.trim()){i++;continue}
-    if(/^```/.test(l)){const b=[];i++;while(i<L.length&&!/^```/.test(L[i]))b.push(L[i++]);i++;out+="<pre><code>"+esc(b.join("\n"))+"</code></pre>";continue}
-    let m;
-    if(m = l.match(/^(#{1,3})\s+(.*)/)){out+=`<h${m[1].length}>${inline(m[2])}</h${m[1].length}>`;i++;continue}
-    if(/^(-{3,}|\*{3,})\s*$/.test(l)){out+="<hr>";i++;continue}
-    if(/^>/.test(l)){const b=[];while(i<L.length&&/^>/.test(L[i]))b.push(L[i++].replace(/^>\s?/,""));out+="<blockquote>"+b.join("\n").split(/\n\s*\n/).map(p=>"<p>"+inline(p.replace(/\n/g," "))+"</p>").join("")+"</blockquote>";continue}
-    if(IMG.test(l)){
-      const run=[];
-      while(i<L.length&&(IMG.test(L[i])||!L[i].trim()&&L.slice(i).find(x=>x.trim())?.match(IMG)))if(IMG.test(L[i++]))run.push(L[i-1].match(IMG));
-      const tags=run.map(m=>'<img src="'+imgSrc(m[2]).replace(/"/g,"%22")+'" alt="'+esc(m[1]).replace(/"/g,"&quot;")+'" loading="lazy">').join("");
-      out+=run.length>1?`<div class="photos${run.length===2?" two":""}">${tags}</div>`:tags;
-      continue;
-    }
-    if(/^\s*[-*]\s+/.test(l)){const b=[];while(i<L.length&&/^\s*[-*]\s+/.test(L[i]))b.push("<li>"+inline(L[i++].replace(/^\s*[-*]\s+/,""))+"</li>");out+="<ul>"+b.join("")+"</ul>";continue}
-    if(/^\s*\d+\.\s+/.test(l)){const b=[];while(i<L.length&&/^\s*\d+\.\s+/.test(L[i]))b.push("<li>"+inline(L[i++].replace(/^\s*\d+\.\s+/,""))+"</li>");out+="<ol>"+b.join("")+"</ol>";continue}
-    const p=[];while(i<L.length&&L[i].trim()&&!/^(#{1,3}\s|```|>|\s*[-*]\s+|\s*\d+\.\s+|-{3,}\s*$|!\[[^\]]*\]\([^)\s]+\)\s*$)/.test(L[i]))p.push(L[i++]);
-    out+="<p>"+inline(p.join(" "))+"</p>";
-  }
-  return out;
-}
 
 /* ---- Calendar ---- */
 const parse = s => {const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
 let entries = [], first, last;
-const noCode = b => b.replace(/```[\s\S]*?```/g,"").replace(/`[^`]*`/g,"");
 function ingest(raw){
-  entries = raw.map(r=>({...r, d:parse(r.date),
-    imgs:[...noCode(r.body).matchAll(/^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/gm)].map(m=>({alt:m[1],src:m[2]})),
-    tags:[...new Set([...noCode(r.body).matchAll(/(?:^|\s)#([A-Za-z][\w-]*)/g)].map(m=>m[1].toLowerCase()))],
-    text:(r.title+" "+r.body).toLowerCase()}))
-    .filter(e=>!isNaN(e.d))
-    .sort((a,b)=>a.date.localeCompare(b.date)||(a.id||"").localeCompare(b.id||""));
+  entries = raw.map(r=>({...r, d:parse(r.date), photos:r.photos||0, text:r.title.toLowerCase(), plain:""}));
   first = entries.length ? entries[0].d : today;
   last = entries.length && entries[entries.length-1].d > today ? entries[entries.length-1].d : today;
 }
@@ -266,16 +197,16 @@ let view = {y:today.getFullYear(), m:today.getMonth()};
 
 const qa = s => esc(s).replace(/"/g,"&quot;");
 const tile = e => {
-  const i = entries.indexOf(e), n = e.imgs.length, d = `<span class="d">${e.d.getDate()}</span>`;
+  const i = entries.indexOf(e), n = e.photos, d = `<span class="d">${e.d.getDate()}</span>`;
   if(!n) return `<button class="tile" data-i="${i}" aria-label="${qa(mon3(e.d)+" "+e.d.getDate()+", "+e.title)}">${d}<span class="t">${esc(e.title)}</span></button>`;
-  return `<button class="tile photo" data-i="${i}" aria-label="${qa(mon3(e.d)+" "+e.d.getDate()+", "+(e.untitled?"Photos":e.title)+", "+n+(n===1?" photo":" photos"))}"><img src="${qa(imgSrc(e.imgs[0].src))}" alt="" loading="lazy">`+
+  return `<button class="tile photo" data-i="${i}" aria-label="${qa(mon3(e.d)+" "+e.d.getDate()+", "+(e.untitled?"Photos":e.title)+", "+n+(n===1?" photo":" photos"))}"><img src="${qa(e.photo)}" alt="" loading="lazy">`+
     d+(e.untitled?"":`<span class="t">${esc(e.title)}</span>`)+`</button>`;
 };
 /* Shows the day's four most recent posts; the bubble counts all of them. */
 const multiTile = day => {
   const e = day[0], shown = day.slice(-4);
-  const sub = shown.map(x=>`<span class="s">`+(x.imgs.length?`<img src="${qa(imgSrc(x.imgs[0].src))}" alt="" loading="lazy">`:`<span>${esc(x.title)}</span>`)+`</span>`).join("")+(shown.length===3?`<span class="s"></span>`:"");
-  return `<button class="tile multi${shown[0].imgs.length?" dark":""}" data-day="${e.date}" aria-label="${qa(mon3(e.d)+" "+e.d.getDate()+", "+day.length+" posts")}">`+
+  const sub = shown.map(x=>`<span class="s">`+(x.photos?`<img src="${qa(x.photo)}" alt="" loading="lazy">`:`<span>${esc(x.title)}</span>`)+`</span>`).join("")+(shown.length===3?`<span class="s"></span>`:"");
+  return `<button class="tile multi${shown[0].photos?" dark":""}" data-day="${e.date}" aria-label="${qa(mon3(e.d)+" "+e.d.getDate()+", "+day.length+" posts")}">`+
     `<span class="sub${shown.length>2?" four":""}">${sub}</span><span class="d">${e.d.getDate()}</span><span class="n">${day.length}</span></button>`;
 };
 function render(){
@@ -308,12 +239,23 @@ function present(e,html,from,to){
   view = {y:e.d.getFullYear(), m:e.d.getMonth()}; render();
   if(!lb.open) lb.showModal();
 }
-function show(i){
+/* Each post is its own page in posts/; the lightbox fetches one when it's opened and keeps it for the visit. */
+const pages = {};
+const post = e => pages[e.url] || (pages[e.url] = fetch(e.url,{cache:"no-cache"}).then(r=>{if(!r.ok)throw r.status;return r.text()})
+  .then(t=>new DOMParser().parseFromString(t,"text/html").querySelector("article").innerHTML)
+  .catch(err=>{delete pages[e.url];throw err}));
+let ticket = 0;  // so a slow fetch can't replace a post opened after it
+async function show(i){
   if(i<0||i>=entries.length) return;
-  const e = entries[i], p = list.indexOf(i), n = entries.filter(x=>x.date===e.date).length;
-  present(e,`<p class="when">${longDate(e.d)}`+(n>1?` · <button class="back" data-day="${e.date}">${n} posts</button>`:"")+`</p>`+md(e.body),p,p);
+  const e = entries[i], p = list.indexOf(i), n = entries.filter(x=>x.date===e.date).length, mine = ++ticket;
+  let body;
+  try{ body = await post(e) }catch(err){ body = `<p>Couldn’t load this post. <a href="${qa(e.url)}">Try its own page</a>.</p>` }
+  if(mine!==ticket) return;
+  present(e,`<p class="when">${longDate(e.d)}`+(n>1?` · <button class="back" data-day="${e.date}">${n} posts</button>`:"")+`</p>`+body,p,p);
+  [list[p-1],list[p+1]].forEach(j=>{if(j!==undefined)post(entries[j]).catch(()=>{})});  // ready for the arrows
 }
 function showDay(date){
+  ticket++;
   const ps = list.map((i,p)=>[i,p]).filter(([i])=>entries[i].date===date);
   if(!ps.length) return;
   const e = entries[ps[0][0]];
@@ -346,9 +288,16 @@ let list = entries.map((_,i)=>i), q = "", sel = new Set();
 const allTags = () => {const m={};entries.forEach(e=>e.tags.forEach(t=>m[t]=(m[t]||0)+1));return Object.entries(m).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))};
 const terms = () => q.toLowerCase().split(/\s+/).filter(Boolean);
 const matches = e => [...sel].every(t=>e.tags.includes(t)) && terms().every(w=>e.text.includes(w));
+/* Searching needs every post's text, so search.json loads the first time someone uses the search box.
+   Until it arrives, searches match titles only. */
+let searchText = null;
+function loadSearch(){
+  searchText = searchText || fetch("search.json",{cache:"no-cache"}).then(r=>r.json()).then(t=>{
+    entries.forEach(e=>{e.plain=t[e.id]||"";e.text=(e.title+" "+e.plain).toLowerCase()});draw();
+  }).catch(()=>{searchText=null});
+}
 function snippet(e,ts){
-  const t = e.body.replace(/^#{1,3}\s+.*\n?/,"").replace(/!\[[^\]]*\]\([^)]*\)/g,"").replace(/```/g,"").replace(/[*`>]/g,"").replace(/(^|[^\w])_(?=\S)([^_]*?\S)_(?!\w)/g,"$1$2").replace(/\[([^\]]+)\]\([^)]*\)/g,"$1").replace(/\s+/g," ").trim();
-  const low = t.toLowerCase(); let at = 0;
+  const t = e.plain, low = t.toLowerCase(); let at = 0;
   for(const w of ts){const k=low.indexOf(w);if(k>=0){at=Math.max(0,k-50);break}}
   let s = esc(t.slice(at,at+150));
   ts.forEach(w=>{s=s.replace(new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi"),m=>"<mark>"+m+"</mark>")});
@@ -370,67 +319,32 @@ function draw(){
   if(!list.length) html += `<p class="rs">Nothing matches. Try fewer words or clear a tag.</p>`;
   $("results").innerHTML = html;
 }
-$("q").addEventListener("input",ev=>{q=ev.target.value;draw()});
+$("q").addEventListener("focus",loadSearch);
+$("q").addEventListener("input",ev=>{q=ev.target.value;loadSearch();draw()});
 $("q").addEventListener("keydown",ev=>{if(ev.key==="Escape"){q="";ev.target.value="";draw()}});
 $("clear").onclick = () => {q="";sel.clear();$("q").value="";draw()};
 $("tags").addEventListener("click",ev=>{const t=ev.target.closest("[data-tag]");if(!t)return;const g=t.dataset.tag;sel.has(g)?sel.delete(g):sel.add(g);draw()});
 $("art").addEventListener("click",ev=>{const t=ev.target.closest("[data-tag]");if(!t)return;ev.preventDefault();lb.close();q="";$("q").value="";sel=new Set([t.dataset.tag]);draw();window.scrollTo(0,0)});
 $("results").addEventListener("click",ev=>{const r=ev.target.closest(".res");if(r)show(+r.dataset.i)});
 document.addEventListener("keydown",ev=>{if(ev.key==="/"&&!lb.open&&document.activeElement!==$("q")){ev.preventDefault();$("q").focus()}});
-/* ---- Load entries from the GitHub repo ---- */
-function repoName(){
-  if(REPO) return REPO;
-  const h = location.hostname, p = location.pathname.split("/")[1];
-  return h.endsWith(".github.io") ? h.split(".")[0]+"/"+(p||h) : "";
-}
-async function loadEntries(){
-  const repo = repoName();
-  if(!repo) throw new Error("No repo");
-  const r = await fetch("https://api.github.com/repos/"+repo+"/contents/"+FOLDER+(BRANCH?"?ref="+BRANCH:""));
-  const files = await r.json();
-  if(!Array.isArray(files)) throw new Error("No folder");
-  return Promise.all(files.filter(f=>/^\d{4}-\d{2}-\d{2}.*\.md$/i.test(f.name))
-    .map(async f=>entryFrom(f.name, await (await fetch(FOLDER+"/"+encodeURIComponent(f.name))).text())));
-}
-/* A post's date comes from its filename, unless its title starts with a real date ("# 2026-10-22 after Digger"):
-   then that date wins and is trimmed from the title, so a note can be backdated by typing the date as its first line. */
-function entryFrom(name, body){
-  let date = name.slice(0,10), h = body.match(/^#\s+(.+)$/m), named = name.slice(11,-3).replace(/-/g," ").trim();
-  const lead = h && h[1].match(/^(\d{4})-(\d{2})-(\d{2})(?:[\s:–—-]+(.*))?$/);
-  if(lead){
-    const [,y,m,d,rest=""] = lead, day = new Date(+y,m-1,+d);
-    if(day.getMonth()===m-1 && day.getDate()===+d){  // skip impossible dates like 2026-20-10
-      date = `${y}-${m}-${d}`; named = "";  // the filename's words are the typed date, not a title
-      body = body.replace(h[0], rest.trim() ? "# "+rest.trim() : "");
-      h = body.match(/^#\s+(.+)$/m);
-    }
-  }
-  return {id:name, date, title:h?h[1].replace(/[*_`]/g,"").trim():(named||date), body, untitled:!h};
-}
 /* ---- Missives: the newest few files in missives/, named by date and time (2026-10-24-091512.md), scroll past in the chyron ---- */
-const MISSIVES = "missives", KEEP = 10;
 const stamp = n => {const [,y,mo,d,h=0,mi=0,se=0]=n.match(/^(\d{4})-(\d{2})-(\d{2})(?:-(\d{2})(\d{2})(\d{2})?)?/);return new Date(y,mo-1,d,h,mi,se)};
 const pad = n => String(n).padStart(2,"0");
 // Age in two or three characters: 05m, 23h, 2d.
 const ago = d => {const m=Math.max(1,Math.floor((Date.now()-d)/6e4));return m<60?pad(m)+"m":m<=1440?pad(Math.round(m/60))+"h":Math.floor(m/1440)+"d"};
-async function loadMissives(){
-  const files = await (await fetch("https://api.github.com/repos/"+repoName()+"/contents/"+MISSIVES+(BRANCH?"?ref="+BRANCH:""))).json();
-  if(!Array.isArray(files)) return [];
-  const md = files.filter(f=>/^\d{4}-\d{2}-\d{2}.*\.md$/i.test(f.name)).sort((a,b)=>b.name.localeCompare(a.name)).slice(0,KEEP);
-  return Promise.all(md.map(async f=>({d:stamp(f.name.slice(0,-3)), text:await (await fetch(MISSIVES+"/"+encodeURIComponent(f.name))).text()})));
-}
 function chyron(list){
   if(!list.length) return;
-  const group = list.map(m=>`<span class="m"><em>${inline(m.text.replace(/^#+\s*/,"").replace(/\s+/g," ").trim())}</em><span class="ago">${ago(m.d)}</span></span>`).join("");
+  const group = list.map(m=>`<span class="m"><em>${m.html}</em><span class="ago">${ago(stamp(m.at))}</span></span>`).join("");
   const c = $("chyron"), t = c.firstElementChild;
   t.innerHTML = `<span>${group}</span><span aria-hidden="true">${group}</span>`;  // a second copy makes the loop seamless
   c.hidden = false;
   t.style.setProperty("--dur", Math.max(20, t.firstElementChild.offsetWidth/40)+"s");  // about 40px a second
   c.onclick = () => c.classList.toggle("paused");  // tap to pause on phones
 }
-loadMissives().then(chyron).catch(()=>{});
-loadEntries().catch(()=>{const n=$("note");n.textContent="Showing sample entries. Couldn’t read the entries folder from GitHub.";n.hidden=false;return demo})
-  .then(raw=>{ingest(raw);draw();render()});
+/* ---- Load ---- */
+fetch("posts.json",{cache:"no-cache"}).then(r=>r.json())
+  .then(({posts,missives})=>{ingest(posts);draw();render();chyron(missives)})
+  .catch(()=>{const n=$("note");n.textContent="Couldn’t load the entries. Try refreshing.";n.hidden=false;ingest([]);draw();render()});
 </script>
 </body>
 </html>

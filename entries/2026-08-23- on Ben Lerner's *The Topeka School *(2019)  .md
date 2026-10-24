@@ -1,4 +1,4 @@
-# on Ben Lerner's *The Topeka School *(2019)  
+# on Ben Lerner's *The Topeka School* (2019)  
 
 ![8909586-L.jpg](images/1424D04F-CBB8-4567-9298-DDB98776C019.jpg)  
 
@@ -8,9 +8,9 @@
     
 :/// this could have been an essay?  
 
-*Topeka School *was tough, almost a minor heartbreak. Last year I lent my beloved copy of @10:04 * *to a dear friend — I ++never++ lend out my books, but I adore that novel and she wanted to read it — only to have her slap it down in front of me a week or so later, declaring only, "Pretentious! Self-involved! Bullshit."  
+*Topeka School* was tough, almost a minor heartbreak. Last year I lent my beloved copy of @10:04 to a dear friend — I ++never++ lend out my books, but I adore that novel and she wanted to read it — only to have her slap it down in front of me a week or so later, declaring only, "Pretentious! Self-involved! Bullshit."  
   
-Well... to each their own. I'll still defend *10:04 *from its detractors, even while granting that Lerner is indeed self-involved and pretentious. With that prior project, however, his compositional skill and the relatively limited focus allow him to transcend or sidestep these facts of himself. No such luck with *The Topeka School.*  
+Well... to each their own. I'll still defend *10:04* from its detractors, even while granting that Lerner is indeed self-involved and pretentious. With that prior project, however, his compositional skill and the relatively limited focus allow him to transcend or sidestep these facts of himself. No such luck with *The Topeka School.*  
   
 Reading this book brought about a unique kind of frustration that can sometimes occur when an artist you respect despite valid and consistent critiques manages in a single work to simultaneously stick to their guns, altering nothing about the aspects of their project that you defend/admire, while also spoiling all your hard work on defense by affirming every criticism against which you've defended them.  
   

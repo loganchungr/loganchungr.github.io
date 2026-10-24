@@ -14,6 +14,6 @@ so much of this would not be possible without his seeming willingness and abilit
   
 Wilson's lovingly humanistic project was uniquely suited for television, with its kaleidoscopic collision of per-episode granulated focus and long-term execution. after seeing a string of older documentary films which clearly influenced him, it was a joy to spend so much time back in familiar company and "surroundings." when I first found his show I would tell people that I could watch his work forever. this holds true.   
   
-also, the soundtrack was killer — Suzanne Ciani's *Seven Waves *is something like the Ridgewood, Queens of electronic music. and a neat look back at the "City of Yes" moment, which will remain a nifty time capsule of city housing politics in the waning days of the Adams administration, regardless of how things pan out with his successor — who has at long last committed to fixing the crumbling BQE.  
+also, the soundtrack was killer — Suzanne Ciani's *Seven Waves* is something like the Ridgewood, Queens of electronic music. and a neat look back at the "City of Yes" moment, which will remain a nifty time capsule of city housing politics in the waning days of the Adams administration, regardless of how things pan out with his successor — who has at long last committed to fixing the crumbling BQE.  
   
 #film #nyc   
