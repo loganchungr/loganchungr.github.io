@@ -1,5 +1,5 @@
 # after *The Good Fight* 
-## *the Abraham Lincoln Brigade in the Spanish Civil War* (1984)
+### *the Abraham Lincoln Brigade in the Spanish Civil War* (1984)
 
 ![the-good-fight.jpg](images/the-good-fight.jpg)
 
