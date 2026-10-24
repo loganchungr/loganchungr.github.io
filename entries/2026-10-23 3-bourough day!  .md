@@ -1,6 +1,6 @@
 # 2026-10-23 3-bourough day!  
   
-### 1. MANHATTAN:  
+## 1. MANHATTAN:  
   
 after a brief stopover at the best library in the world to put the finishing touches on my brand new website, complete with a "supply"-side iOS notes app integration which allows me to "blog" directly from my iPhone, the first live edition of which you are currently reading.....   
   
@@ -43,7 +43,7 @@ Later, Austin and I muse about the demographic crisis heading towards the UES in
   
 ---  
   
-### BROOKLYN  
+## BROOKLYN  
   
 I separate from the crew at Bedford and sit for an hour and change reading and writing at Ten Ichi Mart. I should shoot for a corporate sponsorship from them. Various types of Williamsburg couples sit next to me. God bless their hot tea cabinet. Then onwards to Babies for the best show of the season.  
   
@@ -73,18 +73,20 @@ Renny is such a special talent. I want to grab his parents by the shoulders and 
   
 ---  
   
-### QUEENS  
+## QUEENS  
   
 On the train ride, X tells me at great length about his readings. I've read one of them but not the other. I'm not sure how it's relevant to the question I asked — about James' guitar playing — but I'm happy he's reading. X is not a member of BOOK CLUB but he is tagging along anyway for the adventure.   
   
-We (BOOK CLUB) have agreed to meet at last week's spot on the outskirts of our neighborhood. The establishment shall remain gatekept. Suffice to say: I feel the ghost of Giuseppe Tomasi di Lampedusa there. There is no music and the lighting is atrocious. It is perfect.  
+We (BOOK CLUB) have agreed to meet at last week's spot on the outskirts of our neighborhood. The establishment shall remain gatekept. Suffice to say: I feel the ghost of Giuseppe Tomasi di Lampedusa there. There is no music and the lighting is atrocious. It is perfect. And when the weather turns full of ice blades, it will be even better.   
   
 When I arrive with X, it is clear that we've missed the closing of the festivities. I was prepared for this, seeing as we had actually walked past C and P on their way down Forest. I said hello, but they did not hear me. This is the second or third time this has happened. I think it must be my fault.   
   
 X leaves BOOK CLUB to head back to Honore Square. He is meeting my soon-to-be neighbors there before they leave their hallowed grounds. MW shows up immediately afterwards, but many members are missing, including MA, IV, and S2. However, the core is in attendance: JK, MW, JG, as well as L and S1, fresh off their shift.   
+
+
+**_[EVENTS OF BOOK CLUB MEETINGS REDACTED ON PRINCPLE. RECORDS MAY BE REQUESTED BY CONTACTING BOOK CLUB FACILITATOR OR LOG ADMIN. REQUEST DOES NOT GUARANTEE FULFILLMENT.]_**  
+
   
-### *[EVENTS OF BOOK CLUB MEETINGS REDACTED ON PRINCPLE. RECORDS MAY BE REQUESTED BY CONTACTING BOOK CLUB FACILITATOR OR LOG ADMIN. REQUEST DOES NOT GUARANTEE FULFILLMENT.]*  
-  
-L walks me home and I love her ♥️  
+...at the end of the night, L walks me home and I love her ♥️  
   
 #life #3BD   
