@@ -6,7 +6,7 @@ A personal log. One `index.html`, no build step. Posts are Markdown files in `en
 
 Add a file to `entries/` named `YYYY-MM-DD-anything.md`, for example `2026-10-23-a-new-thought.md`.
 
-- The date comes from the filename and decides which day of the calendar the post lands on.
+- The date comes from the filename and decides which day of the calendar the post lands on. To backdate a post, start its title with the date instead: `# 2026-10-22 after a long day` lands on October 22, and the date is trimmed from the title. Impossible dates (like `2026-20-10`) are ignored.
 - The title is the first `# Heading` in the file. If there isn’t one, the title comes from the filename.
 - Tag a post by typing `#hashtags` anywhere in the text. Hashtags inside code are ignored.
 
