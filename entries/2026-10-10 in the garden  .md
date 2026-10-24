@@ -27,3 +27,5 @@ An arbitrary town where one can really feel the flimsiness of the project we've 
  
   
 ![Image](images/B42B5828-423A-4BC5-B6D3-A735AB8E4FDA.jpg)  
+
+#life
