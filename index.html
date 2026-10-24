@@ -361,11 +361,23 @@ async function loadEntries(){
   const r = await fetch("https://api.github.com/repos/"+repo+"/contents/"+FOLDER+(BRANCH?"?ref="+BRANCH:""));
   const files = await r.json();
   if(!Array.isArray(files)) throw new Error("No folder");
-  return Promise.all(files.filter(f=>/^\d{4}-\d{2}-\d{2}.*\.md$/i.test(f.name)).map(async f=>{
-    const body = await (await fetch(FOLDER+"/"+encodeURIComponent(f.name))).text();
-    const h = body.match(/^#\s+(.+)$/m);
-    return {id:f.name, date:f.name.slice(0,10), title:h?h[1].replace(/[*_`]/g,"").trim():(f.name.slice(11,-3).replace(/-/g," ")||f.name.slice(0,10)), body, untitled:!h};
-  }));
+  return Promise.all(files.filter(f=>/^\d{4}-\d{2}-\d{2}.*\.md$/i.test(f.name))
+    .map(async f=>entryFrom(f.name, await (await fetch(FOLDER+"/"+encodeURIComponent(f.name))).text())));
+}
+/* A post's date comes from its filename, unless its title starts with a real date ("# 2026-10-22 after Digger"):
+   then that date wins and is trimmed from the title, so a note can be backdated by typing the date as its first line. */
+function entryFrom(name, body){
+  let date = name.slice(0,10), h = body.match(/^#\s+(.+)$/m), named = name.slice(11,-3).replace(/-/g," ").trim();
+  const lead = h && h[1].match(/^(\d{4})-(\d{2})-(\d{2})(?:[\s:–—-]+(.*))?$/);
+  if(lead){
+    const [,y,m,d,rest=""] = lead, day = new Date(+y,m-1,+d);
+    if(day.getMonth()===m-1 && day.getDate()===+d){  // skip impossible dates like 2026-20-10
+      date = `${y}-${m}-${d}`; named = "";  // the filename's words are the typed date, not a title
+      body = body.replace(h[0], rest.trim() ? "# "+rest.trim() : "");
+      h = body.match(/^#\s+(.+)$/m);
+    }
+  }
+  return {id:name, date, title:h?h[1].replace(/[*_`]/g,"").trim():(named||date), body, untitled:!h};
 }
 /* ---- Missives: the newest few files in missives/, named by date and time (2026-10-24-091512.md), scroll past in the chyron ---- */
 const MISSIVES = "missives", KEEP = 10;
