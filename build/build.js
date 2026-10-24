@@ -13,7 +13,9 @@ const { Marked } = require("./marked.min.js");
 const ROOT = path.join(__dirname, ".."), OUT = path.join(ROOT, "_site");
 const ENTRIES = "entries", MISSIVES = "missives", KEEP = 10;  // KEEP: how many missives the ticker shows
 const read = (...p) => fs.readFileSync(path.join(ROOT, ...p), "utf8").replace(/\r/g, "");
-const dated = dir => fs.readdirSync(path.join(ROOT, dir)).filter(n => /^\d{4}-\d{2}-\d{2}.*\.md$/i.test(n));
+// Files named by date (2026-10-24-anything.md), newest last. Spaces before the date, which the shortcut can add, are ignored.
+const dated = dir => fs.readdirSync(path.join(ROOT, dir)).filter(n => /^\s*\d{4}-\d{2}-\d{2}.*\.md$/i.test(n))
+  .sort((a,b)=>a.trimStart().localeCompare(b.trimStart()));
 
 /* ---- Markdown: standard Markdown via marked, plus this site's own rules ---- */
 const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
@@ -109,8 +111,8 @@ for(const n of fs.readdirSync(ROOT)) if(!skip.has(n)) fs.cpSync(path.join(ROOT,n
 fs.mkdirSync(path.join(OUT,"posts"));
 
 const posts = [], search = {}, taken = new Set();
-for(const name of dated(ENTRIES)){
-  const e = entryFrom(name, read(ENTRIES, name)), html = md(e.body), body = noCode(e.body);
+for(const file of dated(ENTRIES)){
+  const name = file.trimStart(), e = entryFrom(name, read(ENTRIES, file)), html = md(e.body), body = noCode(e.body);
   const base = "posts/"+slug(name); let url = base, n = 1;
   while(taken.has(url)) url = base+"-"+(++n);  // two filenames that tidy to the same name
   taken.add(url); url += ".html";
@@ -123,8 +125,8 @@ for(const name of dated(ENTRIES)){
 }
 posts.sort((a,b)=>a.date.localeCompare(b.date)||a.id.localeCompare(b.id));
 
-const missives = dated(MISSIVES).sort().reverse().slice(0,KEEP)
-  .map(name=>({at:name.slice(0,-3), html:inline(read(MISSIVES,name).replace(/^#+\s*/,"").replace(/\s+/g," ").trim())}));
+const missives = dated(MISSIVES).reverse().slice(0,KEEP)
+  .map(file=>({at:file.trimStart().slice(0,-3), html:inline(read(MISSIVES,file).replace(/^#+\s*/,"").replace(/\s+/g," ").trim())}));
 
 fs.writeFileSync(path.join(OUT,"posts.json"), JSON.stringify({posts, missives}));
 fs.writeFileSync(path.join(OUT,"search.json"), JSON.stringify(search));
