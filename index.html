@@ -103,7 +103,11 @@ article code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em;b
 article pre{background:var(--bg);padding:1rem;overflow-x:auto;border-radius:3px}
 article pre code{background:none;padding:0}
 article hr{border:0;border-top:1px solid var(--line);margin:1.5rem 0}
-article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radius:3px;cursor:zoom-in}
+/* A lone photo is capped at about a third of the screen; back-to-back photos become a grid of squares. Tap to see one whole. */
+article img{display:block;width:auto;max-width:100%;height:auto;max-height:min(22rem,40vh);margin:0 auto 1rem;border-radius:1px;cursor:zoom-in}
+.photos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.35rem;margin:0 0 1rem}
+.photos.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.photos img{width:100%;max-height:none;aspect-ratio:1;object-fit:cover;margin:0}
 .pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(8rem,1fr));gap:.75rem}
 .pick .tile{aspect-ratio:1}
 .pick img{margin:0;cursor:pointer}
@@ -112,6 +116,8 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
 #zoom::backdrop{background:rgb(0 0 0/.9)}
 #zoom[open]{display:grid;place-items:center;cursor:zoom-out}
 #zoom img{max-width:96vw;max-height:94vh;object-fit:contain}
+#zoom .circle{position:fixed;top:50%;width:2.75rem;height:2.75rem;margin-top:-1.375rem;font-size:1.1rem;opacity:.85}
+#zprev{left:calc(.75rem + env(safe-area-inset-left,0px))}#znext{right:calc(.75rem + env(safe-area-inset-right,0px))}
 
 @media (max-width:48rem){
   /* On phones the arrows float in the bottom corners, so you can move between posts without scrolling to the end. */
@@ -164,7 +170,11 @@ article img{display:block;max-width:100%;height:auto;margin:0 0 1rem;border-radi
   </div>
 </dialog>
 
-<dialog id="zoom" aria-label="Photo"><img id="zimg" alt=""></dialog>
+<dialog id="zoom" aria-label="Photo">
+  <button class="circle" id="zprev" aria-label="Previous photo">←</button>
+  <img id="zimg" alt="">
+  <button class="circle" id="znext" aria-label="Next photo">→</button>
+</dialog>
 
 <script>
 /* ---- Config ---- */
@@ -205,6 +215,7 @@ function inline(s){
        .replace(/\*([^*]+)\*/g,"<em>$1</em>");
   return s.replace(/\u0000(\d+)\u0000/g,(_,i)=>"<code>"+codes[i]+"</code>");
 }
+const IMG = /^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/;  // a line that is just a photo
 function md(src){
   const L = src.replace(/\r/g,"").split("\n"); let out = "", i = 0;
   while(i < L.length){
@@ -215,7 +226,13 @@ function md(src){
     if(m = l.match(/^(#{1,3})\s+(.*)/)){out+=`<h${m[1].length}>${inline(m[2])}</h${m[1].length}>`;i++;continue}
     if(/^(-{3,}|\*{3,})\s*$/.test(l)){out+="<hr>";i++;continue}
     if(/^>/.test(l)){const b=[];while(i<L.length&&/^>/.test(L[i]))b.push(L[i++].replace(/^>\s?/,""));out+="<blockquote>"+b.join("\n").split(/\n\s*\n/).map(p=>"<p>"+inline(p.replace(/\n/g," "))+"</p>").join("")+"</blockquote>";continue}
-    if(m = l.match(/^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/)){out+='<img src="'+imgSrc(m[2]).replace(/"/g,"%22")+'" alt="'+esc(m[1]).replace(/"/g,"&quot;")+'" loading="lazy">';i++;continue}
+    if(IMG.test(l)){
+      const run=[];
+      while(i<L.length&&(IMG.test(L[i])||!L[i].trim()&&L.slice(i).find(x=>x.trim())?.match(IMG)))if(IMG.test(L[i++]))run.push(L[i-1].match(IMG));
+      const tags=run.map(m=>'<img src="'+imgSrc(m[2]).replace(/"/g,"%22")+'" alt="'+esc(m[1]).replace(/"/g,"&quot;")+'" loading="lazy">').join("");
+      out+=run.length>1?`<div class="photos${run.length===2?" two":""}">${tags}</div>`:tags;
+      continue;
+    }
     if(/^\s*[-*]\s+/.test(l)){const b=[];while(i<L.length&&/^\s*[-*]\s+/.test(L[i]))b.push("<li>"+inline(L[i++].replace(/^\s*[-*]\s+/,""))+"</li>");out+="<ul>"+b.join("")+"</ul>";continue}
     if(/^\s*\d+\.\s+/.test(l)){const b=[];while(i<L.length&&/^\s*\d+\.\s+/.test(L[i]))b.push("<li>"+inline(L[i++].replace(/^\s*\d+\.\s+/,""))+"</li>");out+="<ol>"+b.join("")+"</ol>";continue}
     const p=[];while(i<L.length&&L[i].trim()&&!/^(#{1,3}\s|```|>|\s*[-*]\s+|\s*\d+\.\s+|-{3,}\s*$|!\[[^\]]*\]\([^)\s]+\)\s*$)/.test(L[i]))p.push(L[i++]);
@@ -306,7 +323,16 @@ function step(n){const p=n<0?span[0]-1:span[1]+1;if(p>=0&&p<list.length)show(lis
 $("prev").onclick=()=>step(-1); $("next").onclick=()=>step(1);
 $("x").onclick=()=>lb.close();
 const zoom = $("zoom");
-$("art").addEventListener("click",ev=>{const im=ev.target.closest("img");if(!im||im.closest(".pick"))return;$("zimg").src=im.src;$("zimg").alt=im.alt;zoom.showModal()});
+/* Tapping a photo shows it whole; arrows, arrow keys or a swipe move through the post's other photos. */
+let shots = [], shot = 0;
+function zoomTo(i){shot=(i+shots.length)%shots.length;$("zimg").src=shots[shot].src;$("zimg").alt=shots[shot].alt;$("zprev").hidden=$("znext").hidden=shots.length<2}
+$("art").addEventListener("click",ev=>{const im=ev.target.closest("img");if(!im||im.closest(".pick"))return;
+  shots=[...$("art").querySelectorAll("img")].filter(x=>!x.closest(".pick"));zoomTo(shots.indexOf(im));zoom.showModal()});
+$("zprev").onclick=ev=>{ev.stopPropagation();zoomTo(shot-1)}; $("znext").onclick=ev=>{ev.stopPropagation();zoomTo(shot+1)};
+zoom.addEventListener("keydown",ev=>{if(ev.key==="ArrowLeft"){ev.preventDefault();zoomTo(shot-1)}if(ev.key==="ArrowRight"){ev.preventDefault();zoomTo(shot+1)}});
+let touchX = null;
+zoom.addEventListener("touchstart",ev=>{touchX=ev.touches[0].clientX},{passive:true});
+zoom.addEventListener("touchend",ev=>{if(touchX===null)return;const dx=ev.changedTouches[0].clientX-touchX;touchX=null;if(Math.abs(dx)>40){ev.preventDefault();zoomTo(shot+(dx<0?1:-1))}});
 zoom.addEventListener("click",()=>zoom.close());
 lb.addEventListener("click",ev=>{if(ev.target===lb||ev.target.classList.contains("wrap"))lb.close()});
 lb.addEventListener("keydown",ev=>{
