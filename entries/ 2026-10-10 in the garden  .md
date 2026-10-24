@@ -18,12 +18,14 @@ An arbitrary town where one can really feel the flimsiness of the project we've 
 > 
 > the nine PM coffee.   
 >   
+>
 > Three fighter jets conduct   
 > 
 > a deafening flyby over   
 > 
 > our heads.   
 >   
+> 
 > They are bringing   
 > 
 > democracy  
