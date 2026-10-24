@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="theme.js"></script>
+<title>Archive · Loggin’ Chung</title>
+<link rel="stylesheet" href="site.css">
+<style>
+/* Archive page: every post by year and month, newest first. build/build.js fills in the list when the site publishes.
+   Shared styles are in site.css. */
+.archive summary{cursor:pointer;width:fit-content}
+.archive summary small{color:var(--muted);font-size:.75rem;margin-left:.4rem}
+.archive>details{margin:0 0 .75rem}
+.archive>details>summary{font:400 1.5rem/1.2 var(--font)}
+.archive details details{margin:.35rem 0 .35rem 1.5rem}
+.archive ul{list-style:none;margin:.35rem 0 .75rem;padding:0 0 0 1.5rem}
+.archive li{margin:0 0 .3rem}
+.archive .d{display:inline-block;width:2ch;margin-right:1ch;text-align:right;color:var(--muted)}
+/* A post's tags show beside it on hover, small and quiet */
+.archive .tags{visibility:hidden;margin-left:.6rem;color:var(--muted);font-size:.7rem}
+.archive a:hover+.tags,.archive a:focus-visible+.tags{visibility:visible}
+</style>
+</head>
+<body>
+<main>
+  <h1><a href="https://loganchungr.github.io/">Loggin’ Chung</a></h1>
+  <nav class="links"><a href="https://loganchungr.github.io/">home</a><a href="lookout.html">lookout</a><a href="context.html">context</a></nav>
+  <div class="archive">
+<!-- archive: build/build.js puts the list of posts here -->
+  </div>
+</main>
+</body>
+</html>

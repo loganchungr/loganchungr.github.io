@@ -35,6 +35,7 @@ Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build
 - `posts/`: each post as its own page. The lightbox loads these one at a time, and each also works on its own at its own address.
 - `posts.json`: the small index the calendar draws from (dates, titles, tags, cover photos) plus the newest missives.
 - `search.json`: every post's plain text, loaded only when someone uses the search box.
+- `archive.html`: the list of every post by year and month is filled in where the page says `<!-- archive: … -->`. The rest of the page is edited like any other.
 
 So a visitor downloads the page, one small index, and only the posts they open, however many posts there are. Progress and any errors show on the repo's Actions tab, which also has a "Run workflow" button to republish by hand.
 

@@ -156,4 +156,25 @@ const missives = dated(MISSIVES).reverse().slice(0,KEEP)
 
 fs.writeFileSync(path.join(OUT,"posts.json"), JSON.stringify({posts, missives}));
 fs.writeFileSync(path.join(OUT,"search.json"), JSON.stringify(search));
+/* ---- Archive: archive.html lists every post by year, then month, newest first, with the newest month open ---- */
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const years = new Map();
+for(const p of [...posts].reverse()){
+  const [y,m] = p.date.split("-");
+  if(!years.has(y)) years.set(y,new Map());
+  const months = years.get(y);
+  if(!months.has(m)) months.set(m,[]);
+  months.get(m).push(p);
+}
+const count = n => ` <small>${n}</small>`;
+const archive = [...years].map(([y,months],i)=>
+  `<details${i?"":" open"}><summary>${y}${count([...months.values()].flat().length)}</summary>\n`+
+  [...months].map(([m,list],j)=>`<details${i||j?"":" open"}><summary>${MONTHS[m-1]}${count(list.length)}</summary><ul>\n`+
+    list.map(p=>`<li><span class="d">${+p.date.slice(8)}</span><a href="./#${p.url.slice(6,-5)}">${esc(p.title)}</a>`+
+      (p.tags.length?`<span class="tags">${p.tags.map(t=>"#"+t).join(" ")}</span>`:"")+`</li>\n`).join("")+
+  `</ul></details>\n`).join("")+`</details>\n`).join("");
+const shell = fs.readFileSync(path.join(OUT,"archive.html"),"utf8"), mark = /<!-- archive:.*?-->/;
+if(!mark.test(shell)) throw new Error("archive.html is missing its <!-- archive: --> marker");
+fs.writeFileSync(path.join(OUT,"archive.html"), shell.replace(mark, ()=>archive));
+
 console.log(`Built ${posts.length} posts and ${missives.length} missives into _site/`);

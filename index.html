@@ -77,6 +77,7 @@ body:has(.chyron:not([hidden])) .theme-toggle{bottom:calc(2.6rem + env(safe-area
 /* Tags are quiet grey text; hovering or selecting one fills it like the nav links. */
 .tag{flex-shrink:0;white-space:nowrap;font:inherit;font-size:.85rem;line-height:1.5;color:var(--muted);border:0;background:none;padding:0;cursor:pointer;text-decoration:none;display:inline-block}
 .tag small{margin-left:.3rem}
+.or{font-size:.85rem;color:var(--muted);white-space:nowrap}
 .tag:hover,.tag.on{background:var(--accent);color:#000}
 .count{color:var(--muted);font-size:.9rem;margin:0 0 .5rem}
 .rm{font:400 1.5rem/1 var(--font);margin:1.5rem 0 .4rem}
@@ -154,7 +155,7 @@ article img{display:block;width:auto;max-width:100%;height:auto;max-height:min(2
   </div>
   <div id="results" hidden></div>
   <div class="tools">
-    <div class="search"><input id="q" type="text" placeholder="Search entries" aria-label="Search entries" autocomplete="off"><button id="clear" class="tag" hidden>Clear</button></div>
+    <div class="search"><input id="q" type="text" placeholder="Search entries" aria-label="Search entries" autocomplete="off"><button id="clear" class="tag" hidden>Clear</button><span id="arch" class="or"><em>or</em> <a class="tag" href="archive.html">archive</a></span></div>
     <div class="tagrow" id="tags"></div>
   </div>
 </main>
@@ -323,7 +324,7 @@ function snippet(e,ts){
 }
 function draw(){
   const on = q.trim() || sel.size;
-  $("calwrap").hidden = !!on; $("results").hidden = !on; $("clear").hidden = !on;
+  $("calwrap").hidden = !!on; $("results").hidden = !on; $("clear").hidden = !on; $("arch").hidden = !!on;
   $("tags").innerHTML = allTags().map(([t,n])=>`<button class="tag${sel.has(t)?" on":""}" data-tag="${t}" aria-pressed="${sel.has(t)}">#${t}<small>${n}</small></button>`).join("");
   if(!on){list = entries.map((_,i)=>i);return}
   const ts = terms();
