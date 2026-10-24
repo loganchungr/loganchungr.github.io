@@ -45,9 +45,9 @@ This needs Settings → Pages → Source set to **GitHub Actions** (one time).
 
 To preview locally: `node build/build.js`, then `python3 -m http.server -d _site` and open http://localhost:8000.
 
-## TV
+## Watch
 
-`tv.html` plays one of two YouTube playlists, shuffled, starting on a random video. The playlists are set at the top of its script: `PLAYLISTS.tv` and `PLAYLISTS.movie` take the part after `list=` in each playlist's address (public or unlisted). Add or remove videos on YouTube and the page follows along, with no publishing needed. To show a note of your own under a video's title, add its ID (the part after `v=`) and the note to `NOTES`. Videos YouTube won't embed are skipped.
+`watch.html` plays one of two YouTube playlists, shuffled, starting on a random video. The playlists are set at the top of its script: `PLAYLISTS.tv` and `PLAYLISTS.movie` take the part after `list=` in each playlist's address (public or unlisted). Add or remove videos on YouTube and the page follows along, with no publishing needed. To show a note of your own under a video's title, add its ID (the part after `v=`) and the note to `NOTES`. Videos YouTube won't embed are skipped.
 
 ## Storage
 
