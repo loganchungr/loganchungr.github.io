@@ -1,4 +1,4 @@
-# 2026-10-23 3-bourough day!  
+# 2026-10-23 3-borough day!  
   
 ## 1. MANHATTAN:  
   
