@@ -35,9 +35,9 @@ Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build
 - `posts.json`: the small index the calendar draws from (dates, titles, tags, cover photos) plus the newest missives.
 - `search.json`: every post's plain text, loaded only when someone uses the search box.
 
-Before building, it also removes any spaces at the start of a filename in `entries/` or `missives/` (the shortcut sometimes adds one) and saves the rename, so posts sort by date in the folder. If a post is re-sent with the space, the new copy replaces the old one.
-
 So a visitor downloads the page, one small index, and only the posts they open, however many posts there are. Progress and any errors show on the repo's Actions tab, which also has a "Run workflow" button to republish by hand.
+
+Before building, it also removes any spaces at the start of a filename in `entries/` or `missives/` (the shortcut sometimes adds one) and saves the rename, so posts sort by date in the folder. If a post is re-sent with the space, the new copy replaces the old one.
 
 This needs Settings → Pages → Source set to **GitHub Actions** (one time).
 
