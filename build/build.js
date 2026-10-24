@@ -178,3 +178,16 @@ if(!mark.test(shell)) throw new Error("archive.html is missing its <!-- archive:
 fs.writeFileSync(path.join(OUT,"archive.html"), shell.replace(mark, ()=>archive));
 
 console.log(`Built ${posts.length} posts and ${missives.length} missives into _site/`);
+
+/* ---- Size check: GitHub Pages allows a published site up to 1 GB. At each of these levels the workflow opens an issue
+   ("STORAGE LIMIT at 75%"), so it doesn't go unnoticed: time to move a past year's photos to their own repo. ---- */
+const LIMIT = 1e9, LEVELS = [75,90,95,96,97,98,99];
+const size = dir => fs.readdirSync(dir,{withFileTypes:true}).reduce((t,d)=>{const f=path.join(dir,d.name);return t+(d.isDirectory()?size(f):fs.statSync(f).size)},0);
+const total = size(OUT), pct = (total/LIMIT*100).toFixed(1), mb = (total/1e6).toFixed(1)+" MB";
+console.log(`Published site: ${mb}, ${pct}% of GitHub Pages' 1 GB limit`);
+const level = LEVELS.filter(l => total/LIMIT*100 >= l).pop();
+if(level){
+  const msg = `The published site is ${mb}, ${pct}% of GitHub Pages' 1 GB limit. Time to move a past year's photos to their own repo; see "Storage" in the README.`;
+  console.log(`::warning title=STORAGE LIMIT at ${level}%::${msg}`);
+  if(process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `size_level=${level}\nsize_warning=${msg}\n`);
+}
