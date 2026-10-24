@@ -47,15 +47,17 @@ jobs:
           node-version: 22
       - id: build
         run: node build/build.js
-      # build.js reports when the site passes 70% of GitHub Pages' 1 GB limit; open one issue about it (GitHub emails you)
+      # build.js reports when the site passes 75%, 90%, 95%, 96%... of GitHub Pages' 1 GB limit. Open one issue per level,
+      # ever ("STORAGE LIMIT at 90%"); GitHub emails you about each.
       - name: Warn about site size
-        if: steps.build.outputs.size_warning
+        if: steps.build.outputs.size_level
         env:
           GH_TOKEN: ${{ github.token }}
+          TITLE: STORAGE LIMIT at ${{ steps.build.outputs.size_level }}%
           MSG: ${{ steps.build.outputs.size_warning }}
         run: |
-          open=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "Site size in:title" --json number --jq length)
-          [ "$open" = 0 ] && gh issue create --repo "$GITHUB_REPOSITORY" --title "Site size: time to move a year of photos" --body "$MSG" || true
+          seen=$(gh issue list --repo "$GITHUB_REPOSITORY" --state all --search "\"$TITLE\" in:title" --json title --jq "map(select(.title == env.TITLE)) | length")
+          [ "$seen" = 0 ] && gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITLE" --body "$MSG" || true
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site
