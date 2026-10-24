@@ -1,4 +1,4 @@
-# 2026-10-10 in the garden  
+# 2026-10-10 in the garden
   
 We struggled to find sustenance because this place is inhospitable. I was shocked to discover we were right by Songbyrd.  
   
@@ -31,4 +31,3 @@ An arbitrary town where one can really feel the flimsiness of the project we've 
 > to the Banana Ball Finals.   
   
 ![Image](images/B42B5828-423A-4BC5-B6D3-A735AB8E4FDA.jpg)  
-![Movie](images/1DDD3E3B-E930-45BA-996A-5C49D3504D81.jpg)  
