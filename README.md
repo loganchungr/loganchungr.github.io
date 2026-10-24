@@ -37,6 +37,8 @@ Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build
 
 So a visitor downloads the page, one small index, and only the posts they open, however many posts there are. Progress and any errors show on the repo's Actions tab, which also has a "Run workflow" button to republish by hand.
 
+Before building, it also removes any spaces at the start of a filename in `entries/` or `missives/` (the shortcut sometimes adds one) and saves the rename, so posts sort by date in the folder. If a post is re-sent with the space, the new copy replaces the old one.
+
 This needs Settings → Pages → Source set to **GitHub Actions** (one time).
 
 To preview locally: `node build/build.js`, then `python3 -m http.server -d _site` and open http://localhost:8000.
