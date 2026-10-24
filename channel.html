@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="theme.js"></script>
+<title>Channel · Loggin’ Chung</title>
+<link rel="stylesheet" href="site.css">
+<style>
+/* Channel page: pick TV or a movie, then watch a shuffled YouTube playlist. Shared styles are in site.css. */
+.pick{font:inherit;background:none;border:0;padding:0;color:var(--ink);cursor:pointer;text-decoration:underline dotted var(--accent) 2px;text-underline-offset:.25em}
+.pick:hover{background:var(--accent);color:#000;text-decoration-color:transparent}
+.choices{display:flex;flex-wrap:wrap;gap:.5rem 2rem;font-size:1.25rem;margin:0}
+/* The screen is 16:9, as wide as fits beside the header and the controls on the window's height */
+.screen{width:min(100%,(100vh - 17rem) * 16 / 9);min-width:min(100%,20rem);aspect-ratio:16/9;background:#000;border:1px dotted var(--line);border-radius:1px;overflow:hidden}
+.screen iframe{display:block;width:100%;height:100%;border:0}
+.controls{display:flex;flex-wrap:wrap;align-items:baseline;gap:.25rem 1.25rem;margin:.9rem 0}
+.or{color:var(--muted);font-size:.85rem}
+.or .pick:not(:hover){color:var(--muted)}
+.info{max-width:44rem;background:var(--panel);border:1px dotted var(--line);border-radius:1px;padding:1rem 1.25rem}
+.info p{margin:0}
+.info .by,.info .yt{color:var(--muted);font-size:.85rem}
+.info .note{margin-top:.6rem}
+.info .yt{display:inline-block;margin-top:.6rem}
+</style>
+</head>
+<body>
+<main>
+  <h1><a href="https://loganchungr.github.io/">Loggin’ Chung</a></h1>
+  <nav class="links"><a href="https://loganchungr.github.io/">home</a><a href="lookout.html">lookout</a><a href="context.html">context</a><a href="channel.html" aria-current="page">channel</a></nav>
+
+  <section id="ask">
+    <h2>what would you like to watch?</h2>
+    <p class="choices"><button class="pick" data-kind="tv">watch TV</button><button class="pick" data-kind="movie">watch a movie</button></p>
+  </section>
+
+  <section id="watching" hidden>
+    <div class="screen"><div id="screen"></div></div>
+    <div class="controls">
+      <button class="pick" id="next">change the channel</button>
+      <span class="or"><em>or</em> <button class="pick" id="other"></button></span>
+    </div>
+    <div class="info" id="info" aria-live="polite"></div>
+  </section>
+</main>
+<script>
+/* Your playlists: the part after "list=" in each playlist's address. They need to be public or unlisted. */
+const PLAYLISTS = {
+  tv: "",
+  movie: ""
+};
+/* Optional: a note of your own under a video's title. Use the video's ID (the part after "v=" or "youtu.be/"). */
+const NOTES = {
+  // "dQw4w9WgXcQ": "a note about this one",
+};
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const shuffle = a => { a = [...a]; for(let i = a.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; };
+const say = text => { $("info").innerHTML = `<p class="by">${esc(text)}</p>`; };
+
+/* YouTube's player script loads only once someone picks something */
+let api;
+const youtube = () => api || (api = new Promise((ok, fail) => {
+  window.onYouTubeIframeAPIReady = ok;
+  const s = document.createElement("script");
+  s.src = "https://www.youtube.com/iframe_api"; s.onerror = fail;
+  document.head.appendChild(s);
+}));
+
+let player, order = [], shown = "", misses = 0, skipping;
+async function choose(kind){
+  $("ask").hidden = true; $("watching").hidden = false;
+  $("other").textContent = kind === "tv" ? "watch a movie instead" : "watch TV instead";
+  $("other").dataset.kind = kind === "tv" ? "movie" : "tv";
+  if(!PLAYLISTS[kind]) return say(`No ${kind === "tv" ? "TV" : "movie"} playlist yet.`);
+  say("tuning in…");
+  try{ await youtube() }catch(err){ return say("Couldn’t reach YouTube. Try again in a bit.") }
+  if(player) player.destroy();
+  $("screen").replaceWith(Object.assign(document.createElement("div"), {id:"screen"}));
+  clearTimeout(skipping); order = []; shown = ""; misses = 0;
+  player = new YT.Player("screen", {
+    host: "https://www.youtube-nocookie.com",  // YouTube's privacy-enhanced player
+    playerVars: {listType:"playlist", list:PLAYLISTS[kind], playsinline:1, rel:0},
+    events: {onReady:tune, onStateChange:changed, onError:skip}
+  });
+}
+/* Once YouTube has the playlist's videos, shuffle them and start at the first, so every visit starts somewhere new */
+function tune(){
+  let tries = 0;
+  (function wait(){
+    const ids = player.getPlaylist && player.getPlaylist();
+    if(ids && ids.length){ order = shuffle(ids); player.loadPlaylist(order, 0); return; }
+    if(++tries < 50) setTimeout(wait, 200); else say("Couldn’t load this playlist. Is it public or unlisted?");
+  })();
+}
+/* Change the channel: the next video, or a fresh shuffle after the last one */
+function next(){
+  clearTimeout(skipping);
+  if(!order.length) return;
+  if(player.getPlaylistIndex() >= order.length-1){ order = shuffle(order); player.loadPlaylist(order, 0); }
+  else player.nextVideo();
+}
+function changed(ev){
+  if(ev.data === YT.PlayerState.ENDED) return next();
+  const d = player.getVideoData && player.getVideoData();
+  if(!d || !d.video_id || !d.title || d.video_id === shown) return;
+  shown = d.video_id; misses = 0;
+  $("info").innerHTML = `<p><b>${esc(d.title)}</b></p>` + (d.author ? `<p class="by">${esc(d.author)}</p>` : "") +
+    (NOTES[d.video_id] ? `<p class="note">${esc(NOTES[d.video_id])}</p>` : "") +
+    `<a class="yt" href="https://www.youtube.com/watch?v=${encodeURIComponent(d.video_id)}" target="_blank" rel="noopener">watch on YouTube</a>`;
+}
+/* A video that won't play here (removed, private, or its uploader turned off embedding): skip it */
+function skip(){
+  if(++misses > order.length) return say("None of these videos will play here right now.");
+  clearTimeout(skipping); skipping = setTimeout(next, 600);
+}
+
+document.querySelectorAll("#ask [data-kind]").forEach(b => b.addEventListener("click", () => choose(b.dataset.kind)));
+$("other").onclick = () => choose($("other").dataset.kind);
+$("next").onclick = next;
+</script>
+</body>
+</html>
