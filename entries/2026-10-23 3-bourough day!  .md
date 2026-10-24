@@ -53,23 +53,18 @@ I hug Carol outside of Baby's and she says she was just thinking about me. I mis
   
 Renny is such a special talent. I want to grab his parents by the shoulders and tell them this, but I wouldn't really need to tell *them* of all people. Maybe something more like: *I'M A BELIEVER! MARY AND JOSEPH, I BELIEVE IN YOUR SON!!*   
   
-> *Prospect Park, I′m sitting up straight*  
-> 
+> *Prospect Park, I′m sitting up straight*\
 > *With the knowing posture of a monk*  
 > 
-> *It′s May of 2024 and I'm writing*  
+> *It′s May of 2024 and I'm writing*\
+> *To get myself out of a death-induced funk*
 > 
-> *To get myself out of a death-induced funk*   
-> 
-> *People go out the same way they came*  
-> 
+> *People go out the same way they came*\
 > *Through territory uncharted*  
 > 
-> *Then a life is spent, just waiting for it to change*  
-> 
+> *Then a life is spent, just waiting for it to change*\
 > *Until you′re back where you started*  
-> 
->  *San Francisco, 2005*  
+>  > - *San Francisco, 2005*  
   
 ---  
   
