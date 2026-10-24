@@ -14,22 +14,16 @@ An arbitrary town where one can really feel the flimsiness of the project we've 
 ![AQUIA CREEK, VIRGINTA, WAS BROUGHT TO THE](images/CFE8A9EB-FB0B-4EB8-B77D-D84B527AC88B.jpg)  
 **Poem No. 3**  
   
-> The columns at night,  
-> 
-> the nine PM coffee.   
->   
+> The columns at night,\
+> the nine PM coffee.
 >
-> Three fighter jets conduct   
-> 
-> a deafening flyby over   
-> 
-> our heads.   
->   
-> 
-> They are bringing   
-> 
-> democracy  
-> 
-> to the Banana Ball Finals.   
+> Three fighter jets conduct\
+> a deafening flyby over\
+> our heads.
+>
+> They are bringing\
+> democracy\
+> to the Banana Ball Finals.
+ 
   
 ![Image](images/B42B5828-423A-4BC5-B6D3-A735AB8E4FDA.jpg)  
