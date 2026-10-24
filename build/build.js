@@ -53,7 +53,34 @@ function photos(src){
   }
   return out.join("\n");
 }
-const md = src => markdown.parse(photos(src));
+// Site rule: the shortcut writes a quote with a blank ">" line after every line. In a quote written that way, a blank line
+// that's just ">" is a new line, and one with extra spaces after the ">" (an empty line in Notes) starts a new stanza.
+// Quotes written in standard Markdown, with lines next to each other, are left alone.
+function quotes(src){
+  const L = src.split("\n"), out = [], blank = l => /^>\s*$/.test(l);
+  let fenced = false;
+  for(let i = 0; i < L.length;){
+    if(/^```/.test(L[i])) fenced = !fenced;
+    if(fenced || !/^>/.test(L[i])){ out.push(L[i++]); continue; }
+    const block = [];
+    while(i<L.length && /^>/.test(L[i])) block.push(L[i++]);
+    if(!block.every((l,k)=>!k || blank(l) || blank(block[k-1]))){ out.push(...block); continue; }  // standard Markdown
+    const lines = [];
+    let gaps = 0, wide = false;  // blank lines since the last line, and whether one had the extra spaces
+    for(const l of block){
+      if(blank(l)){ gaps++; wide = wide || /^>[ \t]{2,}$/.test(l); continue; }
+      let text = l.replace(/[\s\\]+$/,"");
+      if(lines.length && !(gaps>1 || wide)){
+        lines[lines.length-1] += "\\";  // a line break
+        text = text.replace(/^>\s?(\d+)?([-+*.)])(\s)/,"> $1\\$2$3");  // so a line like "- San Francisco" isn't read as a list
+      } else if(lines.length) lines.push(">");  // a stanza break
+      lines.push(text); gaps = 0; wide = false;
+    }
+    out.push(...lines);
+  }
+  return out.join("\n");
+}
+const md = src => markdown.parse(photos(quotes(src)));
 const inline = s => markdown.parseInline(s);
 // Plain text of rendered HTML, for search
 const plain = html => html.replace(/<[^>]*>/g," ")

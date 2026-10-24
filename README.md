@@ -13,6 +13,7 @@ Add a file to `entries/` named `YYYY-MM-DD-anything.md`, for example `2026-10-23
   - `## Heading 2`s are centered.
   - Photos on lines next to each other (blank lines between are fine) become a grid of squares; a lone photo stays full width.
   - Outside links open in a new tab.
+  - Quotes written the way the shortcut writes them (a blank `>` line after every line) keep their shape: a blank line that's just `>` is a new line, and an empty line in Notes starts a new stanza. Quotes already in standard Markdown are left alone.
 
 Commit and push. The site republishes itself in about a minute, so nothing else needs updating.
 
