@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write   # to save renamed files (see "Tidy filenames")
+  issues: write     # to open an issue when the site nears GitHub Pages' size limit
   pages: write
   id-token: write
 
@@ -44,7 +45,17 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: node build/build.js
+      - id: build
+        run: node build/build.js
+      # build.js reports when the site passes 70% of GitHub Pages' 1 GB limit; open one issue about it (GitHub emails you)
+      - name: Warn about site size
+        if: steps.build.outputs.size_warning
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MSG: ${{ steps.build.outputs.size_warning }}
+        run: |
+          open=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "Site size in:title" --json number --jq length)
+          [ "$open" = 0 ] && gh issue create --repo "$GITHUB_REPOSITORY" --title "Site size: time to move a year of photos" --body "$MSG" || true
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site

@@ -45,6 +45,14 @@ This needs Settings → Pages → Source set to **GitHub Actions** (one time).
 
 To preview locally: `node build/build.js`, then `python3 -m http.server -d _site` and open http://localhost:8000.
 
+## Storage
+
+Photos are nearly all of the site's size; posts are tiny. GitHub Pages allows a published site up to 1 GB, and the repo should ideally stay under 1 GB too. Deleting a photo takes it off the site, but git keeps it in the repo's history.
+
+Each publish logs the site's size on the Actions tab. Past 70% of the limit, the publish opens an issue titled "Site size: time to move a year of photos", and GitHub emails you about it.
+
+When that happens, move a finished year's photos into their own repo (for example `loganchungr/photos-2026`) published with GitHub Pages at `loganchungr.github.io/photos-2026/`, which gets its own 1 GB, and point that year's posts at the new address.
+
 ## Mailing list
 
 The signup form on `context.html` sends addresses to a Google Sheet through a small Apps Script. One-time setup:
