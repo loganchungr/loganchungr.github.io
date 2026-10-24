@@ -1,4 +1,4 @@
-# 2026-10-14 piano, mavis, brennan  
+# 2026-10-14 West Side music day
 ![IMG_4673.jpeg](images/6E93AB63-0E20-49B2-B382-AFD748A30B05.jpg)  
 > had a major annoyance here but ultimately. the reward is in my fingers  
 ![We made love on the living-room floor. Weha](images/FEF3B69A-13F7-4B46-B912-2F770CD3D641.jpg)  
