@@ -13,7 +13,6 @@ Add a file to `entries/` named `YYYY-MM-DD-anything.md`, for example `2026-10-23
   - `## Heading 2`s are centered.
   - Photos on lines next to each other (blank lines between are fine) become a grid of squares; a lone photo stays full width.
   - Outside links open in a new tab.
-  - Stray spaces the notes app leaves just inside italics (`*The Topeka School *(2019)`) are tidied so they still italicize.
 
 Commit and push. The home page reads the folder each time it loads, so nothing else needs updating.
 

@@ -237,20 +237,8 @@ function photos(src){
   }
   return out.join("\n");
 }
-// Site rule: the notes app sometimes leaves a space (or an invisible one) just inside italics ("*The Topeka School *(2019)",
-// "and* take it in*,") or an empty pair, which standard Markdown shows as literal asterisks. Move those spaces outside the
-// markers and drop empty pairs. Code is left alone.
-function tidy(src){
-  let fenced = false;
-  return src.split("\n").map(l=>{
-    if(/^```/.test(l)){ fenced = !fenced; return l; }
-    return fenced ? l : l.split(/(`[^`]*`)/).map((part,i)=>i%2 ? part : part
-      .replace(/(^|\s)\*([^\S\n]+)\*/g,"$1$2")  // an empty pair around just a space
-      .replace(/(^|[^*])\*(?!\*)([^\S\n]*)([^*\n]*?[^*\s])([^\S\n]*)\*(?!\*)/g,"$1$2*$3*$4")).join("");
-  }).join("\n");
-}
-const md = src => markdown.parse(photos(tidy(src.replace(/\r/g,""))));
-const inline = s => markdown.parseInline(tidy(s));
+const md = src => markdown.parse(photos(src.replace(/\r/g,"")));
+const inline = s => markdown.parseInline(s);
 
 /* ---- Calendar ---- */
 const parse = s => {const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
