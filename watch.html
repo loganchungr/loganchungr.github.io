@@ -125,8 +125,8 @@ async function choose(kind){
   clearTimeout(skipping); order = []; shown = ""; misses = 0; dir = 1;
   player = new YT.Player("screen", {
     host: "https://www.youtube-nocookie.com",  // YouTube's privacy-enhanced player
-    // YouTube's own controls are hidden (the page has its own), with no annotations and related videos from the same channel only
-    playerVars: {listType:"playlist", list:PLAYLISTS[kind], playsinline:1, controls:0, rel:0, iv_load_policy:3},
+    // YouTube's own control bar, with no annotations and related videos from the same channel only
+    playerVars: {listType:"playlist", list:PLAYLISTS[kind], playsinline:1, rel:0, iv_load_policy:3},
     events: {onReady:tune, onStateChange:changed, onError:skip}
   });
 }
