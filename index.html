@@ -232,12 +232,31 @@ const lb = $("lb");
 /* The lightbox shows one post, or a picker for a day with several. span holds the list positions it covers. */
 let span = [-1,-1];
 const longDate = d => d.toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});
-function present(e,html,from,to){
+/* Each post has its own address (#2026-09-12-i-m-thirty), and a day with several posts has its date (#2026-10-23),
+   so what's open can be shared. Opening the lightbox adds one step to the browser's history; moving around inside it
+   just updates the address, so the back button closes it in one step, like the ✕. */
+let stepped = false;  // whether opening the lightbox added that history step
+function present(e,html,from,to,where,fromLink){
   span = [from,to];
   $("art").innerHTML = html; $("art").scrollTop = 0; lb.scrollTop = 0;
   $("prev").disabled = from<=0; $("next").disabled = to<0||to>=list.length-1;
   view = {y:e.d.getFullYear(), m:e.d.getMonth()}; render();
+  if(lb.open||fromLink) history.replaceState(null,"","#"+where); else {history.pushState(null,"","#"+where); stepped = true}
   if(!lb.open) lb.showModal();
+}
+lb.addEventListener("close",()=>{
+  if(stepped){stepped = false; history.back()}
+  else if(location.hash) history.replaceState(null,"",location.pathname+location.search);
+});
+addEventListener("popstate",()=>{
+  if(lb.open){stepped = false; if(zoom.open) zoom.close(); lb.close()}
+  else if(fromAddress()) stepped = true;  // came forward from the home page, so closing goes back to it
+});
+const slug = e => e.url.slice(6,-5);  // "posts/2026-09-12-i-m-thirty.html" → "2026-09-12-i-m-thirty"
+function fromAddress(){
+  const where = decodeURIComponent(location.hash.slice(1)), i = entries.findIndex(e=>slug(e)===where);
+  if(i>=0) show(i,true); else if(entries.some(e=>e.date===where)) showDay(where,true); else return false;
+  return true;
 }
 /* Each post is its own page in posts/; the lightbox fetches one when it's opened and keeps it for the visit. */
 const pages = {};
@@ -245,21 +264,21 @@ const post = e => pages[e.url] || (pages[e.url] = fetch(e.url,{cache:"no-cache"}
   .then(t=>new DOMParser().parseFromString(t,"text/html").querySelector("article").innerHTML)
   .catch(err=>{delete pages[e.url];throw err}));
 let ticket = 0;  // so a slow fetch can't replace a post opened after it
-async function show(i){
+async function show(i,fromLink){
   if(i<0||i>=entries.length) return;
   const e = entries[i], p = list.indexOf(i), n = entries.filter(x=>x.date===e.date).length, mine = ++ticket;
   let body;
   try{ body = await post(e) }catch(err){ body = `<p>Couldn’t load this post. <a href="${qa(e.url)}">Try its own page</a>.</p>` }
   if(mine!==ticket) return;
-  present(e,`<p class="when">${longDate(e.d)}`+(n>1?` · <button class="back" data-day="${e.date}">${n} posts</button>`:"")+`</p>`+body,p,p);
+  present(e,`<p class="when">${longDate(e.d)}`+(n>1?` · <button class="back" data-day="${e.date}">${n} posts</button>`:"")+`</p>`+body,p,p,slug(e),fromLink);
   [list[p-1],list[p+1]].forEach(j=>{if(j!==undefined)post(entries[j]).catch(()=>{})});  // ready for the arrows
 }
-function showDay(date){
+function showDay(date,fromLink){
   ticket++;
   const ps = list.map((i,p)=>[i,p]).filter(([i])=>entries[i].date===date);
   if(!ps.length) return;
   const e = entries[ps[0][0]];
-  present(e,`<p class="when">${longDate(e.d)} · ${ps.length} posts</p><div class="pick">${ps.map(([i])=>tile(entries[i])).join("")}</div>`,ps[0][1],ps[ps.length-1][1]);
+  present(e,`<p class="when">${longDate(e.d)} · ${ps.length} posts</p><div class="pick">${ps.map(([i])=>tile(entries[i])).join("")}</div>`,ps[0][1],ps[ps.length-1][1],date,fromLink);
 }
 $("cal").addEventListener("click",ev=>{const t=ev.target.closest("[data-day],[data-i]");if(!t)return;t.dataset.day?showDay(t.dataset.day):show(+t.dataset.i)});
 $("art").addEventListener("click",ev=>{const t=ev.target.closest(".pick [data-i],.back");if(!t)return;t.dataset.day?showDay(t.dataset.day):show(+t.dataset.i)});
@@ -343,7 +362,7 @@ function chyron(list){
 }
 /* ---- Load ---- */
 fetch("posts.json",{cache:"no-cache"}).then(r=>r.json())
-  .then(({posts,missives})=>{ingest(posts);draw();render();chyron(missives)})
+  .then(({posts,missives})=>{ingest(posts);draw();render();chyron(missives);fromAddress()})
   .catch(()=>{const n=$("note");n.textContent="Couldn’t load the entries. Try refreshing.";n.hidden=false;ingest([]);draw();render()});
 </script>
 </body>
