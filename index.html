@@ -91,7 +91,7 @@ mark{background:color-mix(in srgb,var(--accent) 25%,transparent);color:inherit}
 article{font-size:.9rem}
 .when{color:var(--muted);font-size:.9rem;margin:0 0 .25rem}
 article h1{font-size:2rem;margin:0 0 1.25rem}
-article h2{font-size:1.7rem;line-height:1.15;margin:1.8rem 0 .5rem}
+article h2{font-size:1.7rem;line-height:1.15;margin:1.8rem 0 .5rem;text-align:center}  /* site rule: ## headings are centered */
 article h3{margin-top:1.5rem}
 article p,article ul,article ol,article blockquote,article pre{margin:0 0 1rem}
 article a{color:var(--accent);text-decoration:underline dotted;text-underline-offset:.2em}
@@ -176,6 +176,7 @@ article img{display:block;width:auto;max-width:100%;height:auto;max-height:min(2
   <button class="circle" id="znext" aria-label="Next photo">→</button>
 </dialog>
 
+<script src="marked.min.js"></script>
 <script>
 /* ---- Config ---- */
 const REPO = "";           // "yourname/yourrepo"; leave empty to auto-detect on yourname.github.io
@@ -203,45 +204,53 @@ const demo = [
 const ph = (a,b) => "data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+a+'"/><stop offset="1" stop-color="'+b+'"/></linearGradient></defs><rect width="800" height="600" fill="url(#g)"/></svg>').replace(/\(/g,"%28").replace(/\)/g,"%29");
 demo.push({date:"2026-10-22",title:"Hudson Valley",body:"# Hudson Valley\n\n![Placeholder photo, morning fog]("+ph("#b8c4d6","#eef1f4")+")\n\nCold morning, fog coming off the river.\n\n![Placeholder photo, barn at dusk]("+ph("#FF948F","#5a3b4e")+")\n![Placeholder photo, trail]("+ph("#8fb3a3","#2f4a45")+")\n\nThe light lasted about ten minutes. #photos"});
 
-/* ---- Tiny Markdown renderer ---- */
+/* ---- Markdown: standard Markdown via marked (marked.min.js), plus this site's own rules ---- */
 const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-function inline(s){
-  s = esc(s);
-  const codes = [];
-  s = s.replace(/`([^`]+)`/g,(_,c)=>{codes.push(c);return "\u0000"+(codes.length-1)+"\u0000"});
-  s = s.replace(/(^|\s)#([A-Za-z][\w-]*)/g,(_,p,t)=>p+'<a href="#" class="tag" data-tag="'+t.toLowerCase()+'">#'+t+'</a>');
-  // _italics_ (as the notes app writes them): only at word edges, so snake_case and web addresses are left alone
-  s = s.replace(/(^|[^\w])_(?=\S)([^_]*?\S)_(?!\w)/g,"$1<em>$2</em>");
-  s = s.replace(/\[([^\]]+)\]\(((?:https?:|mailto:|#)[^)\s]*)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
-       .replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")
-       .replace(/\*([^*]+)\*/g,"<em>$1</em>");
-  return s.replace(/\u0000(\d+)\u0000/g,(_,i)=>"<code>"+codes[i]+"</code>");
-}
+const photo = (alt,src) => `<img src="${qa(imgSrc(src))}" alt="${qa(alt)}" loading="lazy">`;
+const markdown = new marked.Marked({
+  gfm: true,
+  renderer: {
+    link({href,title,tokens}){  // Site rule: outside links open in a new tab
+      const out = /^https?:/i.test(href) ? ' target="_blank" rel="noopener"' : "";
+      return `<a href="${qa(href)}"${title?` title="${qa(title)}"`:""}${out}>${this.parser.parseInline(tokens)}</a>`;
+    },
+    image({href,text}){ return photo(text,href); }
+  },
+  extensions: [{  // Site rule: #hashtags become links that filter the calendar by tag
+    name: "hashtag", level: "inline",
+    start(src){ const m = src.match(/(^|\s)#[A-Za-z]/); return m ? m.index + m[1].length : undefined; },
+    tokenizer(src){ const m = src.match(/^#([A-Za-z][\w-]*)/); if(m) return {type:"hashtag", raw:m[0], tag:m[1]}; },
+    renderer({tag}){ return `<a href="#" class="tag" data-tag="${tag.toLowerCase()}">#${tag}</a>`; }
+  }]
+});
 const IMG = /^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/;  // a line that is just a photo
-function md(src){
-  const L = src.replace(/\r/g,"").split("\n"); let out = "", i = 0;
-  while(i < L.length){
-    const l = L[i];
-    if(!l.trim()){i++;continue}
-    if(/^```/.test(l)){const b=[];i++;while(i<L.length&&!/^```/.test(L[i]))b.push(L[i++]);i++;out+="<pre><code>"+esc(b.join("\n"))+"</code></pre>";continue}
-    let m;
-    if(m = l.match(/^(#{1,3})\s+(.*)/)){out+=`<h${m[1].length}>${inline(m[2])}</h${m[1].length}>`;i++;continue}
-    if(/^(-{3,}|\*{3,})\s*$/.test(l)){out+="<hr>";i++;continue}
-    if(/^>/.test(l)){const b=[];while(i<L.length&&/^>/.test(L[i]))b.push(L[i++].replace(/^>\s?/,""));out+="<blockquote>"+b.join("\n").split(/\n\s*\n/).map(p=>"<p>"+inline(p.replace(/\n/g," "))+"</p>").join("")+"</blockquote>";continue}
-    if(IMG.test(l)){
-      const run=[];
-      while(i<L.length&&(IMG.test(L[i])||!L[i].trim()&&L.slice(i).find(x=>x.trim())?.match(IMG)))if(IMG.test(L[i++]))run.push(L[i-1].match(IMG));
-      const tags=run.map(m=>'<img src="'+imgSrc(m[2]).replace(/"/g,"%22")+'" alt="'+esc(m[1]).replace(/"/g,"&quot;")+'" loading="lazy">').join("");
-      out+=run.length>1?`<div class="photos${run.length===2?" two":""}">${tags}</div>`:tags;
-      continue;
-    }
-    if(/^\s*[-*]\s+/.test(l)){const b=[];while(i<L.length&&/^\s*[-*]\s+/.test(L[i]))b.push("<li>"+inline(L[i++].replace(/^\s*[-*]\s+/,""))+"</li>");out+="<ul>"+b.join("")+"</ul>";continue}
-    if(/^\s*\d+\.\s+/.test(l)){const b=[];while(i<L.length&&/^\s*\d+\.\s+/.test(L[i]))b.push("<li>"+inline(L[i++].replace(/^\s*\d+\.\s+/,""))+"</li>");out+="<ol>"+b.join("")+"</ol>";continue}
-    const p=[];while(i<L.length&&L[i].trim()&&!/^(#{1,3}\s|```|>|\s*[-*]\s+|\s*\d+\.\s+|-{3,}\s*$|!\[[^\]]*\]\([^)\s]+\)\s*$)/.test(L[i]))p.push(L[i++]);
-    out+="<p>"+inline(p.join(" "))+"</p>";
+// Site rule: back-to-back photo lines (blank lines between are fine) become one grid of squares; a lone photo stays single.
+function photos(src){
+  const L = src.split("\n"), out = [];
+  let fenced = false;
+  for(let i = 0; i < L.length;){
+    if(/^```/.test(L[i])) fenced = !fenced;
+    if(fenced || !IMG.test(L[i])){ out.push(L[i++]); continue; }
+    const run = [];
+    while(i<L.length&&(IMG.test(L[i])||!L[i].trim()&&IMG.test(L.slice(i).find(x=>x.trim())||""))){ const m = L[i++].match(IMG); if(m) run.push(photo(m[1],m[2])); }
+    out.push("", run.length>1 ? `<div class="photos${run.length===2?" two":""}">${run.join("")}</div>` : run[0], "");
   }
-  return out;
+  return out.join("\n");
 }
+// Site rule: the notes app sometimes leaves a space (or an invisible one) just inside italics ("*The Topeka School *(2019)",
+// "and* take it in*,") or an empty pair, which standard Markdown shows as literal asterisks. Move those spaces outside the
+// markers and drop empty pairs. Code is left alone.
+function tidy(src){
+  let fenced = false;
+  return src.split("\n").map(l=>{
+    if(/^```/.test(l)){ fenced = !fenced; return l; }
+    return fenced ? l : l.split(/(`[^`]*`)/).map((part,i)=>i%2 ? part : part
+      .replace(/(^|\s)\*([^\S\n]+)\*/g,"$1$2")  // an empty pair around just a space
+      .replace(/(^|[^*])\*(?!\*)([^\S\n]*)([^*\n]*?[^*\s])([^\S\n]*)\*(?!\*)/g,"$1$2*$3*$4")).join("");
+  }).join("\n");
+}
+const md = src => markdown.parse(photos(tidy(src.replace(/\r/g,""))));
+const inline = s => markdown.parseInline(tidy(s));
 
 /* ---- Calendar ---- */
 const parse = s => {const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
