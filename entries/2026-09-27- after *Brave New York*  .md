@@ -2,7 +2,7 @@
 **2004, dir. Richard Sandler**  
 ![RICHARD SANDLER](images/EE8D5B93-80CC-4114-9140-D9A54C83FB9A.jpg)  
 ##   
-[Letterboxd](https://letterboxd.com/mufasa_lives/film/brave-new-york/)  
+[_Letterboxd_](https://letterboxd.com/mufasa_lives/film/brave-new-york/)  
   
 ---   
   
