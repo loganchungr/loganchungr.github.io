@@ -3,7 +3,7 @@
 
 ![the-good-fight.jpg](images/the-good-fight.jpg)
 
-### 1984 dirs. NoeL Buckner, Sam Sills, Mary Dore
+### 1984 dirs. Noel Buckner, Sam Sills, Mary Dore
 [_Letterboxd_](https://letterboxd.com/mufasa_lives/film/the-good-fight-the-abraham-lincoln-brigade-in-the-spanish-civil-war/)
 
 --- 
