@@ -49,7 +49,7 @@ To preview locally: `node build/build.js`, then `python3 -m http.server -d _site
 
 `lookout.html` lists every upcoming event from the two Google Calendars, in the site's style, with "music" and "not necessarily music" filters. The build reads the calendars' public feeds (`build/calendar.js`, using `build/ical.min.js`) and writes the list into the page, about 25 events at a time; the rest load as you scroll. Each event can be added to Google Calendar or downloaded as an `.ics` file. The list refreshes whenever the site publishes and at 9am, 3pm and 9pm New York time, so a new event shows up within a few hours without a post. To refresh it right away, use "Run workflow" on the Actions tab. Repeating events with no end date are listed up to a year ahead.
 
-To mark an event you're hosting or part of, start its title with `*` on Google Calendar (`*Reading at the library`). The page drops the `*`, shows the title bold in coral brackets, and the "with me" filter shows just those.
+To mark an event you're hosting or part of, start its title with `*` on Google Calendar (`*Reading at the library`). The page drops the `*`, shows the title bold in coral brackets, and the "ft. me" filter shows just those.
 
 ## Watch
 

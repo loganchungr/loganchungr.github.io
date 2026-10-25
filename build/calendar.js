@@ -4,7 +4,7 @@
    lookout.html, the rest in chunks (events/more-1.html, …) that the page loads as you scroll. It also writes an .ics
    file for each event, so visitors can add one to Apple's Calendar or anything else.
    An event whose title starts with * on Google Calendar is one you're hosting or part of: the * is dropped and the
-   event is marked "mine", which the page shows bold in coral brackets and can filter by. */
+   event is marked "mine", which the page shows bold in coral brackets and can filter by ("ft. me"). */
 const fs = require("fs"), path = require("path");
 const ICAL = require("./ical.min.js");
 
