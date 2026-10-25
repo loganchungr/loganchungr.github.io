@@ -71,6 +71,8 @@ jobs:
           node-version: 22
       - id: build
         run: node build/build.js
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}   # for the watch page's video details (build/youtube.js)
       # build.js reports when the site passes 75%, 90%, 95%, 96%... of GitHub Pages' 1 GB limit. Open one issue per level,
       # ever ("STORAGE LIMIT at 90%"); GitHub emails you about each.
       - name: Warn about site size
