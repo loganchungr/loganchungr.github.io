@@ -19,19 +19,23 @@
 .day h3{margin:0 0 .3rem}
 .event{border-top:1px dotted var(--line)}
 .event:last-child{border-bottom:1px dotted var(--line)}
-.event summary{display:flex;align-items:baseline;gap:.15rem .6rem;padding:.5rem 0;cursor:pointer;list-style:none}
+/* Each event: its dot, its time and its title in three columns; opening it shows the rest under the title */
+.event summary{display:grid;grid-template-columns:.55rem 7.5rem minmax(0,1fr);column-gap:.65rem;align-items:baseline;padding:.5rem 0;cursor:pointer;list-style:none}
 .event summary::-webkit-details-marker{display:none}
-.event summary::before{align-self:center;margin-right:.1rem}
-.event .time{flex:none;min-width:6.5rem;color:var(--muted);font-size:.85rem}
-.event .what{flex:1;min-width:0}
+.event summary::before{align-self:start;margin:.45em 0 0}
+.event .time{color:var(--muted);font-size:.85rem}
 .event summary:hover .what,.event[open] .what{text-decoration:underline dotted var(--accent) 2px;text-underline-offset:.25em}
-.event>:not(summary){margin:0 0 .6rem 1.1rem}
-.event p{margin:0 0 .5rem}
-.event .about p:last-child{margin-bottom:0}
+.event>p,.event>div{margin:0 0 .5rem 9.35rem}
+.event .about p{margin:0 0 .5rem}
 .event .where,.event .link{overflow-wrap:anywhere}
-.event .add{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;font-size:.85rem;margin-bottom:.85rem}
+.event .add{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;font-size:.85rem;padding-bottom:.4rem}
 .none{color:var(--muted)}
-@media (max-width:40rem){.event summary{flex-wrap:wrap}.event .time{min-width:0}.event .what{flex-basis:100%;padding-left:1.1rem}}
+@media (max-width:40rem){
+  /* On phones the title goes under the time */
+  .event summary{grid-template-columns:.55rem minmax(0,1fr)}
+  .event .what{grid-column:2}
+  .event>p,.event>div{margin-left:1.2rem}
+}
 </style>
 </head>
 <body>
