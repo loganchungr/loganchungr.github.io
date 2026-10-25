@@ -97,8 +97,8 @@ async function choose(kind){
   clearTimeout(skipping); order = []; shown = ""; misses = 0; dir = 1;
   player = new YT.Player("screen", {
     host: "https://www.youtube-nocookie.com",  // YouTube's privacy-enhanced player
-    // no annotations, and related videos from the same channel only
-    playerVars: {listType:"playlist", list:PLAYLISTS[kind], playsinline:1, rel:0, iv_load_policy:3},
+    // a white progress bar, no annotations, and related videos from the same channel only
+    playerVars: {listType:"playlist", list:PLAYLISTS[kind], playsinline:1, rel:0, iv_load_policy:3, color:"white"},
     events: {onReady:tune, onStateChange:changed, onError:skip}
   });
 }
