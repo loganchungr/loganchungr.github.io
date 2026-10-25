@@ -15,7 +15,16 @@
 .screen{width:min(100% - 4rem,(100vh - 16rem) * 16 / 9);min-width:min(100% - 4rem,20rem);aspect-ratio:16/9;background:#000;border:1px dotted var(--line);border-radius:1px;overflow:hidden}
 .screen iframe{display:block;width:100%;height:100%;border:0}
 .remote{display:flex;flex-direction:column;gap:.75rem}
-.remote .circle{width:3rem;height:3rem;font-size:1.2rem}
+.remote .circle{width:3rem;height:3rem;font-size:1.2rem;display:grid;place-items:center;padding:0}
+/* TV has no YouTube controls, so it gets its own sound and full-screen buttons, set apart from the arrows */
+.remote .sep{height:.5rem;width:.5rem}
+.remote svg{width:1.1rem;height:1.1rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#watching:not([data-kind="tv"]) .tvonly{display:none}
+/* Full screen takes the screen and its controls, on black */
+.tv:fullscreen{background:#000;justify-content:center;padding:1rem}
+.tv:fullscreen .screen{width:min(100% - 4rem,(100vh - 2rem) * 16 / 9);border-color:transparent}
+.tv:-webkit-full-screen{background:#000;justify-content:center;padding:1rem}
+.tv:-webkit-full-screen .screen{width:min(100% - 4rem,(100vh - 2rem) * 16 / 9);border-color:transparent}
 /* A small "i" under the screen, at the left; the info box opens from it */
 #about{display:block;width:1.6rem;height:1.6rem;margin-top:.75rem;padding:0;font-size:.8rem;font-style:italic;font-weight:700}
 #about[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
@@ -49,6 +58,9 @@
       <div class="remote">
         <button class="circle" id="up" aria-label="Next video" title="Next video">↑</button>
         <button class="circle" id="down" aria-label="Previous video" title="Previous video">↓</button>
+        <span class="sep tvonly"></span>
+        <button class="circle tvonly" id="sound"></button>
+        <button class="circle tvonly" id="full"></button>
       </div>
     </div>
     <button class="circle" id="about" aria-label="About this video" aria-expanded="false" aria-controls="panel" title="About this video">i</button>
@@ -86,7 +98,7 @@ const youtube = () => api || (api = new Promise((ok, fail) => {
 
 let player, order = [], shown = "", misses = 0, skipping, dir = 1;  // dir: which way the last change of channel went
 async function choose(kind){
-  $("ask").hidden = true; $("watching").hidden = false;
+  $("ask").hidden = true; $("watching").hidden = false; $("watching").dataset.kind = kind;
   $("other").textContent = kind === "tv" ? "watch a movie instead" : "watch TV instead";
   $("other").dataset.kind = kind === "tv" ? "movie" : "tv";
   if(!PLAYLISTS[kind]) return tell(`No ${kind === "tv" ? "TV" : "movie"} playlist yet.`);
@@ -106,6 +118,7 @@ async function choose(kind){
 }
 /* Once YouTube has the playlist's videos, shuffle them and start at the first, so every visit starts somewhere new */
 function tune(){
+  if(muted && $("watching").dataset.kind === "tv") player.mute();
   let tries = 0;
   (function wait(){
     const ids = player.getPlaylist && player.getPlaylist();
@@ -142,6 +155,27 @@ function skip(){
 document.querySelectorAll("#ask [data-kind]").forEach(b => b.addEventListener("click", () => choose(b.dataset.kind)));
 $("other").onclick = () => choose($("other").dataset.kind);
 $("up").onclick = next; $("down").onclick = prev;
+
+/* TV's sound and full-screen buttons, drawn like the light/dark toggle's icons */
+let muted = false;
+const svg = d => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+const ICON = {
+  sound: svg('<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9a4 4 0 0 1 0 6"/>'), muted: svg('<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/>'),
+  full: svg('<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>'), exit: svg('<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>')
+};
+const box = document.querySelector(".tv");
+const fullNow = () => document.fullscreenElement || document.webkitFullscreenElement;
+function icon(id, name, label){ $(id).innerHTML = ICON[name]; $(id).setAttribute("aria-label", label); $(id).title = label; }
+function paint(){
+  icon("sound", muted ? "muted" : "sound", muted ? "Turn the sound on" : "Mute");
+  icon("full", fullNow() ? "exit" : "full", fullNow() ? "Exit full screen" : "Full screen");
+}
+$("sound").onclick = () => { muted = !muted; if(player && player.mute) muted ? player.mute() : player.unMute(); paint(); };
+// Full screen, where the browser lets a page do it (iPhones don't)
+if(!(document.fullscreenEnabled || document.webkitFullscreenEnabled)) $("full").hidden = true;
+$("full").onclick = () => fullNow() ? (document.exitFullscreen || document.webkitExitFullscreen).call(document) : (box.requestFullscreen || box.webkitRequestFullscreen).call(box);
+["fullscreenchange","webkitfullscreenchange"].forEach(e => document.addEventListener(e, paint));
+paint();
 $("about").onclick = () => { const open = $("panel").hidden; $("panel").hidden = !open; $("about").setAttribute("aria-expanded", open); };
 /* The keyboard's up and down arrows change the channel too (while the page, not the player, has focus) */
 document.addEventListener("keydown", ev => {
