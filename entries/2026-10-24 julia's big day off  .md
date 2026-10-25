@@ -1,4 +1,4 @@
-# 2026-10-24 julia's big day off  
+# 2026-10-24 grocery store 
   
 What I did today was sit with ilulia on her only day off, and read from the book we're both reading, and enjoy the privilege of sweating in the sun. We talk about the book and about the place we'll soon both be working (if her sources are to be trusted) and she tells me I'll need to work hard. I don't mind.   
   
