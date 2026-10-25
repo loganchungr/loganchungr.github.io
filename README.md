@@ -71,13 +71,13 @@ When that happens, move a finished year's photos into their own repo (for exampl
 
 ## Mailing list
 
-The signup form on `context.html` sends addresses to a Google Sheet through a small Apps Script. One-time setup:
+The signup on `context.html` (the "click here" after your email address) sends addresses to a Google Sheet through a small Apps Script. One-time setup:
 
 1. Create a new Google Sheet. Name it anything.
 2. Open Extensions → Apps Script. Delete the starter code, paste in the contents of `mailing-list.gs`, and save.
 3. Click Deploy → New deployment. Choose type "Web app". Set "Execute as" to Me and "Who has access" to Anyone. Deploy, and approve the permissions prompt.
 4. Copy the web app URL it gives you (it ends in `/exec`).
-5. In `context.html`, paste that URL into `SIGNUP_URL` near the bottom of the file, then commit. The signup stays hidden on the page until this is filled in.
+5. In `context.html`, paste that URL into `SIGNUP_URL` near the bottom of the file, then commit. Until this is filled in, the "Alternately, click here to give me your email" sentence stays hidden.
 
 Addresses appear in the Sheet with a timestamp. Duplicates are ignored. If you later edit the script, use Deploy → Manage deployments → Edit → New version, or the change won’t go live. The Sheet stays private to your Google account. The URL only lets people add an address, not read the list.
 
