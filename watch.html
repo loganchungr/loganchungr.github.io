@@ -104,7 +104,7 @@ const youtube = () => api || (api = new Promise((ok, fail) => {
 
 let player, order = [], shown = "", misses = 0, skipping, dir = 1;  // dir: which way the last change of channel went
 async function choose(kind){
-  $("ask").hidden = true; $("watching").hidden = false; $("watching").dataset.kind = kind;
+  $("ask").hidden = true; $("watching").hidden = false; $("watching").dataset.kind = kind; loadDetails();
   $("other").textContent = kind === "tv" ? "watch a movie instead" : "watch TV instead";
   $("other").dataset.kind = kind === "tv" ? "movie" : "tv";
   if(!PLAYLISTS[kind]) return tell(`No ${kind === "tv" ? "TV" : "movie"} playlist yet.`);
@@ -145,9 +145,11 @@ function prev(){
   const i = player.getPlaylistIndex();
   if(i > 0) player.previousVideo(); else player.playVideoAt(order.length-1);
 }
-/* Descriptions, view counts and upload dates, which the build gets from YouTube each time the site publishes */
-let DETAILS = {}, current = null;
-fetch("watch.json", {cache:"no-cache"}).then(r => r.ok ? r.json() : {}).then(j => { DETAILS = j; if(current) describe(current); }).catch(() => {});
+/* Descriptions, view counts and upload dates, which the build gets from YouTube each time the site publishes.
+   They load once someone picks something, like YouTube's player. */
+let DETAILS = {}, current = null, details;
+const loadDetails = () => details = details || fetch("watch.json", {cache:"no-cache"}).then(r => r.ok ? r.json() : {})
+  .then(j => { DETAILS = j; if(current) describe(current); }).catch(() => {});
 const linked = t => esc(t).replace(/\bhttps?:\/\/[^\s<]+[^\s<.,;:!?)\]'"]/g, u => `<a href="${u}" target="_blank" rel="noopener">${u}</a>`).replace(/\n/g, "<br>");
 function describe(d){
   current = d;
