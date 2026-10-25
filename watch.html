@@ -177,11 +177,17 @@ $("full").onclick = () => fullNow() ? (document.exitFullscreen || document.webki
 ["fullscreenchange","webkitfullscreenchange"].forEach(e => document.addEventListener(e, paint));
 paint();
 $("about").onclick = () => { const open = $("panel").hidden; $("panel").hidden = !open; $("about").setAttribute("aria-expanded", open); };
-/* The keyboard's up and down arrows change the channel too (while the page, not the player, has focus) */
+/* The keyboard's up and down arrows change the channel too, and on TV, M and F work the sound and full-screen
+   buttons (while the page, not the player, has focus) */
 document.addEventListener("keydown", ev => {
   if($("watching").hidden || ev.altKey || ev.ctrlKey || ev.metaKey) return;
   if(ev.key === "ArrowUp"){ ev.preventDefault(); next(); }
   if(ev.key === "ArrowDown"){ ev.preventDefault(); prev(); }
+  // On TV, M mutes and F goes full screen, like YouTube's own shortcuts
+  if($("watching").dataset.kind === "tv" && /^[mf]$/i.test(ev.key)){
+    const b = $(ev.key.toLowerCase() === "m" ? "sound" : "full");
+    if(!b.hidden){ ev.preventDefault(); b.click(); }
+  }
 });
 </script>
 </body>
