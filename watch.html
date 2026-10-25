@@ -54,6 +54,10 @@
 .info .more:not(:hover){color:var(--muted)}
 .info .meta{margin-top:.6rem;color:var(--muted);font-size:.75rem}
 .info .or{margin-top:.9rem;color:var(--muted);font-size:.85rem}
+/* The keyboard shortcuts, on computers with a keyboard and mouse */
+.info .keys{display:none;flex-wrap:wrap;gap:.3rem 1.1rem;margin-top:.9rem;color:var(--muted);font-size:.75rem}
+@media (hover:hover) and (pointer:fine) and (min-width:40.01rem){.info .keys{display:flex}}
+.keys kbd{font:inherit;padding:0 .3em;margin-right:.15em;border:1px dotted var(--line);border-radius:2px;color:var(--ink)}
 .or .pick:not(:hover){color:var(--muted)}
 @media (max-width:40rem){
   /* On phones, "next" and full screen float in the bottom-right corner, within thumb's reach; play and sound are
@@ -97,6 +101,7 @@
     </div>
     <div class="info" id="panel" hidden>
       <div id="info" aria-live="polite"></div>
+      <p class="keys"><span><kbd>↓</kbd> next</span><span class="tvonly"><kbd>K</kbd> or <kbd>space</kbd> play/pause</span><span class="tvonly"><kbd>M</kbd> mute</span><span class="tvonly"><kbd>F</kbd> full screen</span></p>
       <p class="or"><button class="pick" id="other"></button></p>
     </div>
   </section>
