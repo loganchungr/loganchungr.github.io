@@ -19,7 +19,7 @@ Commit and push. The site republishes itself in about a minute, so nothing else 
 
 ## Styles
 
-Every page links `site.css`, which holds what they share: colors for both themes, fonts, links and nav, dotted boxes, round buttons, the lightbox, and the Pale Blue Dot background in dark mode. Each page's own `<style>` block holds only what's unique to it. To change a color or border everywhere, edit `site.css`.
+Every page links `site.css`, which holds what they share: colors for both themes, fonts, links and nav, dotted boxes, round buttons, the lightbox, and the Pale Blue Dot background in dark mode. Each page's own `<style>` block holds only what's unique to it. To change a color or border everywhere, edit `site.css`. Each publish adds a version to every page's link to `site.css` and `theme.js` (`site.css?v=68aed297`), so a browser that saved the old copy fetches the new one; keep the links in the pages plain.
 
 `theme.js` picks light or dark (from the device setting, or the toggle button it adds) and sets `data-theme` on the page; it has no styles of its own. A new page needs both lines in its `<head>`:
 
