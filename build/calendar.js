@@ -2,7 +2,9 @@
    also runs at 9am, 3pm and 9pm New York time so new events show up without a post. It reads the Google Calendars'
    public feeds with ical.js (build/ical.min.js, MPL-2.0) and lists every upcoming event: the first few in
    lookout.html, the rest in chunks (events/more-1.html, …) that the page loads as you scroll. It also writes an .ics
-   file for each event, so visitors can add one to Apple's Calendar or anything else. */
+   file for each event, so visitors can add one to Apple's Calendar or anything else.
+   An event whose title starts with * on Google Calendar is one you're hosting or part of: the * is dropped and the
+   event is marked "mine", which the page shows bold in coral brackets and can filter by. */
 const fs = require("fs"), path = require("path");
 const ICAL = require("./ical.min.js");
 
@@ -114,7 +116,8 @@ function render(list, OUT){
     days.get(day).push(o);
   }
   return [...days].sort(([a],[b]) => a < b ? -1 : 1).map(([day, list]) => ({n:list.length, html:`<section class="day"><h3>${esc(dayName(day))}</h3>\n` + list.map(o => {
-    const title = o.item.summary || "(untitled)", where = (o.item.location||"").trim();
+    const summary = String(o.item.summary || ""), mine = /^\s*\*/.test(summary);
+    const title = summary.replace(/^\s*\*+\s*/, "") || "(untitled)", where = (o.item.location||"").trim();
     const raw = o.item.description || "", about = plain(raw), link = o.item.component.getFirstPropertyValue("url") || "";
     let file = "events/"+o.start.toString().slice(0,10)+"-"+slug(title), n = 1;
     while(taken.has(file+(n>1?"-"+n:""))) n++;
@@ -126,7 +129,7 @@ function render(list, OUT){
       link && `<p class="link"><a href="${qa(link)}"${out}>${esc(link)}</a></p>`,
       `<p class="add"><a href="${qa(google(o, title, where, about))}"${out}>add to Google Calendar</a><a href="${file}">download .ics</a></p>`
     ].filter(Boolean).join("");
-    return `<details class="event ${o.kind}"><summary><span class="time">${esc(when(o))}</span><span class="what">${esc(title)}</span></summary>${more}</details>`;
+    return `<details class="event ${o.kind}${mine ? " mine" : ""}"><summary><span class="time">${esc(when(o))}</span><span class="what">${esc(title)}</span></summary>${more}</details>`;
   }).join("\n") + `</section>`}));
 }
 
