@@ -60,7 +60,7 @@
 .tv:fullscreen .keys,.tv:-webkit-full-screen .keys,.tv.filled .keys{visibility:hidden}
 .keys kbd{font:inherit;padding:0 .3em;margin-right:.15em;border:1px dotted var(--line);border-radius:2px;color:var(--ink)}
 .or .pick:not(:hover){color:var(--muted)}
-/* "I'd rather read, actually…": a smaller, quieter line under the two choices, and the Dropbox folder it opens */
+/* "I'd rather read": a smaller, quieter line under the two choices, and the Dropbox folder it opens */
 .rather{margin:1.1rem 0 0;font-size:.85rem}
 .rather a:not(:hover),#reading .or a:not(:hover),#reading .or .pick:not(:hover){color:var(--muted)}
 .shelf{height:min(100vh - 14rem,44rem);min-height:20rem;max-width:64rem;background:var(--panel);border:1px dotted var(--line);border-radius:1px;overflow:hidden}
@@ -89,7 +89,7 @@
   <section id="ask">
     <h2>what would you like to watch?</h2>
     <p class="choices"><button class="pick" data-kind="tv">watch TV</button><button class="pick" data-kind="movie">watch a movie</button></p>
-    <p class="rather"><a id="read" target="_blank" rel="noopener">I’d rather read, actually…</a></p>
+    <p class="rather"><a id="read" target="_blank" rel="noopener">I’d rather read</a></p>
   </section>
 
   <section id="reading" hidden>
@@ -217,11 +217,11 @@ function skip(){
   clearTimeout(skipping); skipping = setTimeout(next, 600);
 }
 
-/* "I'd rather read, actually…" opens the Dropbox folder of things to read. Dropbox's own pages refuse to sit in a frame
+/* "I'd rather read" opens the Dropbox folder of things to read. Dropbox's own pages refuse to sit in a frame
    on another site, so the folder shows here through Dropbox's Embedder, which needs an app key (see the README).
    With no key, or if the Embedder can't load, the link opens the folder on Dropbox in a new tab instead. */
 const READING = "https://www.dropbox.com/scl/fo/zqmpilkesqysnunh777or/AJEihmp3x4XqVGSiGLyJXIg?rlkey=6n11uqfb3ohudqr1knb2dpxkb&dl=0";
-const DROPBOX_APP_KEY = "";
+const DROPBOX_APP_KEY = "lzq0tdjuffjyc19";
 $("read").href = $("dropbox").href = READING;
 let dropins;
 const dropbox = () => dropins || (dropins = new Promise((ok, fail) => {
