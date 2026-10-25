@@ -101,7 +101,7 @@
     </div>
     <div class="info" id="panel" hidden>
       <div id="info" aria-live="polite"></div>
-      <p class="keys"><span><kbd>↓</kbd> next</span><span class="tvonly"><kbd>K</kbd> or <kbd>space</kbd> play/pause</span><span class="tvonly"><kbd>M</kbd> mute</span><span class="tvonly"><kbd>F</kbd> full screen</span></p>
+      <p class="keys"><span><kbd>↓</kbd> next</span><span><kbd>I</kbd> info</span><span class="tvonly"><kbd>K</kbd> or <kbd>space</kbd> play/pause</span><span class="tvonly"><kbd>M</kbd> mute</span><span class="tvonly"><kbd>F</kbd> full screen</span></p>
       <p class="or"><button class="pick" id="other"></button></p>
     </div>
   </section>
@@ -233,11 +233,12 @@ $("full").onclick = () => !canFull ? fill(!box.classList.contains("filled"))
 ["fullscreenchange","webkitfullscreenchange"].forEach(e => document.addEventListener(e, paint));
 paint();
 $("about").onclick = () => { const open = $("panel").hidden; $("panel").hidden = !open; $("about").setAttribute("aria-expanded", open); };
-/* The keyboard's down arrow goes to the next video too, and on TV, K or space play and pause, M mutes and F goes
+/* The keyboard's down arrow goes to the next video too, I opens the info box, and on TV, K or space play and pause, M mutes and F goes
    full screen, like YouTube's own shortcuts (while the page, not the player, has focus) */
 document.addEventListener("keydown", ev => {
   if($("watching").hidden || ev.altKey || ev.ctrlKey || ev.metaKey) return;
   if(ev.key === "ArrowDown"){ ev.preventDefault(); next(); }
+  if(/^i$/i.test(ev.key) && !ev.target.closest("input, textarea")){ ev.preventDefault(); $("about").click(); }  // I opens and closes the info box
   if(ev.key === "Escape" && box.classList.contains("filled")) fill(false);
   if($("watching").dataset.kind === "tv" && /^[kmf ]$/i.test(ev.key) && !ev.target.closest("input, textarea")){
     const b = $({k:"play", " ":"play", m:"sound", f:"full"}[ev.key.toLowerCase()]);
