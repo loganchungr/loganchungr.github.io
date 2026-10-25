@@ -6,6 +6,11 @@ name: Publish site
 on:
   push:
     branches: [update-2]
+  # Also at 9am, 3pm and 9pm New York time, so new calendar events reach the lookout page without a post. GitHub's
+  # clock is UTC, so each time is listed for daylight time and for standard time; the "when" job keeps the right one.
+  schedule:
+    - cron: "0 13,19,1 * * *"   # New York on daylight time (UTC-4)
+    - cron: "0 14,20,2 * * *"   # New York on standard time (UTC-5)
   workflow_dispatch:   # adds a "Run workflow" button on the Actions tab, to republish by hand
 
 permissions:
@@ -19,7 +24,26 @@ concurrency:   # if two posts arrive close together, publish them in order
   cancel-in-progress: false
 
 jobs:
+  when:
+    runs-on: ubuntu-latest
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+    steps:
+      - id: check
+        env:
+          EVENT: ${{ github.event_name }}
+          CRON: ${{ github.event.schedule }}
+        run: |
+          offset=$(TZ=America/New_York date +%z)
+          if [ "$EVENT" != schedule ] || [ "$CRON|$offset" = "0 13,19,1 * * *|-0400" ] || [ "$CRON|$offset" = "0 14,20,2 * * *|-0500" ]; then
+            echo "go=yes" >> "$GITHUB_OUTPUT"
+          else
+            echo "Not 9, 3 or 9 o'clock in New York at this time of year, so nothing to do"
+          fi
+
   publish:
+    needs: when
+    if: needs.when.outputs.go == 'yes'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
