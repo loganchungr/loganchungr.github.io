@@ -7,7 +7,7 @@
      search.json   every post's plain text, which the home page loads only when someone uses the search box
 
    To try it yourself: node build/build.js, then serve _site/ (for example: python3 -m http.server -d _site). */
-const fs = require("fs"), path = require("path");
+const fs = require("fs"), path = require("path"), crypto = require("crypto");
 const { Marked } = require("./marked.min.js");
 
 const ROOT = path.join(__dirname, ".."), OUT = path.join(ROOT, "_site");
@@ -197,6 +197,18 @@ function sizeCheck(){
   }
 }
 
-/* ---- Lookout's events (build/calendar.js) and the watch page's video details (build/youtube.js), then the size check ---- */
-require("./calendar.js").lookout(OUT).then(() => require("./youtube.js").watch(OUT)).then(sizeCheck)
+/* ---- Each page asks for site.css and theme.js by version ("site.css?v=3f2a91c0", from the file's contents), so after a
+   change a browser fetches the new copy instead of pairing a new page with the old styles it has saved ---- */
+function stamp(){
+  const v = Object.fromEntries(["site.css","theme.js"].map(f => [f, crypto.createHash("sha1").update(fs.readFileSync(path.join(OUT,f))).digest("hex").slice(0,8)]));
+  const pages = dir => fs.readdirSync(dir).filter(f => f.endsWith(".html")).map(f => path.join(dir,f));
+  for(const f of [...pages(OUT), ...pages(path.join(OUT,"posts"))]){
+    const html = fs.readFileSync(f,"utf8"), out = html.replace(/(href|src)="(site\.css|theme\.js)"/g, (_,a,n) => `${a}="${n}?v=${v[n]}"`);
+    if(out !== html) fs.writeFileSync(f, out);
+  }
+}
+
+/* ---- Lookout's events (build/calendar.js) and the watch page's video details (build/youtube.js), then the stamps and
+   the size check ---- */
+require("./calendar.js").lookout(OUT).then(() => require("./youtube.js").watch(OUT)).then(stamp).then(sizeCheck)
   .catch(err => { console.error(err); process.exit(1); });
