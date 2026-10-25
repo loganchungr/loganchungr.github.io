@@ -55,9 +55,10 @@
 .tv:fullscreen .keys,.tv:-webkit-full-screen .keys,.tv.filled .keys{visibility:hidden}
 .keys kbd{font:inherit;padding:0 .3em;margin-right:.15em;border:1px dotted var(--line);border-radius:2px;color:var(--ink)}
 .or .pick:not(:hover){color:var(--muted)}
-/* "I'd rather read": a smaller, quieter line under the two choices, and the Dropbox folder it opens */
-.rather{margin:1.1rem 0 0;font-size:.85rem}
-.rather a:not(:hover),#reading .or a:not(:hover),#reading .or .pick:not(:hover){color:var(--muted)}
+/* "I'd rather read": a smaller, quieter line under the two choices, with "read" as the link, and the Dropbox folder
+   it opens */
+.rather{margin:1.1rem 0 0;font-size:.85rem;color:var(--muted)}
+#reading .or a:not(:hover),#reading .or .pick:not(:hover){color:var(--muted)}
 /* Under the folder, its own "i", like the video's, open to start, with a note about the library beside it */
 #reading .under{max-width:64rem}
 .shelf{height:min(100vh - 14rem,44rem);min-height:20rem;max-width:64rem;background:var(--panel);border:1px dotted var(--line);border-radius:1px;overflow:hidden}
@@ -86,7 +87,7 @@
   <section id="ask">
     <h2>what would you like to watch?</h2>
     <p class="choices"><button class="pick" data-kind="tv">watch TV</button><button class="pick" data-kind="movie">watch a movie</button></p>
-    <p class="rather"><a id="read" target="_blank" rel="noopener">I’d rather read</a></p>
+    <p class="rather">I’d rather <a id="read" target="_blank" rel="noopener">read</a></p>
   </section>
 
   <section id="reading" hidden>
