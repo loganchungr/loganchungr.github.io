@@ -82,4 +82,4 @@ X leaves BOOK CLUB to head back to Honore Square. He is meeting my soon-to-be ne
   
 ...at the end of the night, L walks me home and I love her ♥️  
   
-#life #3BD   
+#life #threeboroughday   
