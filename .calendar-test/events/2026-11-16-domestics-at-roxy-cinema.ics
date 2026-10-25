@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+PRODID:-//Loggin’ Chung//lookout//EN
+VERSION:2.0
+BEGIN:VEVENT
+UID:78hns5u8jtcqt0d9du0e5tndij@google.com-2026-11-16T00:30:00Z
+DTSTAMP:20261025T011823Z
+DTSTART:20261116T003000Z
+DTEND:20261116T023000Z
+SUMMARY:DOMESTICS at Roxy Cinema
+LOCATION:Roxy Cinema New York\, 2 6th Avenue Cellar Level\, New York\, NY 1
+ 0013\, USA
+DESCRIPTION:https://www.roxycinemanewyork.com/screenings/domestics/
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+PRODID:-//Loggin’ Chung//lookout//EN
+VERSION:2.0
+BEGIN:VEVENT
+UID:59mjk7fk2sr4jv88rou6cb0k9v@google.com-2026-11-19T23:30:00Z
+DTSTAMP:20261025T011823Z
+DTSTART:20261119T233000Z
+DTEND:20261120T013000Z
+SUMMARY:Legacy of Steve Reich: “Drumming”
+LOCATION:Trinity Church NYC\, 89 Broadway\, New York\, NY 10006\, USA
+DESCRIPTION:https://trinitychurchnyc.org/events/legacy-steve-reich-drumming
+ -november-19th-2026-0630pm\nby Sandbox Percussion and students\nJoin us
+  for a powerful performance that celebrates the enduring legacy o
+ f one of America’s most influential composers and the artists carryin
+ g his legacy forward. Drumming moves fluidly between different families
+  of instruments — from bongos\, marimbas\, and glockenspiels to whist
+ ling and the human voice — and requires an almost telepathic communic
+ ation between players. This concert honors the mentors\, educators\, an
+ d musical visionaries who are shaping the next generation. \n \nRegistrat
+ ion for this free event is highly recommended as seating is limited.\nWe su
+ ggest arriving 45 minutes before start time. Admission is first-come\, firs
+ t-served\, with ticket holders receiving priority (although not guaranteed 
+ entrance if the venue reaches capacity).
+END:VEVENT
+END:VCALENDAR

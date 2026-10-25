@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+PRODID:-//Loggin’ Chung//lookout//EN
+VERSION:2.0
+BEGIN:VEVENT
+UID:2fdvma8sdghcr5glu5b1cott3f@google.com-2026-10-31T23:30:00Z
+DTSTAMP:20261025T011823Z
+DTSTART:20261031T233000Z
+DTEND:20261101T023000Z
+SUMMARY:Fort Greene Live: Vivaldi's Four Seasons w/ violinist Giora Schmidt
+LOCATION:Co-Cathedral of St. Joseph - St. Teresa of Avila Parish Office\, 5
+ 63 Sterling Pl\, Brooklyn\, NY 11238\, USA
+END:VEVENT
+END:VCALENDAR

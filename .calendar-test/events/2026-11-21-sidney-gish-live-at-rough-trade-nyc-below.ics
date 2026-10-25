@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+PRODID:-//Loggin’ Chung//lookout//EN
+VERSION:2.0
+BEGIN:VEVENT
+UID:1kd6hjgh78kg29tjgttqg67hjs@google.com-2026-11-21T19:00:00Z
+DTSTAMP:20261025T011823Z
+DTSTART:20261121T190000Z
+DTEND:20261121T210000Z
+SUMMARY:Sidney Gish live at Rough Trade NYC Below
+LOCATION:Rough Trade Below\, 30 Rockefeller Center Concourse Level\, New Yo
+ rk\, NY 10112\, USA
+END:VEVENT
+END:VCALENDAR
