@@ -24,13 +24,9 @@
 .event.mine .what{font-weight:700}
 .event.mine .what::before{content:"[";color:var(--accent)}
 .event.mine .what::after{content:"]";color:var(--accent)}
-/* The "i", like the watch page's, open to start, with the note about the calendar beside it */
-.under{display:flex;align-items:center;gap:1rem;max-width:44rem;margin:0 0 1rem}
-#about{flex:none;width:1.6rem;height:1.6rem;font-size:.8rem;font-style:italic;font-weight:700}
-#about[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
-#blurb{flex:0 1 auto;min-width:0;margin:0;padding:.3rem .6rem;color:var(--note);font-size:.85rem;line-height:1.4}
+/* The note about the calendar, at the top in coral */
+#blurb{max-width:44rem;margin:0 0 1rem;color:var(--note);font-size:.85rem;line-height:1.5}
 #blurb a{color:inherit}
-#about[aria-expanded="false"]+#blurb{display:none}
 .events{max-width:44rem}
 .day{margin:0 0 1.5rem;border-bottom:1px dotted var(--line)}
 .day h3{margin:0 0 .3rem}
@@ -60,10 +56,7 @@
 <main>
   <h1><a href="https://loganchungr.github.io/">Loggin’ Chung</a></h1>
   <nav class="links"><a href="https://loganchungr.github.io/">home</a><a href="lookout.html" aria-current="page">lookout</a><a href="watch.html">watch</a><a href="context.html">context</a></nav>
-  <div class="under">
-    <button class="circle" id="about" aria-label="About this calendar" aria-expanded="true" aria-controls="blurb" title="About this calendar">i</button>
-    <p id="blurb">This is a calendar of upcoming events I find during my scrolls or strolls. It is maintained with some help from <a href="https://gunkyard.substack.com/">GUNK</a> and <a href="https://emdashnyc.substack.com/">—EMDASH</a>. Sometimes a personal event will find its way onto this. Oops!</p>
-  </div>
+  <p id="blurb">This is a calendar of upcoming events I find during my scrolls or strolls. It is maintained with some help from <a href="https://gunkyard.substack.com/">GUNK</a> and <a href="https://emdashnyc.substack.com/">—EMDASH</a>. Sometimes a personal event will find its way onto this. Oops!</p>
   <p class="key"><button class="music" data-only="music" aria-pressed="false">music</button><button class="other" data-only="other" aria-pressed="false">not necessarily music</button><button class="mine" data-only="mine" aria-pressed="false">ft. me</button></p>
   <div class="events">
 <!-- events: build/build.js puts the upcoming events here -->
@@ -72,8 +65,6 @@
 </main>
 <script>
 const $$ = s => [...document.querySelectorAll(s)];
-const about = document.getElementById("about");
-about.onclick = () => about.setAttribute("aria-expanded", about.getAttribute("aria-expanded") !== "true");
 /* Filters: show just one kind of event, hiding days left empty */
 let only = "";
 function filter(){
