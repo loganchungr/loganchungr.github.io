@@ -63,6 +63,10 @@
 /* "I'd rather read": a smaller, quieter line under the two choices, and the Dropbox folder it opens */
 .rather{margin:1.1rem 0 0;font-size:.85rem}
 .rather a:not(:hover),#reading .or a:not(:hover),#reading .or .pick:not(:hover){color:var(--muted)}
+/* Its own "i", like the video's, with a note about the library that opens between it and the folder */
+#aboutshelf{width:1.6rem;height:1.6rem;margin:0 0 .75rem;font-size:.8rem;font-style:italic;font-weight:700}
+#aboutshelf[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
+#shelfnote{margin:0 0 .75rem}
 .shelf{height:min(100vh - 14rem,44rem);min-height:20rem;max-width:64rem;background:var(--panel);border:1px dotted var(--line);border-radius:1px;overflow:hidden}
 .shelf iframe{display:block;width:100%;height:100%;border:0}
 .shelf p{margin:0;padding:1rem 1.25rem}
@@ -93,6 +97,8 @@
   </section>
 
   <section id="reading" hidden>
+    <button class="circle" id="aboutshelf" aria-label="About this library" aria-expanded="false" aria-controls="shelfnote" title="About this library">i</button>
+    <div class="info" id="shelfnote" hidden><p>This is a copy of my rather disorganized digital library. Clicking a file will open it in a new tab via Dropbox, where you can view or download it. Read responsibly!</p></div>
     <div class="shelf" id="shelf"></div>
     <p class="or"><a id="dropbox" target="_blank" rel="noopener">open in Dropbox</a><button class="pick" id="back">watch something instead</button></p>
   </section>
@@ -239,6 +245,7 @@ $("read").onclick = async ev => {
   catch(err){ dropins = null; $("shelf").innerHTML = `<p>Couldn’t show the folder here. <a href="${READING}" target="_blank" rel="noopener">Open it in Dropbox</a>.</p>`; }
 };
 $("back").onclick = () => { $("reading").hidden = true; $("ask").hidden = false; };
+$("aboutshelf").onclick = () => { const open = $("shelfnote").hidden; $("shelfnote").hidden = !open; $("aboutshelf").setAttribute("aria-expanded", open); };
 
 document.querySelectorAll("#ask [data-kind]").forEach(b => b.addEventListener("click", () => choose(b.dataset.kind)));
 $("other").onclick = () => choose($("other").dataset.kind);
