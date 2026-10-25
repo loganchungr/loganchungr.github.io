@@ -60,6 +60,13 @@
 .tv:fullscreen .keys,.tv:-webkit-full-screen .keys,.tv.filled .keys{visibility:hidden}
 .keys kbd{font:inherit;padding:0 .3em;margin-right:.15em;border:1px dotted var(--line);border-radius:2px;color:var(--ink)}
 .or .pick:not(:hover){color:var(--muted)}
+/* "I'd rather read, actually…": a smaller, quieter line under the two choices, and the Dropbox folder it opens */
+.rather{margin:1.1rem 0 0;font-size:.85rem}
+.rather a:not(:hover),#reading .or a:not(:hover),#reading .or .pick:not(:hover){color:var(--muted)}
+.shelf{height:min(100vh - 14rem,44rem);min-height:20rem;max-width:64rem;background:var(--panel);border:1px dotted var(--line);border-radius:1px;overflow:hidden}
+.shelf iframe{display:block;width:100%;height:100%;border:0}
+.shelf p{margin:0;padding:1rem 1.25rem}
+#reading .or{display:flex;flex-wrap:wrap;gap:.25rem 1.5rem;margin:.9rem 0 0;font-size:.85rem}
 @media (max-width:40rem){
   /* On phones, "next" and full screen float in the bottom-right corner, within thumb's reach; play and sound are
      left to tapping the video and the phone's own buttons */
@@ -82,6 +89,12 @@
   <section id="ask">
     <h2>what would you like to watch?</h2>
     <p class="choices"><button class="pick" data-kind="tv">watch TV</button><button class="pick" data-kind="movie">watch a movie</button></p>
+    <p class="rather"><a id="read" target="_blank" rel="noopener">I’d rather read, actually…</a></p>
+  </section>
+
+  <section id="reading" hidden>
+    <div class="shelf" id="shelf"></div>
+    <p class="or"><a id="dropbox" target="_blank" rel="noopener">open in Dropbox</a><button class="pick" id="back">watch something instead</button></p>
   </section>
 
   <section id="watching" hidden>
@@ -203,6 +216,29 @@ function skip(){
   if(++misses > order.length) return tell("None of these videos will play here right now.");
   clearTimeout(skipping); skipping = setTimeout(next, 600);
 }
+
+/* "I'd rather read, actually…" opens the Dropbox folder of things to read. Dropbox's own pages refuse to sit in a frame
+   on another site, so the folder shows here through Dropbox's Embedder, which needs an app key (see the README).
+   With no key, or if the Embedder can't load, the link opens the folder on Dropbox in a new tab instead. */
+const READING = "https://www.dropbox.com/scl/fo/zqmpilkesqysnunh777or/AJEihmp3x4XqVGSiGLyJXIg?rlkey=6n11uqfb3ohudqr1knb2dpxkb&dl=0";
+const DROPBOX_APP_KEY = "";
+$("read").href = $("dropbox").href = READING;
+let dropins;
+const dropbox = () => dropins || (dropins = new Promise((ok, fail) => {
+  const s = Object.assign(document.createElement("script"), {src:"https://www.dropbox.com/static/api/2/dropins.js", id:"dropboxjs", onload:ok, onerror:fail});
+  s.dataset.appKey = DROPBOX_APP_KEY;
+  document.head.appendChild(s);
+}));
+$("read").onclick = async ev => {
+  if(!DROPBOX_APP_KEY) return;  // no key yet: the link opens the folder on Dropbox
+  ev.preventDefault();
+  $("ask").hidden = true; $("reading").hidden = false;
+  if($("shelf").childElementCount) return;  // already open from before
+  $("shelf").innerHTML = `<p class="by">opening the shelf…</p>`;
+  try{ await dropbox(); $("shelf").innerHTML = ""; Dropbox.embed({link:READING, folder:{view:"list", headerSize:"small"}}, $("shelf")); }
+  catch(err){ dropins = null; $("shelf").innerHTML = `<p>Couldn’t show the folder here. <a href="${READING}" target="_blank" rel="noopener">Open it in Dropbox</a>.</p>`; }
+};
+$("back").onclick = () => { $("reading").hidden = true; $("ask").hidden = false; };
 
 document.querySelectorAll("#ask [data-kind]").forEach(b => b.addEventListener("click", () => choose(b.dataset.kind)));
 $("other").onclick = () => choose($("other").dataset.kind);

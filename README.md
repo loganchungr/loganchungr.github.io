@@ -53,6 +53,14 @@ To preview locally: `node build/build.js`, then `python3 -m http.server -d _site
 
 `watch.html` plays one of two YouTube playlists, shuffled, starting on a random video. The playlists are set at the top of its script: `PLAYLISTS.tv` and `PLAYLISTS.movie` take the part after `list=` in each playlist's address (public or unlisted). Add or remove videos on YouTube and the page follows along, with no publishing needed. Your notes on the videos live in `watch-notes.csv`, a table with a row per video (`id`, `playlist`, `title`, `note`) that GitHub shows as a searchable table. Fill in the `note` column, on GitHub or in any spreadsheet app, and the note appears beside the "i" while that video plays. Each publish adds rows for new videos, refreshes titles and saves the table back; notes are never changed, and videos that leave the playlists keep their rows, marked as gone. Videos YouTube won't embed are skipped. Each video's description, view count and upload date come from YouTube's data service when the site publishes (`build/youtube.js`, saved as `watch.json`); that needs the `YOUTUBE_API_KEY` repository secret, and without it the info box shows titles only.
 
+Under the two choices, "I'd rather read, actually…" opens a Dropbox folder (`READING`, near the end of `watch.html`'s script). Dropbox doesn't allow its own pages in a frame on another site, so to show the folder on the page itself it uses Dropbox's Embedder, which needs a free app key:
+
+1. Go to https://www.dropbox.com/developers/apps and choose **Create app** (Scoped access, App folder, any name).
+2. On the app's **Settings** tab, under **Chooser / Saver / Embedder domains**, add `loganchungr.github.io`.
+3. Copy the **App key** from the same tab into `DROPBOX_APP_KEY` in `watch.html`. The key isn't secret; it only works on the domains you list.
+
+Until there's a key, the link simply opens the folder on Dropbox in a new tab. The folder has to stay shared as "anyone with the link"; a password-protected link won't show.
+
 ## Storage
 
 Photos are nearly all of the site's size; posts are tiny. GitHub Pages allows a published site up to 1 GB, and the repo should ideally stay under 1 GB too. Deleting a photo takes it off the site, but git keeps it in the repo's history.
