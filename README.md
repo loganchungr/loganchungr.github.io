@@ -51,7 +51,7 @@ To preview locally: `node build/build.js`, then `python3 -m http.server -d _site
 
 ## Watch
 
-`watch.html` plays one of two YouTube playlists, shuffled, starting on a random video. The playlists are set at the top of its script: `PLAYLISTS.tv` and `PLAYLISTS.movie` take the part after `list=` in each playlist's address (public or unlisted). Add or remove videos on YouTube and the page follows along, with no publishing needed. To show a note of your own under a video's title, add its ID (the part after `v=`) and the note to `NOTES`. Videos YouTube won't embed are skipped. Each video's description, view count and upload date come from YouTube's data service when the site publishes (`build/youtube.js`, saved as `watch.json`); that needs the `YOUTUBE_API_KEY` repository secret, and without it the info box shows titles only.
+`watch.html` plays one of two YouTube playlists, shuffled, starting on a random video. The playlists are set at the top of its script: `PLAYLISTS.tv` and `PLAYLISTS.movie` take the part after `list=` in each playlist's address (public or unlisted). Add or remove videos on YouTube and the page follows along, with no publishing needed. To show a note of your own beside the "i" while a video plays, add its ID (the part after `v=`) and the note to `NOTES`. Videos YouTube won't embed are skipped. Each video's description, view count and upload date come from YouTube's data service when the site publishes (`build/youtube.js`, saved as `watch.json`); that needs the `YOUTUBE_API_KEY` repository secret, and without it the info box shows titles only.
 
 ## Storage
 

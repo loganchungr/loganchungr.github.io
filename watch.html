@@ -37,12 +37,15 @@
 /* The small "i"; the info box opens under it */
 #about{width:1.6rem;height:1.6rem;font-size:.8rem;font-style:italic;font-weight:700}
 #about[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
+/* Your note on the video, right of the "i" */
+#note{flex:1;min-width:0;margin:0;color:var(--muted);font-size:.85rem;line-height:1.4}
+#about{flex:none}
+.tv:fullscreen #note,.tv:-webkit-full-screen #note,.tv.filled #note{visibility:hidden}
 .info{max-width:44rem;margin-top:.5rem;background:var(--panel);border:1px dotted var(--line);border-radius:1px;padding:1rem 1.25rem}
 .info p{margin:0}
 .info .by{color:var(--muted);font-size:.85rem}
-.info .note{margin-top:.6rem}
 /* The video's description, its first few lines until "more" is clicked, and its views and upload date, small */
-.info .desc{margin-top:.6rem;font-size:.85rem;overflow-wrap:anywhere}
+.info .desc{margin-top:.6rem;font-size:.85rem;font-style:italic;overflow-wrap:anywhere}
 .info .desc.short{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .info .more{margin-top:.2rem;font-size:.8rem}
 .info .more:not(:hover){color:var(--muted)}
@@ -79,6 +82,7 @@
         <div class="screen"><div id="screen"></div></div>
         <div class="under">
           <button class="circle" id="about" aria-label="About this video" aria-expanded="false" aria-controls="panel" title="About this video">i</button>
+          <p id="note"></p>
           <div class="tools tvonly">
             <button class="circle" id="play"></button>
             <button class="circle" id="sound"></button>
@@ -100,7 +104,7 @@ const PLAYLISTS = {
   tv: "PLAZAt-NcF-m0",
   movie: "PLbbvEYpp8Wao"
 };
-/* Optional: a note of your own under a video's title. Use the video's ID (the part after "v=" or "youtu.be/"). */
+/* Optional: a note of your own, shown beside the "i" while the video plays. Use the video's ID (the part after "v=" or "youtu.be/"). */
 const NOTES = {
   // "dQw4w9WgXcQ": "a note about this one",
 };
@@ -122,6 +126,7 @@ const youtube = () => api || (api = new Promise((ok, fail) => {
 
 let player, order = [], shown = "", misses = 0, skipping;
 async function choose(kind){
+  $("note").textContent = "";
   $("ask").hidden = true; $("watching").hidden = false; $("watching").dataset.kind = kind; loadDetails();
   $("other").textContent = kind === "tv" ? "watch a movie instead" : "watch TV instead";
   $("other").dataset.kind = kind === "tv" ? "movie" : "tv";
@@ -171,7 +176,8 @@ function describe(d){
     x.views !== undefined && `${x.views.toLocaleString("en-US")} view${x.views === 1 ? "" : "s"}`,
     x.uploaded && "uploaded " + new Date(x.uploaded+"T00:00:00Z").toLocaleDateString("en-US", {timeZone:"UTC", month:"long", day:"numeric", year:"numeric"})
   ].filter(Boolean).join(" · ");
-  $("info").innerHTML = `<p><b>${esc(d.title)}</b></p>` + (NOTES[d.video_id] ? `<p class="note">${esc(NOTES[d.video_id])}</p>` : "") +
+  $("note").textContent = NOTES[d.video_id] || "";
+  $("info").innerHTML = `<p><b>${esc(d.title)}</b></p>` +
     (about ? `<div class="desc${long ? " short" : ""}">${linked(about)}</div>` + (long ? `<button class="pick more">more</button>` : "") : "") +
     (meta ? `<p class="meta">${meta}</p>` : "");
 }
