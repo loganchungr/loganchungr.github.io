@@ -54,7 +54,7 @@
     <button class="circle" id="about" aria-label="About this video" aria-expanded="false" aria-controls="panel" title="About this video">i</button>
     <div class="info" id="panel" hidden>
       <div id="info" aria-live="polite"></div>
-      <p class="or"><em>or</em> <button class="pick" id="other"></button></p>
+      <p class="or"><button class="pick" id="other"></button></p>
     </div>
   </section>
 </main>
@@ -129,8 +129,7 @@ function changed(ev){
   const d = player.getVideoData && player.getVideoData();
   if(!d || !d.video_id || !d.title || d.video_id === shown) return;
   shown = d.video_id; misses = 0;
-  $("info").innerHTML = `<p><b>${esc(d.title)}</b></p>` + (d.author ? `<p class="by">${esc(d.author)}</p>` : "") +
-    (NOTES[d.video_id] ? `<p class="note">${esc(NOTES[d.video_id])}</p>` : "");
+  $("info").innerHTML = `<p><b>${esc(d.title)}</b></p>` + (NOTES[d.video_id] ? `<p class="note">${esc(NOTES[d.video_id])}</p>` : "");
 }
 /* A video that won't play here (removed, private, or its uploader turned off embedding): skip it */
 function skip(){
