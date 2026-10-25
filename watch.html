@@ -54,8 +54,9 @@
 .info .more:not(:hover){color:var(--muted)}
 .info .meta{margin-top:.6rem;color:var(--muted);font-size:.75rem}
 .info .or{margin-top:.9rem;color:var(--muted);font-size:.85rem}
-/* The keyboard shortcuts, under the controls, on computers with a keyboard and mouse */
-.keys{display:none;flex-wrap:wrap;justify-content:flex-end;gap:.3rem 1.1rem;margin:.6rem 0 0;color:var(--muted);font-size:.75rem}
+/* The keyboard shortcuts, as a footer along the bottom of the screen, on computers with a keyboard and mouse */
+.keys{display:none;flex-wrap:wrap;justify-content:center;gap:.3rem 1.1rem;position:fixed;left:0;right:0;bottom:0;z-index:5;margin:0;
+  padding:.5rem 1.5rem calc(.5rem + env(safe-area-inset-bottom,0px));border-top:1px dotted var(--line);background:color-mix(in srgb,var(--bg) 92%,transparent);color:var(--muted);font-size:.75rem}
 @media (hover:hover) and (pointer:fine) and (min-width:40.01rem){.keys{display:flex}}
 .tv:fullscreen .keys,.tv:-webkit-full-screen .keys,.tv.filled .keys{visibility:hidden}
 .keys kbd{font:inherit;padding:0 .3em;margin-right:.15em;border:1px dotted var(--line);border-radius:2px;color:var(--ink)}
