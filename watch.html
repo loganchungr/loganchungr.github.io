@@ -104,10 +104,6 @@ const PLAYLISTS = {
   tv: "PLAZAt-NcF-m0",
   movie: "PLbbvEYpp8Wao"
 };
-/* Optional: a note of your own, shown beside the "i" while the video plays. Use the video's ID (the part after "v=" or "youtu.be/"). */
-const NOTES = {
-  // "dQw4w9WgXcQ": "a note about this one",
-};
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -176,7 +172,7 @@ function describe(d){
     x.views !== undefined && `${x.views.toLocaleString("en-US")} view${x.views === 1 ? "" : "s"}`,
     x.uploaded && "uploaded " + new Date(x.uploaded+"T00:00:00Z").toLocaleDateString("en-US", {timeZone:"UTC", month:"long", day:"numeric", year:"numeric"})
   ].filter(Boolean).join(" · ");
-  $("note").textContent = NOTES[d.video_id] || "";
+  $("note").textContent = x.note || "";  // your note, from watch-notes.csv
   $("info").innerHTML = `<p><b>${esc(d.title)}</b></p>` +
     (about ? `<div class="desc${long ? " short" : ""}">${linked(about)}</div>` + (long ? `<button class="pick more">more</button>` : "") : "") +
     (meta ? `<p class="meta">${meta}</p>` : "");

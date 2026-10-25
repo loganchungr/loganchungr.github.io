@@ -73,6 +73,17 @@ jobs:
         run: node build/build.js
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}   # for the watch page's video details (build/youtube.js)
+      # build/youtube.js keeps watch-notes.csv (your notes on the watch page's videos) in step with the playlists;
+      # save it when that adds or retitles a row. Your notes are never changed.
+      - name: Save the notes table
+        run: |
+          [ -f watch-notes.csv ] || exit 0
+          git add watch-notes.csv
+          git diff --cached --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git commit -q -m "Update the watch notes table"
+          git push -q || { git pull -q --rebase && git push -q; } || echo "::warning::Couldn't save watch-notes.csv; the next publish will try again."
       # build.js reports when the site passes 75%, 90%, 95%, 96%... of GitHub Pages' 1 GB limit. Open one issue per level,
       # ever ("STORAGE LIMIT at 90%"); GitHub emails you about each.
       - name: Warn about site size
