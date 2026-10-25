@@ -15,14 +15,7 @@
 .screen{width:min(100% - 4rem,(100vh - 16rem) * 16 / 9);min-width:min(100% - 4rem,20rem);aspect-ratio:16/9;background:#000;border:1px dotted var(--line);border-radius:1px;overflow:hidden}
 .screen iframe{display:block;width:100%;height:100%;border:0}
 .remote{display:flex;flex-direction:column;gap:.75rem}
-.remote .circle{width:3rem;height:3rem;font-size:1.2rem;display:grid;place-items:center;padding:0}
-.remote .sep{height:.5rem;width:.5rem}  /* sets the channel arrows apart from play, sound and full screen */
-.remote svg{width:1.1rem;height:1.1rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-/* Full screen takes the screen and its controls, on black */
-.tv:fullscreen{background:#000;justify-content:center;padding:1rem}
-.tv:fullscreen .screen{width:min(100% - 4rem,(100vh - 2rem) * 16 / 9);border-color:transparent}
-.tv:-webkit-full-screen{background:#000;justify-content:center;padding:1rem}
-.tv:-webkit-full-screen .screen{width:min(100% - 4rem,(100vh - 2rem) * 16 / 9);border-color:transparent}
+.remote .circle{width:3rem;height:3rem;font-size:1.2rem}
 /* A small "i" under the screen, at the left; the info box opens from it */
 #about{display:block;width:1.6rem;height:1.6rem;margin-top:.75rem;padding:0;font-size:.8rem;font-style:italic;font-weight:700}
 #about[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
@@ -56,10 +49,6 @@
       <div class="remote">
         <button class="circle" id="up" aria-label="Next video" title="Next video">↑</button>
         <button class="circle" id="down" aria-label="Previous video" title="Previous video">↓</button>
-        <span class="sep"></span>
-        <button class="circle" id="play"></button>
-        <button class="circle" id="sound"></button>
-        <button class="circle" id="full"></button>
       </div>
     </div>
     <button class="circle" id="about" aria-label="About this video" aria-expanded="false" aria-controls="panel" title="About this video">i</button>
@@ -96,23 +85,6 @@ const youtube = () => api || (api = new Promise((ok, fail) => {
 }));
 
 let player, order = [], shown = "", misses = 0, skipping, dir = 1;  // dir: which way the last change of channel went
-let playing = false, muted = false;
-
-/* Play/pause, sound and full screen, drawn like the light/dark toggle's icons */
-const svg = d => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
-const ICON = {
-  play: svg('<path d="M8 5v14l11-7z"/>'), pause: svg('<path d="M9 5v14M15 5v14"/>'),
-  sound: svg('<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9a4 4 0 0 1 0 6"/>'), muted: svg('<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/>'),
-  full: svg('<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>'), exit: svg('<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>')
-};
-const box = document.querySelector(".tv");
-const fullNow = () => document.fullscreenElement || document.webkitFullscreenElement;
-function show(id, icon, label){ $(id).innerHTML = ICON[icon]; $(id).setAttribute("aria-label", label); $(id).title = label; }
-function paint(){
-  show("play", playing ? "pause" : "play", playing ? "Pause" : "Play");
-  show("sound", muted ? "muted" : "sound", muted ? "Turn the sound on" : "Mute");
-  show("full", fullNow() ? "exit" : "full", fullNow() ? "Exit full screen" : "Full screen");
-}
 async function choose(kind){
   $("ask").hidden = true; $("watching").hidden = false;
   $("other").textContent = kind === "tv" ? "watch a movie instead" : "watch TV instead";
@@ -125,14 +97,13 @@ async function choose(kind){
   clearTimeout(skipping); order = []; shown = ""; misses = 0; dir = 1;
   player = new YT.Player("screen", {
     host: "https://www.youtube-nocookie.com",  // YouTube's privacy-enhanced player
-    // YouTube's own controls are hidden (the page has its own), with no annotations and related videos from the same channel only
-    playerVars: {listType:"playlist", list:PLAYLISTS[kind], playsinline:1, controls:0, rel:0, iv_load_policy:3},
+    // a white progress bar, no annotations, and related videos from the same channel only
+    playerVars: {listType:"playlist", list:PLAYLISTS[kind], playsinline:1, rel:0, iv_load_policy:3, color:"white"},
     events: {onReady:tune, onStateChange:changed, onError:skip}
   });
 }
 /* Once YouTube has the playlist's videos, shuffle them and start at the first, so every visit starts somewhere new */
 function tune(){
-  if(muted) player.mute();
   let tries = 0;
   (function wait(){
     const ids = player.getPlaylist && player.getPlaylist();
@@ -155,7 +126,6 @@ function prev(){
 }
 function changed(ev){
   if(ev.data === YT.PlayerState.ENDED) return next();
-  playing = ev.data === YT.PlayerState.PLAYING || ev.data === YT.PlayerState.BUFFERING; paint();
   const d = player.getVideoData && player.getVideoData();
   if(!d || !d.video_id || !d.title || d.video_id === shown) return;
   shown = d.video_id; misses = 0;
@@ -171,13 +141,6 @@ function skip(){
 document.querySelectorAll("#ask [data-kind]").forEach(b => b.addEventListener("click", () => choose(b.dataset.kind)));
 $("other").onclick = () => choose($("other").dataset.kind);
 $("up").onclick = next; $("down").onclick = prev;
-$("play").onclick = () => { if(!player || !player.pauseVideo) return; playing ? player.pauseVideo() : player.playVideo(); };
-$("sound").onclick = () => { muted = !muted; if(player && player.mute) muted ? player.mute() : player.unMute(); paint(); };
-/* Full screen, where the browser allows a page to do it (iPhones don't) */
-if(!(document.fullscreenEnabled || document.webkitFullscreenEnabled)) $("full").hidden = true;
-$("full").onclick = () => fullNow() ? (document.exitFullscreen || document.webkitExitFullscreen).call(document) : (box.requestFullscreen || box.webkitRequestFullscreen).call(box);
-["fullscreenchange","webkitfullscreenchange"].forEach(e => document.addEventListener(e, paint));
-paint();
 $("about").onclick = () => { const open = $("panel").hidden; $("panel").hidden = !open; $("about").setAttribute("aria-expanded", open); };
 /* The keyboard's up and down arrows change the channel too (while the page, not the player, has focus) */
 document.addEventListener("keydown", ev => {
