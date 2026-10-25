@@ -12,10 +12,10 @@
 :root{--music:#3b78dc;--other:#e0675f;--note:#c4544e}  /* --note: the blurb's coral, deepened so it reads on the light background */
 :root[data-theme="dark"]{--music:#7aa6f2;--other:#f08a84;--note:var(--accent)}
 /* The key doubles as filters: one shows just that kind; clicking it again shows everything */
-.key{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;margin:0 0 1.75rem}
-.key button{font:inherit;font-size:.8rem;line-height:1.5;color:var(--muted);background:none;border:0;padding:0 .15rem;cursor:pointer}
-.key button:hover,.key button.on{background:var(--accent);color:#000}
-.key button::before,.event summary::before{content:"";flex:none;display:inline-block;width:.55rem;height:.55rem;border-radius:50%;margin-right:.45rem;background:var(--other)}
+.key{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:.25rem 1.25rem;max-width:44rem;margin:0 0 1.75rem}
+.key [data-only]{font:inherit;font-size:.8rem;line-height:1.5;color:var(--muted);background:none;border:0;padding:0 .15rem;cursor:pointer}
+.key [data-only]:hover,.key [data-only].on{background:var(--accent);color:#000}
+.key [data-only]::before,.event summary::before{content:"";flex:none;display:inline-block;width:.55rem;height:.55rem;border-radius:50%;margin-right:.45rem;background:var(--other)}
 .key .music::before,.event.music summary::before{background:var(--music)}
 .key .mine::before{content:"[";width:auto;height:auto;border-radius:0;background:none;margin:0;color:var(--accent)}
 .key .mine::after{content:"]";color:var(--accent)}
@@ -24,8 +24,10 @@
 .event.mine .what{font-weight:700}
 .event.mine .what::before{content:"[";color:var(--accent)}
 .event.mine .what::after{content:"]";color:var(--accent)}
-/* The note about the calendar, at the top in coral */
-#blurb{max-width:44rem;margin:0 0 1rem;color:var(--note);font-size:.85rem;line-height:1.5}
+/* The "i" after the filters; the note about the calendar pops up over the list, in coral */
+#about{flex:none;width:1.6rem;height:1.6rem;padding:0;font-size:.8rem;font-style:italic;font-weight:700}
+#about[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
+#blurb{position:absolute;top:calc(100% + .6rem);left:0;right:0;z-index:5;margin:0;padding:1rem 1.25rem;background:var(--panel);border:1px dotted var(--accent);border-radius:1px;box-shadow:0 .5rem 1.5rem rgb(0 0 0/.25);color:var(--note);font-size:.85rem;line-height:1.5}
 #blurb a{color:inherit}
 .events{max-width:44rem}
 .day{margin:0 0 1.5rem;border-bottom:1px dotted var(--line)}
@@ -56,8 +58,11 @@
 <main>
   <h1><a href="https://loganchungr.github.io/">Loggin’ Chung</a></h1>
   <nav class="links"><a href="https://loganchungr.github.io/">home</a><a href="lookout.html" aria-current="page">lookout</a><a href="watch.html">watch</a><a href="context.html">context</a></nav>
-  <p id="blurb">This is a calendar of upcoming events I find during my scrolls or strolls. It is maintained with some help from <a href="https://gunkyard.substack.com/">GUNK</a> and <a href="https://emdashnyc.substack.com/">—EMDASH</a>. Sometimes a personal event will find its way onto this. Oops!</p>
-  <p class="key"><button class="music" data-only="music" aria-pressed="false">music</button><button class="other" data-only="other" aria-pressed="false">not necessarily music</button><button class="mine" data-only="mine" aria-pressed="false">ft. me</button></p>
+  <div class="key">
+    <button class="music" data-only="music" aria-pressed="false">music</button><button class="other" data-only="other" aria-pressed="false">not necessarily music</button><button class="mine" data-only="mine" aria-pressed="false">ft. me</button>
+    <button class="circle" id="about" aria-label="About this calendar" aria-expanded="false" aria-controls="blurb" title="About this calendar">i</button>
+    <p id="blurb" hidden>This is a calendar of upcoming events I find during my scrolls or strolls. It is maintained with some help from <a href="https://gunkyard.substack.com/">GUNK</a> and <a href="https://emdashnyc.substack.com/">—EMDASH</a>. Sometimes a personal event will find its way onto this. Oops!</p>
+  </div>
   <div class="events">
 <!-- events: build/build.js puts the upcoming events here -->
   </div>
@@ -65,6 +70,12 @@
 </main>
 <script>
 const $$ = s => [...document.querySelectorAll(s)];
+/* The "i" opens and closes the note; clicking anywhere else or Escape closes it too */
+const about = document.getElementById("about"), blurb = document.getElementById("blurb");
+const note = open => { blurb.hidden = !open; about.setAttribute("aria-expanded", open); };
+about.onclick = () => note(blurb.hidden);
+document.addEventListener("click", ev => { if(!blurb.hidden && !ev.target.closest("#about, #blurb")) note(false); });
+document.addEventListener("keydown", ev => { if(ev.key === "Escape" && !blurb.hidden){ note(false); about.focus(); } });
 /* Filters: show just one kind of event, hiding days left empty */
 let only = "";
 function filter(){
