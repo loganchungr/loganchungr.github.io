@@ -7,18 +7,20 @@
 <title>Lookout · Loggin’ Chung</title>
 <link rel="stylesheet" href="site.css">
 <style>
-/* Lookout page: the next three months of events from the Google Calendars. build/build.js fills in the list each time
-   the site publishes, hourly too (see build/calendar.js). Shared styles are in site.css. */
-:root{--concert:#3b78dc;--other:#e0675f}
-:root[data-theme="dark"]{--concert:#7aa6f2;--other:#f08a84}
-.key{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;color:var(--muted);font-size:.8rem;margin:0 0 1.75rem}
-.key span::before,.event summary::before{content:"";flex:none;display:inline-block;width:.55rem;height:.55rem;border-radius:50%;margin-right:.45rem;background:var(--other)}
-.key .concert::before,.event.concert summary::before{background:var(--concert)}
+/* Lookout page: upcoming events from the Google Calendars. build/build.js fills in the list each time the site
+   publishes, and at 9am, 3pm and 9pm (see build/calendar.js). Shared styles are in site.css. */
+:root{--music:#3b78dc;--other:#e0675f}
+:root[data-theme="dark"]{--music:#7aa6f2;--other:#f08a84}
+/* The key doubles as filters: one shows just that kind; clicking it again shows everything */
+.key{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;margin:0 0 1.75rem}
+.key button{font:inherit;font-size:.8rem;line-height:1.5;color:var(--muted);background:none;border:0;padding:0 .15rem;cursor:pointer}
+.key button:hover,.key button.on{background:var(--accent);color:#000}
+.key button::before,.event summary::before{content:"";flex:none;display:inline-block;width:.55rem;height:.55rem;border-radius:50%;margin-right:.45rem;background:var(--other)}
+.key .music::before,.event.music summary::before{background:var(--music)}
 .events{max-width:44rem}
-.day{margin:0 0 1.5rem}
+.day{margin:0 0 1.5rem;border-bottom:1px dotted var(--line)}
 .day h3{margin:0 0 .3rem}
 .event{border-top:1px dotted var(--line)}
-.event:last-child{border-bottom:1px dotted var(--line)}
 /* Each event: its dot, its time and its title in three columns; opening it shows the rest under the title */
 .event summary{display:grid;grid-template-columns:.55rem 7.5rem minmax(0,1fr);column-gap:.65rem;align-items:baseline;padding:.5rem 0;cursor:pointer;list-style:none}
 .event summary::-webkit-details-marker{display:none}
@@ -29,7 +31,8 @@
 .event .about p{margin:0 0 .5rem}
 .event .where,.event .link{overflow-wrap:anywhere}
 .event .add{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;font-size:.85rem;padding-bottom:.4rem}
-.none{color:var(--muted)}
+.none,.more{color:var(--muted)}
+.more{font-size:.85rem}
 @media (max-width:40rem){
   /* On phones the title goes under the time */
   .event summary{grid-template-columns:.55rem minmax(0,1fr)}
@@ -43,10 +46,41 @@
   <h1><a href="https://loganchungr.github.io/">Loggin’ Chung</a></h1>
   <nav class="links"><a href="https://loganchungr.github.io/">home</a><a href="lookout.html" aria-current="page">lookout</a><a href="watch.html">watch</a><a href="context.html">context</a></nav>
   <p>This is a calendar of interesting events I find during my scrolls and my strolls. Sometimes a personal event will find its way onto this. Oops!</p>
-  <p class="key"><span class="concert">concerts</span><span class="other">everything else</span></p>
+  <p class="key"><button class="music" data-only="music" aria-pressed="false">music</button><button class="other" data-only="other" aria-pressed="false">not necessarily music</button></p>
   <div class="events">
-<!-- events: build/build.js puts the next three months of events here -->
+<!-- events: build/build.js puts the upcoming events here -->
   </div>
+  <p class="none" id="nomatch" hidden>Nothing like that coming up.</p>
 </main>
+<script>
+const $$ = s => [...document.querySelectorAll(s)];
+/* Filters: show just one kind of event, hiding days left empty */
+let only = "";
+function filter(){
+  $$(".event").forEach(e => e.hidden = !!only && !e.classList.contains(only));
+  $$(".day").forEach(d => d.hidden = !d.querySelector(".event:not([hidden])"));
+  $$(".key [data-only]").forEach(b => { const on = b.dataset.only === only; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+  document.getElementById("nomatch").hidden = !!document.querySelector(".event:not([hidden]), .more") || !document.querySelector(".event");
+}
+document.querySelector(".key").addEventListener("click", ev => {
+  const b = ev.target.closest("[data-only]"); if(!b) return;
+  only = only === b.dataset.only ? "" : b.dataset.only; filter(); watch();
+});
+/* More events load in chunks as the list nears the bottom of the screen */
+let loading = false;
+async function more(p){
+  if(loading || !p.isConnected) return;
+  loading = true; p.textContent = "loading more…";
+  try{
+    const r = await fetch(p.dataset.next); if(!r.ok) throw r.status;
+    p.insertAdjacentHTML("afterend", await r.text()); p.remove(); filter();
+  }catch(err){ p.innerHTML = `couldn’t load more. <a href="${p.dataset.next}">try again</a>`; }
+  loading = false; watch();
+}
+const io = "IntersectionObserver" in window && new IntersectionObserver(es => es.forEach(e => e.isIntersecting && more(e.target)), {rootMargin:"600px"});
+function watch(){ const p = document.querySelector(".more"); if(io){ io.disconnect(); if(p) io.observe(p); } }
+document.addEventListener("click", ev => { const a = ev.target.closest(".more a"); if(a){ ev.preventDefault(); more(a.parentNode); } });
+watch();
+</script>
 </body>
 </html>

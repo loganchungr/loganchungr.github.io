@@ -1,16 +1,18 @@
-/* The lookout page's list of events. build.js calls lookout() each time the site publishes (hourly, too, so new events
-   show up without a post). It reads the Google Calendars' public feeds with ical.js (build/ical.min.js, MPL-2.0),
-   lists the next three months of events in lookout.html, and writes an .ics file for each, so visitors can add one
-   to Apple's Calendar or anything else. */
+/* The lookout page's list of events. build.js calls lookout() each time the site publishes, and the publish workflow
+   also runs at 9am, 3pm and 9pm New York time so new events show up without a post. It reads the Google Calendars'
+   public feeds with ical.js (build/ical.min.js, MPL-2.0) and lists every upcoming event: the first few in
+   lookout.html, the rest in chunks (events/more-1.html, …) that the page loads as you scroll. It also writes an .ics
+   file for each event, so visitors can add one to Apple's Calendar or anything else. */
 const fs = require("fs"), path = require("path");
 const ICAL = require("./ical.min.js");
 
-/* The calendars: "concert" or "other" sets the colour of an event's marker on the page */
+/* The calendars: "music" or "other" sets an event's marker colour and filter on the page */
 const CALENDARS = [
-  {id:"ddd7087ca46c0ed6a1093e107a0533299cabb504c3723cdc64848ac2f0db43fa@group.calendar.google.com", kind:"concert"},  // 🎶 Show Cal: Music
+  {id:"ddd7087ca46c0ed6a1093e107a0533299cabb504c3723cdc64848ac2f0db43fa@group.calendar.google.com", kind:"music"},    // 🎶 Show Cal: Music
   {id:"775c94df85e59d08e12d84b6bf7a3a9da8e3848e132e991e08d9a21f3d7b2571@group.calendar.google.com", kind:"other"},    // 📸 Show Cal: Screenings, Readings, Art, & Other
 ];
-const DAYS = 92;                     // how far ahead to list: about three months
+const REPEAT_DAYS = 366;              // repeating events with no end are listed up to a year ahead
+const CHUNK = 25;                     // events in the page as it loads, and in each chunk loaded after
 const ZONE = "America/New_York";     // times are shown in New York time
 const GOOGLE = "https://calendar.google.com/calendar/embed?ctz=America%2FNew_York&mode=AGENDA" +
   CALENDARS.map(c => "&src="+encodeURIComponent(c.id)).join("");  // the calendars on Google, if the list can't be built
@@ -22,7 +24,7 @@ const entities = s => s.replace(/&(#x?[0-9a-f]+|amp|lt|gt|quot|apos|nbsp);/gi,(_
 const out = ' target="_blank" rel="noopener"';
 
 /* ---- Reading the feeds ---- */
-// Every occurrence of every event (repeating ones too) that hasn't ended and starts within DAYS
+// Every occurrence of every event that hasn't ended; a repeating event's, up to "until"
 function occurrences(text, kind, from, until){
   const cal = new ICAL.Component(ICAL.parse(text)), list = [];
   cal.getAllSubcomponents("vtimezone").forEach(z => ICAL.TimezoneService.register(z));
@@ -35,7 +37,7 @@ function occurrences(text, kind, from, until){
   const add = (item, start, end) => {
     if(String(item.component.getFirstPropertyValue("status")).toUpperCase() === "CANCELLED") return;
     const s = start.toJSDate(), e = end ? end.toJSDate() : s;
-    if(e <= from && !(start.isDate && +e === +s) || s >= until) return;
+    if(e <= from && !(start.isDate && +e === +s)) return;
     list.push({kind, item, start, end:end||start, allDay:start.isDate, s, e});
   };
   for(const ev of main.values()){
@@ -101,6 +103,7 @@ function ics(o, title, where, about, link){
 }
 const slug = s => s.normalize("NFKD").replace(/[^\w]+/g,"-").replace(/^-|-$/g,"").toLowerCase().slice(0,50) || "event";
 
+// Each day as a section of the page, with how many events it holds
 function render(list, OUT){
   fs.mkdirSync(path.join(OUT,"events"), {recursive:true});
   const days = new Map(), taken = new Set(), today = dayKey(new Date());
@@ -110,7 +113,7 @@ function render(list, OUT){
     if(!days.has(day)) days.set(day, []);
     days.get(day).push(o);
   }
-  return [...days].sort(([a],[b]) => a < b ? -1 : 1).map(([day, list]) => `<section class="day"><h3>${esc(dayName(day))}</h3>\n` + list.map(o => {
+  return [...days].sort(([a],[b]) => a < b ? -1 : 1).map(([day, list]) => ({n:list.length, html:`<section class="day"><h3>${esc(dayName(day))}</h3>\n` + list.map(o => {
     const title = o.item.summary || "(untitled)", where = (o.item.location||"").trim();
     const raw = o.item.description || "", about = plain(raw), link = o.item.component.getFirstPropertyValue("url") || "";
     let file = "events/"+o.start.toString().slice(0,10)+"-"+slug(title), n = 1;
@@ -124,12 +127,12 @@ function render(list, OUT){
       `<p class="add"><a href="${qa(google(o, title, where, about))}"${out}>add to Google Calendar</a><a href="${file}">download .ics</a></p>`
     ].filter(Boolean).join("");
     return `<details class="event ${o.kind}"><summary><span class="time">${esc(when(o))}</span><span class="what">${esc(title)}</span></summary>${more}</details>`;
-  }).join("\n") + `</section>`).join("\n") || `<p class="none">Nothing on the calendar for the next three months.</p>`;
+  }).join("\n") + `</section>`}));
 }
 
 /* ---- The lookout page ---- */
 async function lookout(OUT){
-  const from = new Date(), until = new Date(+from + DAYS*864e5), list = [];
+  const from = new Date(), until = new Date(+from + REPEAT_DAYS*864e5), list = [];
   let trouble = false;
   for(const c of CALENDARS){
     try{
@@ -140,11 +143,19 @@ async function lookout(OUT){
       list.push(...found);
     }catch(err){ trouble = true; console.log(`::warning title=Calendar::Couldn't read the ${c.kind} calendar: ${err.message}`); }
   }
+  // Whole days, gathered into chunks of about CHUNK events: the first goes in the page, the rest load as you scroll
+  const chunks = [];
+  let cur = [], n = 0;
+  for(const d of render(list, OUT)){ cur.push(d.html); n += d.n; if(n >= CHUNK){ chunks.push(cur.join("\n")); cur = []; n = 0; } }
+  if(cur.length) chunks.push(cur.join("\n"));
+  const next = i => i < chunks.length ? `\n<p class="more" data-next="events/more-${i}.html"><a href="events/more-${i}.html">more events</a></p>` : "";
+  chunks.forEach((c,i) => { if(i) fs.writeFileSync(path.join(OUT,`events/more-${i}.html`), c + next(i+1)); });
   const page = path.join(OUT,"lookout.html"), shell = fs.readFileSync(page,"utf8"), mark = /<!-- events:.*?-->/;
   if(!mark.test(shell)) throw new Error("lookout.html is missing its <!-- events: --> marker");
-  const note = trouble ? `<p class="none">Part of the calendar couldn’t be read just now; it tries again within the hour. Meanwhile, <a href="${qa(GOOGLE)}"${out}>see it on Google Calendar</a>.</p>\n` : "";
-  fs.writeFileSync(page, shell.replace(mark, () => note + (trouble && !list.length ? "" : render(list, OUT))));
-  console.log(`Lookout: ${list.length} events in the next ${DAYS} days`);
+  const note = trouble ? `<p class="none">Part of the calendar couldn’t be read just now; it tries again at the next refresh. Meanwhile, <a href="${qa(GOOGLE)}"${out}>see it on Google Calendar</a>.</p>\n` : "";
+  const first = chunks.length ? chunks[0] + next(1) : trouble ? "" : `<p class="none">Nothing on the calendar right now.</p>`;
+  fs.writeFileSync(page, shell.replace(mark, () => note + first));
+  console.log(`Lookout: ${list.length} upcoming events, ${chunks.length} chunk(s)`);
 }
 
 module.exports = {lookout, occurrences, render};
