@@ -6,13 +6,14 @@
   --bg:#fffbfa; --panel:#fff8f6; --field:var(--panel);
   --ink:#000; --muted:#6b6b6b; --line:#969696; --slash:rgb(150 150 150/.3);
   --accent:#ff948f; --scrim:rgb(0 0 0/.5); --bgimg:none;
+  --note:#c4544e;  /* coral text (notes), deepened so it reads on the light background */
   --font:"Courier New",Courier,monospace;
   color-scheme:light;
 }
 :root[data-theme="dark"]{
   --bg:#12161e; --panel:#1b212c; --field:transparent;
   --ink:#e6eaf1; --muted:#8b95a7; --line:#303949; --slash:rgb(48 57 73/.55);
-  --scrim:rgb(0 0 0/.65);
+  --scrim:rgb(0 0 0/.65); --note:var(--accent);
   /* A blurred Pale Blue Dot behind every page, under a wash of the background so text stays readable. */
   --bgimg:linear-gradient(rgb(18 22 30/.55) 0 0),url(images/pale-blue-dot.jpg);
   color-scheme:dark;
@@ -33,8 +34,11 @@ h3{font:600 1.05rem/1.3 var(--font);margin:2rem 0 .4rem}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* ---- Links and nav ---- */
-a{color:var(--ink);text-decoration:underline dotted var(--accent) 2px;text-underline-offset:.25em}
-a:hover,.links a[aria-current]{background:var(--accent);color:#000;text-decoration-color:transparent}
+a,.pick{color:var(--ink);text-decoration:underline dotted var(--accent) 2px;text-underline-offset:.25em}
+a:hover,.pick:hover:not(:disabled),.links a[aria-current]{background:var(--accent);color:#000;text-decoration-color:transparent}
+/* Buttons that read as links: "watch TV", "click here", "sign up" */
+.pick{font:inherit;background:none;border:0;padding:0;cursor:pointer}
+.pick:disabled{opacity:.5;cursor:default}
 .links{display:flex;flex-wrap:wrap;gap:.25rem 1.5rem;margin:0 0 1.25rem;font-size:1rem}
 
 /* ---- Fields ---- */
@@ -44,6 +48,12 @@ input{font:inherit;padding:.5rem .75rem;border:1px dotted var(--line);border-rad
 .circle{border:1px dotted var(--line);border-radius:50%;background:var(--panel);color:var(--ink);font:inherit;cursor:pointer}
 .circle:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
 .circle:disabled{opacity:.3;cursor:default}
+
+/* ---- The small "i" that shows a note (coral while open), and notes in coral ---- */
+.i{flex:none;width:1.6rem;height:1.6rem;padding:0;font-size:.8rem;font-style:italic;font-weight:700}
+.i[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
+.note{color:var(--note);font-size:.85rem;line-height:1.4}
+.note a{color:inherit}
 
 /* ---- Lightbox ---- */
 dialog{border:0;padding:0;background:transparent;width:100%;max-width:none;height:100%;max-height:none;color:var(--ink)}
