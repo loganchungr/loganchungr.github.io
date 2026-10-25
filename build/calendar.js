@@ -7,8 +7,8 @@ const ICAL = require("./ical.min.js");
 
 /* The calendars: "concert" or "other" sets the colour of an event's marker on the page */
 const CALENDARS = [
-  {id:"ddd7087ca46c0ed6a1093e107a0533299cabb504c3723cdc64848ac2f0db43fa@group.calendar.google.com", kind:"other"},
-  {id:"775c94df85e59d08e12d84b6bf7a3a9da8e3848e132e991e08d9a21f3d7b2571@group.calendar.google.com", kind:"concert"},
+  {id:"ddd7087ca46c0ed6a1093e107a0533299cabb504c3723cdc64848ac2f0db43fa@group.calendar.google.com", kind:"concert"},  // 🎶 Show Cal: Music
+  {id:"775c94df85e59d08e12d84b6bf7a3a9da8e3848e132e991e08d9a21f3d7b2571@group.calendar.google.com", kind:"other"},    // 📸 Show Cal: Screenings, Readings, Art, & Other
 ];
 const DAYS = 92;                     // how far ahead to list: about three months
 const ZONE = "America/New_York";     // times are shown in New York time
