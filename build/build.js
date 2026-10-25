@@ -194,5 +194,6 @@ function sizeCheck(){
   }
 }
 
-/* ---- Lookout: the next three months of events from the Google Calendars (build/calendar.js), then the size check ---- */
-require("./calendar.js").lookout(OUT).then(sizeCheck).catch(err => { console.error(err); process.exit(1); });
+/* ---- Lookout's events (build/calendar.js) and the watch page's video details (build/youtube.js), then the size check ---- */
+require("./calendar.js").lookout(OUT).then(() => require("./youtube.js").watch(OUT)).then(sizeCheck)
+  .catch(err => { console.error(err); process.exit(1); });
