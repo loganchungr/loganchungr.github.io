@@ -39,7 +39,9 @@
 #about[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
 /* Your note on the video, right of the "i", while the "i" is pressed */
 #about[aria-expanded="false"]+#note{visibility:hidden}
-#note{flex:1;min-width:0;margin:0;color:var(--muted);font-size:.85rem;font-style:italic;line-height:1.4}
+#note{flex:0 1 auto;min-width:0;margin:0 auto 0 0;padding:.3rem .6rem;color:var(--muted);font-size:.85rem;line-height:1.4;
+  border:1px dotted var(--accent);border-radius:1px}
+#note:empty{visibility:hidden}
 #about{flex:none}
 .tv:fullscreen #note,.tv:-webkit-full-screen #note,.tv.filled #note{visibility:hidden}
 .info{max-width:44rem;margin-top:.5rem;background:var(--panel);border:1px dotted var(--line);border-radius:1px;padding:1rem 1.25rem}
