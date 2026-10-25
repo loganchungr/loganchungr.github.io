@@ -6,6 +6,8 @@ name: Publish site
 on:
   push:
     branches: [update-2]
+  schedule:
+    - cron: "23 * * * *"   # hourly, so new calendar events reach the lookout page without a post
   workflow_dispatch:   # adds a "Run workflow" button on the Actions tab, to republish by hand
 
 permissions:
