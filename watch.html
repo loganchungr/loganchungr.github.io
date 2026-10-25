@@ -213,18 +213,19 @@ $("full").onclick = () => !canFull ? fill(!box.classList.contains("filled"))
 ["fullscreenchange","webkitfullscreenchange"].forEach(e => document.addEventListener(e, paint));
 paint();
 $("about").onclick = () => { const open = $("panel").hidden; $("panel").hidden = !open; $("about").setAttribute("aria-expanded", open); };
-/* The keyboard's down arrow goes to the next video too, and on TV, M and F work the sound and full-screen buttons
-   (while the page, not the player, has focus) */
+/* The keyboard's down arrow goes to the next video too, and on TV, K or space play and pause, M mutes and F goes
+   full screen, like YouTube's own shortcuts (while the page, not the player, has focus) */
 document.addEventListener("keydown", ev => {
   if($("watching").hidden || ev.altKey || ev.ctrlKey || ev.metaKey) return;
   if(ev.key === "ArrowDown"){ ev.preventDefault(); next(); }
   if(ev.key === "Escape" && box.classList.contains("filled")) fill(false);
-  // On TV, M mutes and F goes full screen, like YouTube's own shortcuts
-  if($("watching").dataset.kind === "tv" && /^[mf]$/i.test(ev.key)){
-    const b = $(ev.key.toLowerCase() === "m" ? "sound" : "full");
-    if(!b.hidden){ ev.preventDefault(); b.click(); }
+  if($("watching").dataset.kind === "tv" && /^[kmf ]$/i.test(ev.key) && !ev.target.closest("input, textarea")){
+    const b = $({k:"play", " ":"play", m:"sound", f:"full"}[ev.key.toLowerCase()]);
+    if(!b.hidden){ ev.preventDefault(); b.click(); }  // space here never presses whichever button has focus
   }
 });
+// …nor on letting go of it, which is when some browsers press a focused button
+document.addEventListener("keyup", ev => { if(ev.key === " " && $("watching").dataset.kind === "tv" && ev.target.closest("button")) ev.preventDefault(); });
 </script>
 </body>
 </html>
