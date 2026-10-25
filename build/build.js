@@ -132,8 +132,11 @@ const page = (e, html) => `<!DOCTYPE html>
 
 /* ---- Build ---- */
 fs.rmSync(OUT, {recursive:true, force:true});
-const skip = new Set([".git",".github","build","_site","node_modules"]);
-for(const n of fs.readdirSync(ROOT)) if(!skip.has(n)) fs.cpSync(path.join(ROOT,n), path.join(OUT,n), {recursive:true});
+// The site is the pages, styles, scripts and photos. The posts' Markdown (built into posts/ below), the notes table and
+// other working files, and hidden files like .gitignore, stay in the repo only.
+const skip = new Set(["build","_site","node_modules","missives","mailing-list.gs","watch-notes.csv"]);
+const publish = f => !path.basename(f).startsWith(".") && !f.endsWith(".md");
+for(const n of fs.readdirSync(ROOT)) if(!skip.has(n) && publish(n)) fs.cpSync(path.join(ROOT,n), path.join(OUT,n), {recursive:true, filter:publish});
 fs.mkdirSync(path.join(OUT,"posts"));
 
 const posts = [], search = {}, taken = new Set();

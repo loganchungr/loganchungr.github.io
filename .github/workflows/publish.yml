@@ -50,20 +50,24 @@ jobs:
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v5
-      # The shortcut can save a file as " 2026-10-10 in the garden.md"; remove the spaces before the date so it
-      # sorts with the rest. If the tidy name is already taken (a post re-sent to update it), the new file replaces it.
+      # The shortcut names a file after the note's title, so a name can start or end with spaces
+      # (" 2026-10-10 in the garden  .md") or hold characters Windows can't have in a filename (* : ? " < > | \),
+      # e.g. from *italics*. Tidy those names so posts sort by date and the repo opens anywhere; a post's address
+      # doesn't change. If the tidy name is already taken (a post re-sent to update it), the new file replaces it.
       - name: Tidy filenames
         run: |
           renamed=""
-          for f in entries/\ * missives/\ *; do
-            [ -e "$f" ] || continue
-            dir="${f%%/*}"; name="${f#*/}"; tidy="${name#"${name%%[! ]*}"}"
+          for f in entries/* missives/*; do
+            [ -f "$f" ] || continue
+            dir="${f%%/*}"; name="${f#*/}"
+            tidy=$(printf '%s' "$name" | tr -d '*:?"<>|\\' | sed -E 's/[[:space:]]+/ /g; s/^ //; s/ +(\.[A-Za-z0-9]+)?$/\1/')
+            [ -n "$tidy" ] && [ "$tidy" != "$name" ] || continue
             git mv -f "$f" "$dir/$tidy"; renamed=1
           done
           if [ -n "$renamed" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
-            git commit -q -m "Remove spaces from the start of filenames"
+            git commit -q -m "Tidy filenames"
             git push -q || { git pull -q --rebase && git push -q; } || echo "::warning::Couldn't save the renamed files; the next publish will try again."
           fi
       - uses: actions/setup-node@v5

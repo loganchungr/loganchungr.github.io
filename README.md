@@ -30,7 +30,7 @@ Every page links `site.css`, which holds what they share: colors for both themes
 
 ## Publishing
 
-Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build/build.js` and puts the result on GitHub Pages. The build copies the site as is and adds:
+Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build/build.js` and puts the result on GitHub Pages. The build copies the pages, styles, scripts and photos (but not the posts' Markdown, `watch-notes.csv`, `mailing-list.gs`, this README or other hidden and working files) and adds:
 
 - `posts/`: each post as its own page. The lightbox loads these one at a time, and each also works on its own at its own address.
 - `posts.json`: the small index the calendar draws from (dates, titles, tags, cover photos) plus the newest missives.
@@ -39,7 +39,7 @@ Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build
 
 So a visitor downloads the page, one small index, and only the posts they open, however many posts there are. Progress and any errors show on the repo's Actions tab, which also has a "Run workflow" button to republish by hand.
 
-Before building, it also removes any spaces at the start of a filename in `entries/` or `missives/` (the shortcut sometimes adds one) and saves the rename, so posts sort by date in the folder. If a post is re-sent with the space, the new copy replaces the old one.
+Before building, it also tidies filenames in `entries/` and `missives/` and saves the rename: it removes spaces at the start and before `.md` (the shortcut sometimes adds them) and the characters Windows can't have in a filename (`* : ? " < > | \`, which come from *italics* or a colon in a title). So posts sort by date in the folder and the repo opens on any computer. A post's address and title don't change. If a post is re-sent with the old name, the new copy replaces the old one.
 
 This needs Settings → Pages → Source set to **GitHub Actions** (one time).
 

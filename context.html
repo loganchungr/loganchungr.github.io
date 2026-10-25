@@ -11,13 +11,9 @@
 section{max-width:40rem}
 section>h3:first-child{margin-top:0}
 p{margin:0 0 1rem}
-/* Mailing list: "click here" opens a field like the home page's search box, and "sign up" beside it; both buttons
-   are dotted-underline words like the links */
+/* Mailing list: "click here" opens a field like the home page's search box, and "sign up" beside it (both .pick) */
 form{display:flex;gap:.5rem 1rem;flex-wrap:wrap;align-items:center;max-width:26rem;margin:0 0 .5rem}
 form input{flex:1 1 14rem}
-#join,form button{font:inherit;background:none;border:0;border-radius:1px;padding:0;color:var(--ink);cursor:pointer;text-decoration:underline dotted var(--accent) 2px;text-underline-offset:.25em}
-#join:hover,form button:hover:not(:disabled){background:var(--accent);color:#000;text-decoration-color:transparent}
-form button:disabled{opacity:.5;cursor:default}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 #msg{color:var(--muted);font-size:.85rem;margin:0;min-height:1.6em}
 
@@ -108,13 +104,13 @@ form button:disabled{opacity:.5;cursor:default}
     <h3>Contact</h3>
     <p>You can find supplemental digital detritus from yours truly scattered across Internet locales including <a href="https://letterboxd.com/mufasa_lives/">Letterboxd</a>, <a href="https://www.lit.salon/shelf/logan">lit.salon</a>, <a href="https://www.last.fm/user/overlookedpizza">last.fm</a>, <a href="https://posting2.app/profile/e7a2c4f5-4eca-4b4f-b863-ed1473344695">posting2</a>, and even <a href="https://www.instagram.com/_loegan">Instagram</a>.
       <br>
-      <br>Any vaguely serious or otherwise intentional inquiries can be directed towards my email, <a href="mailto:loganchungr@gmail.com"><b>loganchungr@gmail.com</a></b>.<span id="joinline"> Alternately, <button id="join" aria-expanded="false" aria-controls="list">click here</button> to give me your email.</span></p>
+      <br>Any vaguely serious or otherwise intentional inquiries can be directed towards my email, <a href="mailto:loganchungr@gmail.com"><b>loganchungr@gmail.com</b></a>.<span id="joinline"> Alternately, <button class="pick" id="join" aria-expanded="false" aria-controls="list">click here</button> to give me your email.</span></p>
 
     <div id="list" hidden>
       <form id="signup" novalidate>
         <label class="hp" aria-hidden="true">Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
         <input type="email" name="email" placeholder="you@example.com" aria-label="Email address" autocomplete="email" required>
-        <button type="submit">sign up</button>
+        <button class="pick" type="submit">sign up</button>
       </form>
       <p id="msg" role="status" aria-live="polite"></p>
     </div>
