@@ -1,4 +1,4 @@
-# 26.10-25 something star-crossed in the Sudafed  
+# 2026-10-25 something star-crossed in the Sudafed  
   
 have had multiple synchronistic encounters with the greatest romance of a certain W. Shakespeare this week. this morning woke inexplicably with the Dire Straits "Romeo & Juliet" playing in my head. I lay in bed for a few minutes letting the day gather around me and listened. what a miraculous song. during the morning though I listen to *the afterparty *from Mr. Shauf.   
   
