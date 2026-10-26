@@ -25,4 +25,4 @@ eventually I make a polite exit from their debauchery and by the time I'm back t
 ![IMG_4957.jpeg](images/46BB8249-13DC-47AA-BC26-246F77FAD195.jpg)  
 ![IMG_4959.jpeg](images/25A576FC-3DF0-4C66-BE6A-9347EAECEFDC.jpg)  
 
-the full moon is frighteningly gorgeous, loudly luminous, and I watch it the whole way home. it's almost *Moonstruck *season. but let's take the holidays one day at a time.   
+the full moon is frighteningly gorgeous, loudly luminous, and I watch it the whole way home. it's almost *Moonstruck* season. but let's take the holidays one day at a time. 
