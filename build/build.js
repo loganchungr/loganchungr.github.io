@@ -40,12 +40,26 @@ const markdown = new Marked({
   }]
 });
 const IMG = /^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/;  // a line that is just a photo
+// Site rule: a YouTube link on a line by itself (bare, <in brackets> or [as a link](…)) becomes the video's player, 16:9
+// and full width, from YouTube's privacy-enhanced address. A start time in the link (t=90, t=1m30s) is kept.
+const YT = /^\s*(?:<|\[[^\]]*\]\()?(https?:\/\/(?:www\.|m\.|music\.)?(?:youtube\.com|youtu\.be)\/[^\s>)]+)[>)]?\s*$/;
+function video(line){
+  const m = line.match(YT); if(!m) return "";
+  let u; try{ u = new URL(m[1]); }catch(err){ return ""; }
+  const id = u.hostname.endsWith("youtu.be") ? u.pathname.slice(1) : u.pathname === "/watch" ? u.searchParams.get("v") : (u.pathname.match(/^\/(?:shorts|live|embed)\/([^/]+)/)||[])[1];
+  if(!/^[\w-]{11}$/.test(id||"")) return "";
+  const t = (u.searchParams.get("t") || u.searchParams.get("start") || "").match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?$/);
+  const start = t ? (+t[1]||0)*3600 + (+t[2]||0)*60 + (+t[3]||0) : 0;
+  return `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0${start ? "&amp;start="+start : ""}" title="YouTube video" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`;
+}
 // Site rule: back-to-back photo lines (blank lines between are fine) become one grid of squares; a lone photo stays single.
 function photos(src){
   const L = src.split("\n"), out = [];
   let fenced = false;
   for(let i = 0; i < L.length;){
     if(/^```/.test(L[i])) fenced = !fenced;
+    const v = !fenced && video(L[i]);
+    if(v){ out.push("", v, ""); i++; continue; }
     if(fenced || !IMG.test(L[i])){ out.push(L[i++]); continue; }
     const run = [];
     while(i<L.length&&(IMG.test(L[i])||!L[i].trim()&&IMG.test(L.slice(i).find(x=>x.trim())||""))){ const m = L[i++].match(IMG); if(m) run.push(photo(m[1],m[2])); }
