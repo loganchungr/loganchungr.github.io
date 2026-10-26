@@ -9,4 +9,6 @@
   
 (words pending)  
   
-Makes me want to learn Danish / A.O. Scott says she's "our century's answer to Proust" / looking forward to November 18th / I should like the ponderings on language more / no offense but you can tell the author is NOT the age of her narrator / ilulix and I agree that there are some sillinesses and head-scratching oversights but some amount of those kinds of holes will always come with a project like this / why is it called that? how much can a day contain? / i wonder if she will go straight sci-fi, but i kind of hope the next volume leans more romance 😍 / the worst thing that could happen is that ballej could sully the glory of the first book by continuing to philosophize meandersomely  
+Makes me want to learn Danish / A.O. Scott says she's "our century's answer to Proust" / looking forward to November 18th / I should like the ponderings on language more / no offense but you can tell the author is NOT the age of her narrator / ilulix and I agree that there are some sillinesses and head-scratching oversights but some amount of those kinds of holes will always come with a project like this / why is it called that? how much can a day contain? / i wonder if she will go straight sci-fi, but i kind of hope the next volume leans more romance 😍 / the worst thing that could happen is that ballej could sully the glory of the first book by continuing to philosophize meandersomely 
+
+#lit
