@@ -49,6 +49,9 @@ body{font-size:1rem}
 .tile.multi.dark .d{color:#fff;text-shadow:0 1px 3px rgb(0 0 0/.6)}
 /* Calendar tiles show just the date (and cover photo); titles appear in the picker and the post. */
 #cal .tile .t,#cal .tile.multi .s span{display:none}
+/* A post without photos gets a few faint ruled lines, like a page of writing */
+#cal .tile:not(.photo):not(.multi),#cal .tile.multi .s.text{background-image:repeating-linear-gradient(to bottom,transparent 0 6px,color-mix(in srgb,var(--muted) 45%,transparent) 6px 7px);
+  background-size:calc(100% - 1rem) 42%;background-position:.5rem calc(100% - .45rem);background-repeat:no-repeat}
 
 /* ---- Missives: a chyron of the newest short notes, stuck to the bottom of the screen ---- */
 .chyron{position:fixed;left:0;right:0;bottom:0;z-index:4;overflow:hidden;white-space:nowrap;padding:.3rem 1.5rem calc(.3rem + env(safe-area-inset-bottom,0px));
@@ -205,7 +208,7 @@ const tile = e => {
 /* Shows the day's four most recent posts; the bubble counts all of them. */
 const multiTile = day => {
   const e = day[0], shown = day.slice(-4);
-  const sub = shown.map(x=>`<span class="s">`+(x.photos?`<img src="${qa(x.photo)}" alt="" loading="lazy">`:`<span>${esc(x.title)}</span>`)+`</span>`).join("")+(shown.length===3?`<span class="s"></span>`:"");
+  const sub = shown.map(x=>`<span class="s${x.photos?"":" text"}">`+(x.photos?`<img src="${qa(x.photo)}" alt="" loading="lazy">`:`<span>${esc(x.title)}</span>`)+`</span>`).join("")+(shown.length===3?`<span class="s"></span>`:"");
   return `<button class="tile multi${shown[0].photos?" dark":""}" data-day="${e.date}" aria-label="${qa(mon3(e.d)+" "+e.d.getDate()+", "+day.length+" posts")}">`+
     `<span class="sub${shown.length>2?" four":""}">${sub}</span><span class="d">${e.d.getDate()}</span><span class="n">${day.length}</span></button>`;
 };
