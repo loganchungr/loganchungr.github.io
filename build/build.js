@@ -40,9 +40,10 @@ const markdown = new Marked({
   }]
 });
 const IMG = /^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/;  // a line that is just a photo
-// Site rule: a YouTube link on a line by itself (bare, <in brackets> or [as a link](…)) becomes the video's player, 16:9
-// and full width, from YouTube's privacy-enhanced address. A start time in the link (t=90, t=1m30s) is kept.
-const YT = /^\s*(?:<|\[[^\]]*\]\()?(https?:\/\/(?:www\.|m\.|music\.)?(?:youtube\.com|youtu\.be)\/[^\s>)]+)[>)]?\s*$/;
+// Site rule: a YouTube link on a line by itself (bare, <in brackets> or [as a link](…), even ***bold-italic*** as the
+// shortcut writes links) becomes the video's player, 16:9 and full width, from YouTube's privacy-enhanced address.
+// A start time in the link (t=90, t=1m30s) is kept.
+const YT = /^\s*[*_]*(?:<|\[[^\]]*\]\()?(https?:\/\/(?:www\.|m\.|music\.)?(?:youtube\.com|youtu\.be)\/[^\s>)*]+)[>)]?[*_]*\s*\\?\s*$/;
 function video(line){
   const m = line.match(YT); if(!m) return "";
   let u; try{ u = new URL(m[1]); }catch(err){ return ""; }
