@@ -34,7 +34,7 @@ Every page links `site.css`, which holds what they share: colors for both themes
 Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build/build.js` and puts the result on GitHub Pages. The build copies the pages, styles, scripts and photos (but not the posts' Markdown, `watch-notes.csv`, `mailing-list.gs`, this README or other hidden and working files) and adds:
 
 - `posts/`: each post as its own page. The lightbox loads these one at a time, and each also works on its own at its own address.
-- `posts.json`: the small index the calendar draws from (dates, titles, tags, cover photos) plus the newest missives.
+- `posts.json`: the small index the calendar draws from (dates, titles, tags, cover photos) plus the newest missives (short notes in `missives/` that scroll past along the bottom of the home page; switched off for now with `MISSIVES = false` in `index.html`).
 - `search.json`: every post's plain text, loaded only when someone uses the search box.
 - `archive.html`: the list of every post by year and month is filled in where the page says `<!-- archive: … -->`. The rest of the page is edited like any other.
 

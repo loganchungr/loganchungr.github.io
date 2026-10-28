@@ -354,8 +354,9 @@ const stamp = n => {const [,y,mo,d,h=0,mi=0,se=0]=n.match(/^(\d{4})-(\d{2})-(\d{
 const pad = n => String(n).padStart(2,"0");
 // Age in two or three characters: 05m, 23h, 2d.
 const ago = d => {const m=Math.max(1,Math.floor((Date.now()-d)/6e4));return m<60?pad(m)+"m":m<=1440?pad(Math.round(m/60))+"h":Math.floor(m/1440)+"d"};
+const MISSIVES = false;  // the chyron is off for now; true brings it back (missives/ keeps filling either way)
 function chyron(list){
-  if(!list.length) return;
+  if(!MISSIVES || !list.length) return;
   const group = list.map(m=>`<span class="m"><em>${m.html}</em><span class="ago">${ago(stamp(m.at))}</span></span>`).join("");
   const c = $("chyron"), t = c.firstElementChild;
   t.innerHTML = `<span>${group}</span><span aria-hidden="true">${group}</span>`;  // a second copy makes the loop seamless
