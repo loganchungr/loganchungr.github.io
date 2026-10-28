@@ -30,7 +30,7 @@ I've got just enough time for my midafternoon mission: obtaining a copy of *The 
   
 ---  
   
-Then it's time for Yvonne's new tradition: happy hour in the city after work. When she first relayed this idea to me, it struck me as brilliant. We had intended to meet at a hotel bar in SoHo but wound up at Fanelli, where I get to briefly catch up with Kelsea, who puts a solid dent in the bill. Luisa drops in as well, so I'm suddenly sitting with two people who saw *You Can See Everything* and shrugged. They explain their unique mental circumstnaces that led them to respond with ambivalence to the fundamental irrationality of the human psyche.   
+Then it's time for Yvonne's new tradition: happy hour in the city after work. When she first relayed this idea to me, it struck me as brilliant. We had intended to meet at a hotel bar in SoHo but wound up at Fanelli, where I get to briefly catch up with Kelsea, who puts a solid dent in the bill. Luisa drops in as well, so I'm suddenly sitting with two people who saw *You Can See Everything* and shrugged. They explain their unique mental circumstances that led them to respond with ambivalence to the fundamental irrationality of the human psyche.   
   
 ![Image](images/9692D9C3-1C8D-4DE0-AC2B-654DCD72C14B.jpg)  
 ![IMG_5696.jpeg](images/90A70DAD-37AF-4AB8-BA64-C5495DCE707B.jpg)  
@@ -57,7 +57,7 @@ I don't stick around for karaoke. Then a charming thing happens which reminds me
   
 Upstairs, the rush has barely ended but I pop in to say hi to K, who asks me what I thought of the event. I tell her that I've been trying to figure out how old I'm allowed to feel. She tells me I shouldn't fret: everyone here is more or less my age. It takes me a few beats to realize that this actually makes me feel much worse. Not connecting with people younger than you is one thing; failing to connect with a crowd full of peers just means I can't connect.  
   
-But it was nice to meet L, and then I'm walking towards the Williamsburg Bridge on a crisp autumn night with *I Can Feel the Heart Beating as One* in my heapdhones, and the trains come on time, and it's time to watch the Brewers finish the World Series. Extra innings, as we type. There might be a lockout next year, which means no baseball. I've learned by now to take what blessings we can.  
+But it was nice to meet L, and then I'm walking towards the Williamsburg Bridge on a crisp autumn night with *I Can Feel the Heart Beating as One* in my headphones, and the trains come on time, and it's time to watch the Brewers finish the World Series. Extra innings, as we type. There might be a lockout next year, which would mean no baseball. I've learned by now to take what blessings we can.  
   
 ![IMG_5014.jpeg](images/8E5C6F8B-7991-4B1C-A527-76634CA03139.jpg)  
   
