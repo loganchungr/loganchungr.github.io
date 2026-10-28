@@ -24,13 +24,13 @@ We work and chatter sporadically for a few hours until it's time to go. Next tim
   
 ![Image](images/96E797D3-8EA5-43CF-AFEC-1A2910158778.jpg)  
   
-I've got just enough time for my midafternoon mission: obtaining a copy of *The Piano Teacher *from the city's dwinding supply. I feel resentful that there seems to be only one edition available, but even the library doesn't have many in stock. I'd intended to scoop some from The Store™  in SoHo, but on my way there, M and L text to say that they just scooped them. So I'm left to suddenly scramble to the Barnes & Noble at Union Square, which for some reason has about a dozen copies. This must be most of the city's inventory of the Austrian classic.  
+I've got just enough time for my midafternoon mission: obtaining a copy of *The Piano Teacher* from the city's dwinding supply. I feel resentful that there seems to be only one edition available, but even the library doesn't have many in stock. I'd intended to scoop some from The Store™  in SoHo, but on my way there, M and L text to say that they just scooped them. So I'm left to suddenly scramble to the Barnes & Noble at Union Square, which for some reason has about a dozen copies. This must be most of the city's inventory of the Austrian classic.  
   
 ![Image](images/E115A75B-F69E-40A9-9903-B316953D2E88.jpg)  
   
 ---  
   
-Then it's time for Yvonne's new tradition: happy hour in the city after work. When she first relayed this idea to me, it struck me as brilliant. We had intended to meet at a hotel bar in SoHo but wound up at Fanelli, where I get to briefly catch up with Kelsea, who puts a solid dent in the bill. Luisa drops in as well, so I'm suddenly sitting with two people who saw *You Can See Everything *and shrugged. They explain their unique mental circumstnaces that led them to respond with ambivalence to the fundamental irrationality of the human psyche.   
+Then it's time for Yvonne's new tradition: happy hour in the city after work. When she first relayed this idea to me, it struck me as brilliant. We had intended to meet at a hotel bar in SoHo but wound up at Fanelli, where I get to briefly catch up with Kelsea, who puts a solid dent in the bill. Luisa drops in as well, so I'm suddenly sitting with two people who saw *You Can See Everything* and shrugged. They explain their unique mental circumstnaces that led them to respond with ambivalence to the fundamental irrationality of the human psyche.   
   
 ![Image](images/9692D9C3-1C8D-4DE0-AC2B-654DCD72C14B.jpg)  
 ![IMG_5696.jpeg](images/90A70DAD-37AF-4AB8-BA64-C5495DCE707B.jpg)  
