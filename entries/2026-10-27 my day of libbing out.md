@@ -13,7 +13,7 @@ Then I go grocery shopping and am overcome with a swell of civic pride looking a
   
 ---  
   
-## Libbing Out  
+## Librying Out  
   
 My initial plan for today had been similar to many of the past few Tuesdays: wake up, manage to make my way into the city and work on my laptop for a while until the Guggenheim's pay-what-you-want period opened at four in the afternoon. I have been trying for many weeks to see the Taryn Simon show, knowing that it would likely be a multiple-date effort due to the sheer size of the show. But every time I've attempted to begin, my plans have taken me down a different path. It's hard to get me to the Upper East Side.   
   
@@ -65,7 +65,7 @@ But it was nice to meet L, and then I'm walking towards the Williamsburg Bridge 
   
 ### *"New York City is the Place Where"*  
   
-***[https://www.youtube.com/watch?v=bJ9VrfIvsH8](https://www.youtube.com/watch?v=bJ9VrfIvsH8) ***  
+***[https://www.youtube.com/watch?v=bJ9VrfIvsH8](https://www.youtube.com/watch?v=bJ9VrfIvsH8)***  
 ***[https://www.youtube.com/watch?v=aCmlEtFToeE](https://www.youtube.com/watch?v=aCmlEtFToeE)***  
   
 > *No consolations please for feelin' funky*  
