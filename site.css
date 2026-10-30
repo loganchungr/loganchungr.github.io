@@ -23,7 +23,7 @@
 *{box-sizing:border-box}
 :root{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%;text-size-adjust:100%}  /* stop iPhone Safari enlarging text on its own */
-body{margin:0;background:var(--bg);color:var(--ink);font:400 .9rem/1.6 var(--font)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 .85rem/1.6 var(--font)}
 body::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--bgimg) center/cover no-repeat}
 main{max-width:64rem;padding:3rem 1.5rem 5rem}
 h1{font:700 clamp(2.2rem,8vw,2.75rem)/1 var(--font);margin:0 0 .5rem}
