@@ -22,6 +22,9 @@ body{font-size:1rem}
 .dow{color:var(--muted);font-size:.8rem;margin-bottom:.4rem}
 .day{aspect-ratio:1;min-width:0;display:flex;flex-direction:column;gap:.25rem;padding:.4rem;border:1px dotted var(--line);border-radius:1px;color:var(--muted);font-size:.85rem;line-height:1}
 .day.out{border-color:transparent}
+/* The last few days of the month before, filling the first week: their posts show, a little faded */
+.day.has.out{opacity:.6;transition:opacity .15s}
+.day.has.out:hover,.day.has.out:focus-within{opacity:1}
 .day.has{padding:0;border:0}
 .day.past{background:linear-gradient(to bottom right,transparent calc(50% - .5px),var(--slash) 50%,transparent calc(50% + .5px))}
 .day.today{border-color:var(--accent);color:var(--accent)}
@@ -218,8 +221,11 @@ function render(){
   const midnight = new Date(today.getFullYear(),today.getMonth(),today.getDate());
   const isToday = d => d.getFullYear()===today.getFullYear() && d.getMonth()===today.getMonth() && d.getDate()===today.getDate();
   for(let d = weekStart(new Date(view.y,view.m,1)); d <= monthEnd || d.getDay()!==1; d = new Date(d.getFullYear(),d.getMonth(),d.getDate()+1)){
-    if(d.getMonth()!==view.m){cells.push(`<div class="day out"></div>`);continue}
     const day = entries.filter(e=>+e.d===+d), now = isToday(d) ? " today" : d < midnight ? " past" : "";
+    if(d.getMonth()!==view.m){  // a day of the month before (first week) or after (last week)
+      cells.push(day.length && d < monthEnd ? `<div class="day has out">${day.length > 1 ? multiTile(day) : tile(day[0])}</div>` : `<div class="day out"></div>`);
+      continue;
+    }
     cells.push(day.length ? `<div class="day has${now}">${day.length > 1 ? multiTile(day) : tile(day[0])}</div>`
       : `<div class="day${now}"${now===" today"?' aria-current="date"':""}>${d.getDate()}</div>`);
   }
