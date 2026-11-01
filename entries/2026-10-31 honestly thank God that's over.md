@@ -1,5 +1,5 @@
 # 2026-10-31 honestly thank God that's over
-  
+
 *I start my day closing out the fifth hour of Ric Burns' New York documentary, which covered the 1870s through the end of the 1800s. My thoughts are filled with the image of Liberty's hand and torch sitting desolate on Fifth Avenue. then I stumble out the door to Variety and tumble headfirst into a pow-wow with Xtian and J. we talk about books — Xtian is reading This Side of Paradise. we talk about AI — they explain what is happening in the field of reverse-engineering video games — and speak cynically about the ways it might finally be regulated. sometimes I do love talking with my bros about the topic of the day. B is working and J takes out three heaping bags of garbage for her. children are constantly streaming in and out of the place. it's a holiday Saturday in Ridgewood, Queens.*  
   
 *we are also streaming in and out. S and R appear and suddenly I'm hamming it up with two of the guy-iest guys I know and Ridgewood's best lesbian couple. a real kwisatz haderach moment. I want to be like both of them simultaneously. we start to grab the candy. eventually Brita's shift ends, which means I've been sitting here for close to two hours accomplishing nothing, and J and X leave with her to play video games and build a better world for their child to enter.*  
@@ -39,3 +39,5 @@ perhaps the most interesting part is that I finally meet Samantha Kattan, who is
 ![Unbelievable amounts of human](images/929550B9-0526-4742-865E-DB4F0CA3E4D3.jpg)  
 
 *shortly before the time change, standing on the platform at Delancey-Essex, everyone loses cell service and the train arrival screens stop working. I have no connection for about 10 minutes while waiting the whole time for a train that was supposedly one stop away at Bowery. my mind considers whether it is a terrorist attack and I am so tired that I realize I wouldn't really care. but eventually the train does come, and I don't even have anything I feel like listening to, and I'm home before the magic hour ends.*  
+
+*The next Saturday Halloween will not occur for another eleven years. on Saturday, October 31st, 2037, I will be 42 years old. I think of the Ridgewood parents I saw dressed up with their children this morning and I think of the slightly older children crowding the avenues of Alphabet City. I'm a little too young to be feeling so old, but then again I'm a little too old to kid myself.* 
