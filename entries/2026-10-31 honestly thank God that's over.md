@@ -1,4 +1,4 @@
-# 2026-10-31 my first halloween  
+# 2026-10-31 honestly thank God that's over
   
 *I start my day closing out the fifth hour of Ric Burns' New York documentary, which covered the 1870s through the end of the 1800s. My thoughts are filled with the image of Liberty's hand and torch sitting desolate on Fifth Avenue. then I stumble out the door to Variety and tumble headfirst into a pow-wow with Xtian and J. we talk about books — Xtian is reading This Side of Paradise. we talk about AI — they explain what is happening in the field of reverse-engineering video games — and speak cynically about the ways it might finally be regulated. sometimes I do love talking with my bros about the topic of the day. B is working and J takes out three heaping bags of garbage for her. children are constantly streaming in and out of the place. it's a holiday Saturday in Ridgewood, Queens.*  
   
