@@ -37,4 +37,5 @@ perhaps the most interesting part is that I finally meet Samantha Kattan, who is
   
 ![IMG_5142.jpeg](images/53694EAC-563E-44E3-8682-AEF8FA63BFD9.jpg)  
 ![Unbelievable amounts of human](images/929550B9-0526-4742-865E-DB4F0CA3E4D3.jpg)  
-*shortly before the time change, standing on the platform at Delancey-Essex, everyone loses cell service and the train arrival screens stop working. I have no connection for about 10 minutes while waiting the whole time for a train that was supposedly one stop away at Bowery. my mind considers whether it is a terrorist attack and I am so tired that I realize I wouldn't really care. but eventually the train does come, and I don't even have anything I feel like listening to, and I'm home before the magic hour ends. *  
+
+*shortly before the time change, standing on the platform at Delancey-Essex, everyone loses cell service and the train arrival screens stop working. I have no connection for about 10 minutes while waiting the whole time for a train that was supposedly one stop away at Bowery. my mind considers whether it is a terrorist attack and I am so tired that I realize I wouldn't really care. but eventually the train does come, and I don't even have anything I feel like listening to, and I'm home before the magic hour ends.*  
