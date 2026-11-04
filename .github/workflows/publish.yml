@@ -20,7 +20,7 @@ permissions:
   id-token: write
 
 concurrency:   # if two posts arrive close together, publish them in order
-  group: pages
+  group: publish   # (was "pages"; a run GitHub left half-finished on 2026-11-04 held that one shut)
   cancel-in-progress: false
 
 jobs:
@@ -45,12 +45,14 @@ jobs:
     needs: when
     if: needs.when.outputs.go == 'yes'
     runs-on: ubuntu-latest
+    timeout-minutes: 20   # a stuck Pages deploy gives up instead of holding up the posts behind it
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v5
         with:
+          ref: ${{ github.ref }}   # the branch as it is now, not the commit that started the run, so a late or re-run publish never puts back an older site
           fetch-depth: 0   # the full history, so the build knows the order posts on the same day were posted
       # The shortcut names a file after the note's title, so a name can start or end with spaces
       # (" 2026-10-10 in the garden  .md") or hold characters Windows can't have in a filename (* : ? " < > | \),
