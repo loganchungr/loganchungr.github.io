@@ -5,7 +5,7 @@
 ![The New York Times](images/8FFFC42C-B4F4-4D76-9EDF-C7D2BA3E5EAD.jpg)  
 ![Win Flip](images/318AA40F-1AB4-4E04-B64A-5CD9A70BF36E.jpg)  
   
-I thought I had learned all the lessons but there was one more waiting for me: what it feels like for things to take time. I wrote over and over again from 2016-2018 about the possibility that we were in for a long stretch of turmoil, I wrote that we should buckle up for a decade or more of this. And I was right, but at some point I took my eyes off of the horizon; the fuel ran out and I forgot what it really felt like to believe that there could be a turnaround.   
+_I thought I had learned all the lessons_, I just texted M. but there was one more waiting for me: what it feels like for things to take time. I wrote over and over again from 2016-2018 about the possibility that we were in for a long stretch of turmoil, I wrote that we should buckle up for a decade or more of this. And I was right, but at some point I took my eyes off of the horizon; the fuel ran out and I forgot what it really felt like to believe that there could be a turnaround.   
   
 '18 and '20 felt like maintenance. This is the day we've been waiting for since 2016. And I am in the same city. And I am older. Yesterday talking with Samantha about having at some point shut down the capacity for hope before elections. *I feel nothing*, I said. But David's district saw a 35 point swing. and I'm looking at these little counties in Tennessee, Georgia, Texas, Montana, Florida, Ohio, Michigan — counties where I have met and spoken with the people who make up those tenths of a percentage point.   
   
