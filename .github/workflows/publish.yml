@@ -50,6 +50,8 @@ jobs:
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0   # the full history, so the build knows the order posts on the same day were posted
       # The shortcut names a file after the note's title, so a name can start or end with spaces
       # (" 2026-10-10 in the garden  .md") or hold characters Windows can't have in a filename (* : ? " < > | \),
       # e.g. from *italics*. Tidy those names so posts sort by date and the repo opens anywhere; a post's address
