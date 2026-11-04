@@ -36,3 +36,16 @@ less than an hour until sunset and the perfect weather is holding well into its 
 ![IMG_5263.jpeg](images/C6D39AF3-5E65-4EA1-8F90-78CD3DA2A0B6.jpg)  
   
 by the time I reach Columbus the sun has fallen below the horizon and dusk has arrived. I grab a sandwich at a cheap eatery and don't do much noteworthy thinking. it's dark by the time I'm finished eating and I walk down to Lincoln Center and begin a rather warm train ride back to Queens, where I will catch SK and MW's show at Dinky's, and then migrate to Pegs, where hopefully we will all have a lot to celebrate.   
+
+---
+
+### some sweetnesses before the storm/dessert before dinner at Dinky's
+
+before the big game it's time for some vocationing. SK is coming out of musical retirement as part of one of the more underrated and lovely three-act billings in a long time. Kitba and MW are playing solo as well. it is a night of beautiful singers and song. it's also MW's birthday celebration. her songwriting is brute-force tenderness, like that expression about fists of iron in a velvet glove. and M&M show as well, it must be time for our seasonal mini-reunion. they won Met Opera tickets via the rush lottery and went to see _Lincoln in the Bardo_ but did NOT recommend it. noted. SK is worried she performed poorly but I point out to her that maybe that's not the point of the show or any show really. 
+
+![soph.jpeg](images/E1CF3163-6201-4C59-A0C2-BBDC3527A4F1_1_201_a.jpeg)
+![mina.jpeg](images/F81A679C-5FB0-4791-85BE-18252933E58C.png)
+
+the whole time I am furtively, and rather guiltily, checking results via X and the NYT and fielding excited texts from the crew beginning to gather at Pegs. it's about to be the best night of our sad and paltry political lives.
+
+
