@@ -7,7 +7,7 @@
      search.json   every post's plain text, which the home page loads only when someone uses the search box
 
    To try it yourself: node build/build.js, then serve _site/ (for example: python3 -m http.server -d _site). */
-const fs = require("fs"), path = require("path"), crypto = require("crypto");
+const fs = require("fs"), path = require("path"), crypto = require("crypto"), { execFileSync } = require("child_process");
 const { Marked } = require("./marked.min.js");
 
 const ROOT = path.join(__dirname, ".."), OUT = path.join(ROOT, "_site");
@@ -167,7 +167,12 @@ for(const name of dated(ENTRIES)){
   search[name] = plain(html.replace(/<h1>[\s\S]*?<\/h1>/,""));
   fs.writeFileSync(path.join(OUT,url), page(e, html));
 }
-posts.sort((a,b)=>a.date.localeCompare(b.date)||a.id.localeCompare(b.id));
+// Posts on the same day go in the order they were posted: when each file first arrived in the repo (following renames).
+// A file not committed yet counts as newest; without the repo's history, they fall back to filename order.
+const posted = name => { try{ return +execFileSync("git", ["log","--follow","--diff-filter=A","--format=%at","--",path.join(ENTRIES,name)], {cwd:ROOT, encoding:"utf8"}).trim().split("\n").pop() || Infinity; }catch(err){ return 0; } };
+posts.forEach(p => p.at = posted(p.id));
+posts.sort((a,b)=>a.date.localeCompare(b.date)||a.at-b.at||a.id.localeCompare(b.id));
+posts.forEach(p => delete p.at);
 
 const missives = dated(MISSIVES).reverse().slice(0,KEEP)
   .map(name=>({at:name.slice(0,-3), html:inline(read(MISSIVES,name).replace(/^#+\s*/,"").replace(/\s+/g," ").trim())}));
