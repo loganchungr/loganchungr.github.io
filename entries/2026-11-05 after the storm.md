@@ -71,6 +71,7 @@ Above: It has the beginning of War & Peace on it.
 - _**Derek Thompson** dubs the new Millennial electeds the "Mr. Brightside caucus," notching yet another grievance in my strange parasocial love-hate campaign with his work;_
     - _but he also points out several important things, like that this is likely not a permanent realignment;_  
     - _and, both in a Substack piece and on X with **David Wallace-Wells**, he also points out that moderates did well while campaigning on a set of issues and rhetoric (wealth inequality, for example) that would have read as patently progressive or leftist in earlier election cycles;_
+- _**Nate Cohn** worries that this may be a kind of "zombified" coalition a la 1976, so the Dems must find a way to deliver new solutions;_
 - _meanwhile **everyone online** is declaring that "Woke 3" is in, pronouns are back, and have today begun the clamoring to prevent Schumer and Jeffries from becoming party leaders._  
 
 maybe it's like watching a car wreck, or actually maybe it's like one of DeLillo's sunsets, so horrible with moments of impossible beauty where the real light of the sky shines through the toxic dust just often enough to remind you that there are sometimes clear days where you can see all the way to the other side of town. I share with KM my food poisoning story from working in Atlanta during the Georgia Senate runoffs in 2021. she was a student at UGA at the time. we marvel at the possibility that he could be the guy.
