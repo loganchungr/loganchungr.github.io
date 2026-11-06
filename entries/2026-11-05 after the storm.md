@@ -57,12 +57,6 @@ Above: It has the beginning of War & Peace on it.
   
 ---  
   
-*it feels important to pay attention to these things because it is something of history happening and you want to gather up as much as possible in the way of souvenirs, keepsakes, signposts for later musings. you may not fashion yourself a writer, but this is your world, and this is your country, and you'd like to think you're smart enough to wrestle some kind of narrative out of the neverending chaos. *  
-  
-*so you pay attention and you read or listen to ideas and you think to yourself, What an idiot, or Surprisingly cogent! and from it you construct some kind of functional worldview. but then again, it feels strange, because why are you obsessed with keeping track of all this? what does it have to do with you anymore? you're almost two full years into a desert of political activity, having been laid off in '24 and rather lazy, or more accurately, "disaffected," in '25 and '26. *  
-  
-*or perhaps you've never worked in politics at all. other than your health and your money and your ability to generate faith that a habitable future awaits us all, what skin do you have in the game? in the day-to-day? you wouldn't know how to stop Schumer or Jeffries from being elected to the Congressional leadership even if you were suddenly planted on the steps of the Capitol with a one-wish-willow. *  
-  
 *maybe it's like watching a car wreck, or actually maybe it's like one of DeLillo's sunsets, so horrible with moments of impossible beauty where the real light of the sky shines through the toxic dust just often enough to remind you that there are sometimes clear days where you can see all the way to the other side of town.*  
   
 - ***Sarah Longwell**** tells Jon Stewart on "The Weekly Show" that you can usually just ignore people online because once you talk to even a handful of voters, you can tell that the average American has both a good heart and totally incoherent politics, which is true;*  
