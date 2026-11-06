@@ -78,7 +78,8 @@ function quotes(src){
     if(/^```/.test(L[i])) fenced = !fenced;
     if(fenced || !/^>/.test(L[i])){ out.push(L[i++]); continue; }
     const block = [];
-    while(i<L.length && /^>/.test(L[i])) block.push(L[i++]);
+    // A tab at the start of a quoted line is a paragraph indent from Notes, not the start of a code block: keep it as an indent
+    while(i<L.length && /^>/.test(L[i])) block.push(L[i++].replace(/^>[ ]?\t[ \t]*(?=\S)/, "> &emsp;&emsp;"));
     if(!block.every((l,k)=>!k || blank(l) || blank(block[k-1]))){ out.push(...block); continue; }  // standard Markdown
     const lines = [];
     let gaps = 0, wide = false;  // blank lines since the last line, and whether one had the extra spaces
@@ -99,7 +100,7 @@ const md = src => markdown.parse(photos(quotes(src)));
 const inline = s => markdown.parseInline(s);
 // Plain text of rendered HTML, for search
 const plain = html => html.replace(/<[^>]*>/g," ")
-  .replace(/&(#x?[0-9a-f]+|amp|lt|gt|quot|nbsp);/gi,(_,c)=>({amp:"&",lt:"<",gt:">",quot:'"',nbsp:" "})[c.toLowerCase()]||String.fromCodePoint(c[1].toLowerCase()==="x"?parseInt(c.slice(2),16):+c.slice(1)))
+  .replace(/&(#x?[0-9a-f]+|amp|lt|gt|quot|nbsp|emsp);/gi,(_,c)=>({amp:"&",lt:"<",gt:">",quot:'"',nbsp:" ",emsp:" "})[c.toLowerCase()]||String.fromCodePoint(c[1].toLowerCase()==="x"?parseInt(c.slice(2),16):+c.slice(1)))
   .replace(/\s+/g," ").trim();
 
 /* ---- Posts ---- */
