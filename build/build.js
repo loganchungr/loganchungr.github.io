@@ -2,26 +2,29 @@
    (see .github/workflows/publish.yml), so there's nothing to run by hand.
 
    It copies the site as is, then adds:
-     posts/*.html  each post in entries/, already turned from Markdown into a page
+     posts/*.html  each post in entries/ (filed by month by tidy.js, which the workflow runs first), already turned from Markdown into a page
      posts.json    what the calendar needs: every post's date, title, tags and cover photo, plus the newest missives
      search.json   every post's plain text, which the home page loads only when someone uses the search box
 
    To try it yourself: node build/build.js, then serve _site/ (for example: python3 -m http.server -d _site). */
 const fs = require("fs"), path = require("path"), crypto = require("crypto"), { execFileSync } = require("child_process");
 const { Marked } = require("./marked.min.js");
+const { isPost, postFiles, entryFrom } = require("./entry.js");
 
 const ROOT = path.join(__dirname, ".."), OUT = path.join(ROOT, "_site");
 const ENTRIES = "entries", MISSIVES = "missives", KEEP = 10;  // KEEP: how many missives the ticker shows
 const read = (...p) => fs.readFileSync(path.join(ROOT, ...p), "utf8").replace(/\r/g, "");
-// Files named by date (2026-10-24-anything.md), oldest first
-const dated = dir => fs.readdirSync(path.join(ROOT, dir)).filter(n => /^\d{4}-\d{2}-\d{2}.*\.md$/i.test(n)).sort();
+// Missives: files named by date and time (2026-10-24-091512.md), oldest first
+const dated = dir => fs.readdirSync(path.join(ROOT, dir)).filter(isPost).sort();
 
 /* ---- Markdown: standard Markdown via marked, plus this site's own rules ---- */
 const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 const qa = s => esc(s).replace(/"/g,"&quot;");
-/* Photo paths in a post are read relative to the entries folder, so ![](images/a.jpg) works,
-   and so does ![](entries/images/a.jpg). Full web addresses are left alone. */
-const imgSrc = s => /^(https?:|data:|\/|entries\/)/i.test(s) ? s : ENTRIES+"/"+s;
+/* Photo links in a post are read from the post's own folder, so ![](images/a.jpg) in entries/2026/10/ is
+   entries/2026/10/images/a.jpg, where tidy.js files it. A link starting entries/ is read from the top of the repo, and
+   full web addresses are left alone. */
+let folder = ENTRIES;  // the folder of the post being built
+const imgSrc = s => /^([a-z][a-z0-9+.-]*:|\/|#|entries\/)/i.test(s) ? s : path.posix.join(folder, s);
 const photo = (alt,src) => `<img src="${qa(imgSrc(src))}" alt="${qa(alt)}" loading="lazy">`;
 const markdown = new Marked({
   gfm: true,
@@ -104,21 +107,6 @@ const plain = html => html.replace(/<[^>]*>/g," ")
   .replace(/\s+/g," ").trim();
 
 /* ---- Posts ---- */
-/* A post's date comes from its filename, unless its title starts with a real date ("# 2026-10-22 after Digger"):
-   then that date wins and is trimmed from the title, so a note can be backdated by typing the date as its first line. */
-function entryFrom(name, body){
-  let date = name.slice(0,10), h = body.match(/^#\s+(.+)$/m), named = name.slice(11,-3).replace(/-/g," ").trim();
-  const lead = h && h[1].match(/^(\d{4})-(\d{2})-(\d{2})(?:[\s:–—-]+(.*))?$/);
-  if(lead){
-    const [,y,m,d,rest=""] = lead, day = new Date(+y,m-1,+d);
-    if(day.getMonth()===m-1 && day.getDate()===+d){  // skip impossible dates like 2026-20-10
-      date = `${y}-${m}-${d}`; named = "";  // the filename's words are the typed date, not a title
-      body = body.replace(h[0], rest.trim() ? "# "+rest.trim() : "");
-      h = body.match(/^#\s+(.+)$/m);
-    }
-  }
-  return {id:name, date, title:h?h[1].replace(/[*_`]/g,"").trim():(named||date), body, untitled:!h};
-}
 const noCode = b => b.replace(/```[\s\S]*?```/g,"").replace(/`[^`]*`/g,"");
 // A web-safe page name from the filename: "2026-10-23 3-bourough day!  .md" → "2026-10-23-3-bourough-day"
 const slug = name => name.slice(0,-3).normalize("NFKD").replace(/[^\w]+/g,"-").replace(/^-|-$/g,"").toLowerCase();
@@ -155,9 +143,10 @@ const publish = f => !path.basename(f).startsWith(".") && !f.endsWith(".md");
 for(const n of fs.readdirSync(ROOT)) if(!skip.has(n) && publish(n)) fs.cpSync(path.join(ROOT,n), path.join(OUT,n), {recursive:true, filter:publish});
 fs.mkdirSync(path.join(OUT,"posts"));
 
-const posts = [], search = {}, taken = new Set();
-for(const name of dated(ENTRIES)){
-  const e = entryFrom(name, read(ENTRIES, name)), html = md(e.body), body = noCode(e.body);
+const posts = [], search = {}, taken = new Set(), files = {};
+for(const file of postFiles(ROOT)){
+  const name = path.posix.basename(file); folder = path.posix.dirname(file); files[name] = file;
+  const e = entryFrom(name, read(file)), html = md(e.body), body = noCode(e.body);
   const base = "posts/"+slug(name); let url = base, n = 1;
   while(taken.has(url)) url = base+"-"+(++n);  // two filenames that tidy to the same name
   taken.add(url); url += ".html";
@@ -168,10 +157,11 @@ for(const name of dated(ENTRIES)){
   search[name] = plain(html.replace(/<h1>[\s\S]*?<\/h1>/,""));
   fs.writeFileSync(path.join(OUT,url), page(e, html));
 }
-// Posts on the same day go in the order they were posted: when each file first arrived in the repo (following renames).
-// A file not committed yet counts as newest; without the repo's history, they fall back to filename order.
-const posted = name => { try{ return +execFileSync("git", ["log","--follow","--diff-filter=A","--format=%at","--",path.join(ENTRIES,name)], {cwd:ROOT, encoding:"utf8"}).trim().split("\n").pop() || Infinity; }catch(err){ return 0; } };
-posts.forEach(p => p.at = posted(p.id));
+// Posts on the same day go in the order they were posted: when each file first arrived in the repo (following renames,
+// such as being filed by month). A file not committed yet counts as newest; without the repo's history, they fall back
+// to filename order.
+const posted = file => { try{ return +execFileSync("git", ["log","--follow","--diff-filter=A","--format=%at","--",file], {cwd:ROOT, encoding:"utf8"}).trim().split("\n").pop() || Infinity; }catch(err){ return 0; } };
+posts.forEach(p => p.at = posted(files[p.id]));
 posts.sort((a,b)=>a.date.localeCompare(b.date)||a.at-b.at||a.id.localeCompare(b.id));
 posts.forEach(p => delete p.at);
 
