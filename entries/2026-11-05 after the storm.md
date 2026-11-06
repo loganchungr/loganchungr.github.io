@@ -28,7 +28,9 @@ later at home I thumb through *The Years* and watch her seasons change. I think 
 even the listening, the gorging of op-eds and commentary, sometimes feels related to this, part-and-parcel of being able to tell the story to myself in real-time, as well as ensuring I will be able to do so in the future. it's all a hedge against the fickleness of memory. you can write down what happened, you can write down what has been said, but in the end it'll all get schmeared around. can a screenshot of a Tweet relay something to the future that a data visualization map cannot? can you save any details?   
   
 ![Image](images/87E8F5B1-2015-4AB3-A47B-B0EB82E0A531.jpg)  
-Above: It has the beginning of War & Peace on it.   
+
+Above: It has the beginning of War & Peace on it.
+
 ---  
   
 ### the privileged worldblindness of the youthful  
@@ -56,9 +58,7 @@ Above: It has the beginning of War & Peace on it.
 > 	She feels as if a book is writing itself just bheind her; all she has to do is live. But there is nothing.  
   
 ---  
-  
-*maybe it's like watching a car wreck, or actually maybe it's like one of DeLillo's sunsets, so horrible with moments of impossible beauty where the real light of the sky shines through the toxic dust just often enough to remind you that there are sometimes clear days where you can see all the way to the other side of town.*  
-  
+    
 - _**Sarah Longwell** tells Jon Stewart on "The Weekly Show" that you can usually just ignore people online because once you talk to even a handful of voters, you can tell that the average American has both a good heart and totally incoherent politics, which is true;_
 - _**Nate Silver** believes that Trump may simply "quit" or resign the Presidency, I kind of wonder if he'll simply soft-quit, he already sort of has;_
 - _his colleague **Galen Druke** takes the anti-progressive take and muses that Trump may even choose to work with Democrats because he believes nothing, which strikes me as idiotic;_
@@ -71,7 +71,9 @@ Above: It has the beginning of War & Peace on it.
     - _but he also points out several important things, like that this is likely not a permanent realignment;_  
     - _and, both in a Substack piece and on X with **David Wallace-Wells**, he also points out that moderates did well while campaigning on a set of issues and rhetoric (wealth inequality, for example) that would have read as patently progressive or leftist in earlier election cycles;_
 - _meanwhile **everyone online** is declaring that "Woke 3" is in, pronouns are back, and have today begun the clamoring to prevent Schumer and Jeffries from becoming party leaders._  
-  
+
+maybe it's like watching a car wreck, or actually maybe it's like one of DeLillo's sunsets, so horrible with moments of impossible beauty where the real light of the sky shines through the toxic dust just often enough to remind you that there are sometimes clear days where you can see all the way to the other side of town. I share with KM my food poisoning story from working in Atlanta during the Georgia Senate runoffs in 2021. she was a student at UGA at the time. we marvel at the possibility that he could be the guy.
+
 ---  
   
 #life #politics #lit   
