@@ -9,11 +9,11 @@
    Newest wins, as in one folder: a post sent again under the same name replaces the copy already filed, and a photo sent
    again under the same name replaces the one beside its post. A post whose date changes moves to its new month.
 
-   It also tidies filenames at the top of entries/ and missives/ (see tidyName in entry.js).
+   It also tidies filenames at the top of entries/ and missives/ (see tidyName in shared.js).
 
    It only moves files; the workflow commits them. Anything already in place is left alone, so it's safe to run again. */
 const fs = require("fs"), path = require("path");
-const { postFiles, entryFrom, tidyName, photoLinks } = require("./entry.js");
+const { postFiles, entryFrom, tidyName, photoLinks } = require("./shared.js");
 
 const ROOT = path.join(__dirname, ".."), INBOX = "entries/images";
 const abs = p => path.join(ROOT, p), exists = p => fs.existsSync(abs(p));

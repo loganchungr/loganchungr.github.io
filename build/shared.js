@@ -1,5 +1,14 @@
-/* What the build (build.js) and the filing step (tidy.js) both need to know about posts. */
+/* What the build scripts share: what a post is (build.js and tidy.js) and HTML text (build.js and calendar.js). */
 const fs = require("fs"), path = require("path");
+
+/* ---- HTML text ---- */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const qa = s => esc(s).replace(/"/g,"&quot;");  // for inside an attribute
+// HTML entities back to the characters they stand for (&amp; → &, &#39; → ')
+const entities = s => s.replace(/&(#x?[0-9a-f]+|amp|lt|gt|quot|apos|nbsp|emsp);/gi, (_,c) =>
+  ({amp:"&",lt:"<",gt:">",quot:'"',apos:"'",nbsp:" ",emsp:" "})[c.toLowerCase()] || String.fromCodePoint(c[1].toLowerCase()==="x" ? parseInt(c.slice(2),16) : +c.slice(1)));
+
+/* ---- Posts ---- */
 
 // A post's file is named by its date: "2026-10-24 anything.md"
 const isPost = name => /^\d{4}-\d{2}-\d{2}.*\.md$/i.test(name);
@@ -39,4 +48,4 @@ const tidyName = name => name.replace(/[*:?"<>|\\]/g, "").replace(/\s+/g, " ").r
 // The photos a post links to in Markdown, ![alt](link), as written. Only links to files in the repo, not web addresses.
 const photoLinks = body => [...body.matchAll(/!\[[^\]]*\]\(([^)\s]+)/g)].map(m => m[1]).filter(s => !/^([a-z][a-z0-9+.-]*:|\/|#)/i.test(s));
 
-module.exports = {isPost, postFiles, entryFrom, tidyName, photoLinks};
+module.exports = {esc, qa, entities, isPost, postFiles, entryFrom, tidyName, photoLinks};

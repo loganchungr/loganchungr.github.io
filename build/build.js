@@ -9,7 +9,7 @@
    To try it yourself: node build/build.js, then serve _site/ (for example: python3 -m http.server -d _site). */
 const fs = require("fs"), path = require("path"), crypto = require("crypto"), { execFileSync } = require("child_process");
 const { Marked } = require("./marked.min.js");
-const { isPost, postFiles, entryFrom } = require("./entry.js");
+const { esc, qa, entities, isPost, postFiles, entryFrom } = require("./shared.js");
 
 const ROOT = path.join(__dirname, ".."), OUT = path.join(ROOT, "_site");
 const ENTRIES = "entries", MISSIVES = "missives", KEEP = 10;  // KEEP: how many missives the ticker shows
@@ -18,8 +18,6 @@ const read = (...p) => fs.readFileSync(path.join(ROOT, ...p), "utf8").replace(/\
 const dated = dir => fs.readdirSync(path.join(ROOT, dir)).filter(isPost).sort();
 
 /* ---- Markdown: standard Markdown via marked, plus this site's own rules ---- */
-const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-const qa = s => esc(s).replace(/"/g,"&quot;");
 /* Photo links in a post are read from the post's own folder, so ![](images/a.jpg) in entries/2026/10/ is
    entries/2026/10/images/a.jpg, where tidy.js files it. A link starting entries/ is read from the top of the repo, and
    full web addresses are left alone. */
@@ -102,9 +100,7 @@ function quotes(src){
 const md = src => markdown.parse(photos(quotes(src)));
 const inline = s => markdown.parseInline(s);
 // Plain text of rendered HTML, for search
-const plain = html => html.replace(/<[^>]*>/g," ")
-  .replace(/&(#x?[0-9a-f]+|amp|lt|gt|quot|nbsp|emsp);/gi,(_,c)=>({amp:"&",lt:"<",gt:">",quot:'"',nbsp:" ",emsp:" "})[c.toLowerCase()]||String.fromCodePoint(c[1].toLowerCase()==="x"?parseInt(c.slice(2),16):+c.slice(1)))
-  .replace(/\s+/g," ").trim();
+const plain = html => entities(html.replace(/<[^>]*>/g," ")).replace(/\s+/g," ").trim();
 
 /* ---- Posts ---- */
 const noCode = b => b.replace(/```[\s\S]*?```/g,"").replace(/`[^`]*`/g,"");
@@ -157,11 +153,24 @@ for(const file of postFiles(ROOT)){
   search[name] = plain(html.replace(/<h1>[\s\S]*?<\/h1>/,""));
   fs.writeFileSync(path.join(OUT,url), page(e, html));
 }
-// Posts on the same day go in the order they were posted: when each file first arrived in the repo (following renames,
-// such as being filed by month). A file not committed yet counts as newest; without the repo's history, they fall back
-// to filename order.
-const posted = file => { try{ return +execFileSync("git", ["log","--follow","--diff-filter=A","--format=%at","--",file], {cwd:ROOT, encoding:"utf8"}).trim().split("\n").pop() || Infinity; }catch(err){ return 0; } };
-posts.forEach(p => p.at = posted(files[p.id]));
+// Posts on the same day go in the order they were posted: when each file first arrived in the repo, following renames
+// (such as being filed by month), read from the history in one pass. A file not committed yet counts as newest; without
+// the repo's history, they fall back to filename order.
+function arrivals(){
+  const first = {};
+  let log, at = 0;
+  try{ log = execFileSync("git", ["-c","core.quotePath=false","log","--reverse","-M","--diff-filter=AR","--name-status","--format=@%at","--",ENTRIES], {cwd:ROOT, encoding:"utf8", maxBuffer:1e8}); }
+  catch(err){ return null; }
+  for(const line of log.split("\n")){
+    const [k, from, to] = line.split("\t");
+    if(line[0] === "@") at = +line.slice(1);       // a commit: when it was made
+    else if(k === "A") first[from] ??= at;         // a file added
+    else if(/^R/.test(k)) first[to] = first[from] ?? at;  // a file moved, keeping when it first arrived
+  }
+  return first;
+}
+const first = arrivals();
+posts.forEach(p => p.at = first ? first[files[p.id]] ?? Infinity : 0);
 posts.sort((a,b)=>a.date.localeCompare(b.date)||a.at-b.at||a.id.localeCompare(b.id));
 posts.forEach(p => delete p.at);
 
@@ -219,7 +228,7 @@ function stamp(){
   }
 }
 
-/* ---- Lookout's events (build/calendar.js) and the watch page's video details (build/youtube.js), then the stamps and
-   the size check ---- */
-require("./calendar.js").lookout(OUT).then(() => require("./youtube.js").watch(OUT)).then(stamp).then(sizeCheck)
+/* ---- Lookout's events (build/calendar.js) and the watch page's video details (build/youtube.js), fetched at the same
+   time, then the stamps and the size check ---- */
+Promise.all([require("./calendar.js").lookout(OUT), require("./youtube.js").watch(OUT)]).then(stamp).then(sizeCheck)
   .catch(err => { console.error(err); process.exit(1); });
