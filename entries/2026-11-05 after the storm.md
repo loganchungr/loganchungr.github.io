@@ -1,4 +1,4 @@
-# 2026-11-05 after the storm  
+# 2026-11-05 after the storm before the storm
   
 ---  
   
@@ -66,6 +66,7 @@ Above: It has the beginning of War & Peace on it.
 - _**Jamelle Bouie** points out that amongst the murky, swingy waters of the electorate shift, the clearest path forward for either party is through the South, and particularly the Southwest, and by extension, Texas;_
 - _**Ron DeSantis** calls this election an extinction-level event for the GOP and predicts that they won't be able to win back the House in 2028 and the Senate until 2032;_
 - _**J.D. Vance** says that "everybody knows why" we lost, meaning Iran;_
+- _**Masha Gessen** encourages electeds to remember why Netanyahu, Orbán, Putin and other autocrats stay in power even as their support craters_;
 - _you even check in with the **Pod Save America** boys in a nod to a younger, more idealistic self, the most interesting thing they have to say is an anecdote about an email chain on Election Night ten years ago as the numbers from Florida started rolling in: "If our numbers are that wrong in Florida, then they are wrong everywhere";_
 - _**Derek Thompson** dubs the new Millennial electeds the "Mr. Brightside caucus," notching yet another grievance in my strange parasocial love-hate campaign with his work;_
     - _but he also points out several important things, like that this is likely not a permanent realignment;_  
