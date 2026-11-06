@@ -1,4 +1,4 @@
-# Publishes the site whenever something lands on update-2 (a post from the shortcut, an edit, anything).
+# Publishes the site whenever something lands on update-2 (a post from the shortcut, an edit, anything but photos alone).
 # It runs build/build.js, which turns the posts into pages, then puts the result on GitHub Pages.
 # Needs Settings → Pages → Source set to "GitHub Actions".
 name: Publish site
@@ -6,6 +6,9 @@ name: Publish site
 on:
   push:
     branches: [update-2]
+    # The shortcut sends a post's photos one push at a time, before the post. Pushes of only those photos don't publish
+    # (they'd show nothing new: a photo goes on the site with its post), so the post's own push starts right away.
+    paths-ignore: ["entries/images/**"]
   # Also at 9am, 3pm and 9pm New York time, so new calendar events reach the lookout page without a post. GitHub's
   # clock is UTC, so each time is listed for daylight time and for standard time; the "when" job keeps the right one.
   schedule:

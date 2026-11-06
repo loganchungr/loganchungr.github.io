@@ -32,7 +32,7 @@ Every page links `site.css`, which holds what they share: colors for both themes
 
 ## Publishing
 
-Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build/build.js` and puts the result on GitHub Pages. The build copies the pages, styles, scripts and photos (but not the posts' Markdown, `watch-notes.csv`, `mailing-list.gs`, this README or other hidden and working files) and adds:
+Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build/build.js` and puts the result on GitHub Pages. The exception is a push of nothing but photos in `entries/images/`: the shortcut sends a post's photos one at a time ahead of the post, and they go live with it, so the post's own publish starts right away instead of waiting behind one for each photo. To add a photo to a post that's already up, send it along with an edit to the post, put it straight into the post's folder (`entries/2026/11/images/`), or use "Run workflow" on the Actions tab. The build copies the pages, styles, scripts and photos (but not the posts' Markdown, `watch-notes.csv`, `mailing-list.gs`, this README or other hidden and working files) and adds:
 
 - `posts/`: each post as its own page. The lightbox loads these one at a time, and each also works on its own at its own address.
 - `posts.json`: the small index the calendar draws from (dates, titles, tags, cover photos) plus the newest missives (short notes in `missives/` that scroll past along the bottom of the home page; switched off for now with `MISSIVES = false` in `index.html`).
