@@ -1,5 +1,5 @@
 /* The lookout page's list of events. build.js calls lookout() each time the site publishes, and the publish workflow
-   also runs at 9am, 3pm and 9pm New York time so new events show up without a post. It reads the Google Calendars'
+   also runs around midnight, 6am, noon and 6pm New York time so new events show up without a post. It reads the Google Calendars'
    public feeds with ical.js (build/ical.min.js, MPL-2.0) and lists every upcoming event: the first few in
    lookout.html, the rest in chunks (events/more-1.html, …) that the page loads as you scroll. It also writes an .ics
    file for each event, so visitors can add one to Apple's Calendar or anything else.

@@ -12,13 +12,3 @@ Move what the pages draw in the browser into the build, so visitors get plain HT
 - **Watch:** keep its script. The shuffled player, controls and per-video notes need it.
 
 Still to decide: keep the remembered light/dark toggle (needs a little JS) or just follow the device setting; what replaces search (tag pages and the archive, a site-limited web search, or a small optional script); and whether last.fm's "now playing" stays live (a little JS) or comes from the build (a few hours old).
-
-## The schedule of automatic updates
-
-The site republishes on every push and at 9am, 3pm and 9pm New York time, to pick up new calendar events (see `schedule` and the `when` job in `.github/workflows/publish.yml`).
-
-Found while looking (November 6):
-
-- Each time fires two runs, one listed for daylight time and one for standard time; the `when` job lets one through and the other does nothing.
-- GitHub runs them late or not at all. From November 4 to 6: the 3pm publish started a quarter hour to an hour late, the 9pm one around 2:30 to 4am the next morning, and the 9am one never ran. GitHub delays and drops schedules when it's busy, worst on the hour; a minute like :17 does better, and nothing guarantees a time.
-- A schedule that ignores daylight time (say, every 6 hours) would need one line and no `when` job.
