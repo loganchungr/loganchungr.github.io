@@ -57,7 +57,8 @@ async function watch(OUT){
   else{
     const page = fs.readFileSync(path.join(OUT,"watch.html"), "utf8");
     const block = (page.match(/const PLAYLISTS = \{([\s\S]*?)\};/) || [])[1] || "";
-    for(const [, kind, id] of block.matchAll(/(\w+):\s*"([^"]+)"/g)){
+    // Every playlist at once; the table lists them in the order watch.html does
+    const playlists = await Promise.all([...block.matchAll(/(\w+):\s*"([^"]+)"/g)].map(async ([, kind, id]) => {
       try{
         // Every video in the playlist, in its order, 50 at a time
         const ids = [];
@@ -77,10 +78,12 @@ async function watch(OUT){
             uploaded: (v.snippet.publishedAt || "").slice(0,10)
           };
         }
-        for(const v of ids) if(!rows.some(r => r.id === v)) rows.push({id: v, playlist: kind, title: (info[v] || {}).title || "(unavailable)"});
         console.log(`YouTube playlist "${kind}": ${ids.length} videos`);
-      }catch(err){ complete = false; console.log(`::warning title=YouTube::Couldn't read the ${kind} playlist's details: ${err.message}`); }
-    }
+        return {kind, ids};
+      }catch(err){ complete = false; console.log(`::warning title=YouTube::Couldn't read the ${kind} playlist's details: ${err.message}`); return {kind, ids: []}; }
+    }));
+    for(const {kind, ids} of playlists)
+      for(const v of ids) if(!rows.some(r => r.id === v)) rows.push({id: v, playlist: kind, title: (info[v] || {}).title || "(unavailable)"});
   }
   // Keep the notes table in step with the playlists, once both were read in full
   if(complete){
@@ -96,4 +99,4 @@ async function watch(OUT){
   console.log(`Watch: details for ${Object.keys(info).length} videos`);
 }
 
-module.exports = {watch, readTable};
+module.exports = {watch};

@@ -7,6 +7,7 @@
    event is marked "mine", which the page shows bold in coral brackets and can filter by ("ft. me"). */
 const fs = require("fs"), path = require("path");
 const ICAL = require("./ical.min.js");
+const { esc, qa, entities } = require("./shared.js");
 
 /* The calendars: "music" or "other" sets an event's marker colour and filter on the page */
 const CALENDARS = [
@@ -20,9 +21,6 @@ const GOOGLE = "https://calendar.google.com/calendar/embed?ctz=America%2FNew_Yor
   CALENDARS.map(c => "&src="+encodeURIComponent(c.id)).join("");  // the calendars on Google, if the list can't be built
 const feed = id => `https://calendar.google.com/calendar/ical/${encodeURIComponent(id)}/public/basic.ics`;
 
-const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-const qa = s => esc(s).replace(/"/g,"&quot;");
-const entities = s => s.replace(/&(#x?[0-9a-f]+|amp|lt|gt|quot|apos|nbsp);/gi,(_,c)=>({amp:"&",lt:"<",gt:">",quot:'"',apos:"'",nbsp:" "})[c.toLowerCase()]||String.fromCodePoint(c[1].toLowerCase()==="x"?parseInt(c.slice(2),16):+c.slice(1)));
 const out = ' target="_blank" rel="noopener"';
 
 /* ---- Reading the feeds ---- */
@@ -135,17 +133,19 @@ function render(list, OUT){
 
 /* ---- The lookout page ---- */
 async function lookout(OUT){
-  const from = new Date(), until = new Date(+from + REPEAT_DAYS*864e5), list = [];
+  const from = new Date(), until = new Date(+from + REPEAT_DAYS*864e5);
   let trouble = false;
-  for(const c of CALENDARS){
+  // Both calendars at once; their events are listed together
+  const list = (await Promise.all(CALENDARS.map(async c => {
     try{
       const r = await fetch(feed(c.id), {signal: AbortSignal.timeout(20000)});
       if(!r.ok) throw new Error(`Google answered ${r.status}`);
       const text = await r.text(), found = occurrences(text, c.kind, from, until);
-      console.log(`Calendar "${(text.match(/^X-WR-CALNAME:(.*)$/m)||[])[1]||c.id}" (${c.kind}): ${found.length} upcoming`);
-      list.push(...found);
-    }catch(err){ trouble = true; console.log(`::warning title=Calendar::Couldn't read the ${c.kind} calendar: ${err.message}`); }
-  }
+      const name = (text.match(/^X-WR-CALNAME:(.*)$/m)||[])[1]?.replace(/\\(.)/g, "$1");  // the calendar's name, without the feed's \ before commas
+      console.log(`Calendar "${name || c.id}" (${c.kind}): ${found.length} upcoming`);
+      return found;
+    }catch(err){ trouble = true; console.log(`::warning title=Calendar::Couldn't read the ${c.kind} calendar: ${err.message}`); return []; }
+  }))).flat();
   // Whole days, gathered into chunks of about CHUNK events: the first goes in the page, the rest load as you scroll
   const chunks = [];
   let cur = [], n = 0;
@@ -161,4 +161,4 @@ async function lookout(OUT){
   console.log(`Lookout: ${list.length} upcoming events, ${chunks.length} chunk(s)`);
 }
 
-module.exports = {lookout, occurrences, render};
+module.exports = {lookout};
