@@ -103,8 +103,35 @@ jobs:
         run: |
           seen=$(gh issue list --repo "$GITHUB_REPOSITORY" --state all --search "\"$TITLE\" in:title" --json title --jq "map(select(.title == env.TITLE)) | length")
           [ "$seen" = 0 ] && gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITLE" --body "$MSG" || true
+      # Each attempt gets its own artifact name: a re-run ("Re-run jobs") otherwise finds the earlier attempt's
+      # "github-pages" artifact too and stops with "Multiple artifacts named github-pages".
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site
-      - id: deploy
+          name: github-pages-${{ github.run_attempt }}
+      # GitHub Pages sometimes queues a deployment and then rejects it ("Deployment failed, try again later")
+      # with nothing wrong on our side. Try up to three times, a minute or two apart, before giving up.
+      - id: deploy1
         uses: actions/deploy-pages@v4
+        continue-on-error: true
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
+      - if: steps.deploy1.outcome == 'failure'
+        run: sleep 60
+      - id: deploy2
+        if: steps.deploy1.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
+      - if: steps.deploy2.outcome == 'failure'
+        run: sleep 120
+      - id: deploy3
+        if: steps.deploy2.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
+      - id: deploy
+        run: echo "page_url=$URL" >> "$GITHUB_OUTPUT"
+        env:
+          URL: ${{ steps.deploy1.outputs.page_url || steps.deploy2.outputs.page_url || steps.deploy3.outputs.page_url }}
