@@ -23,7 +23,7 @@ Labatut understands that artistic knowledge and scientific knowledge have more i
 
 ---
 
-![Hieronymus Bosch, Cutting the Stone](entries/images/labatut-bosch-cutting-the-stone.jpg)
+![Hieronymus Bosch, Cutting the Stone](images/labatut-bosch-cutting-the-stone.jpg)
 
 *Cutting the Stone* (aka *The Extraction of the Stone of Madness* or *The Cure of Folly*), Heironymous Bosch
 
@@ -39,7 +39,7 @@ instead, what Labatut's work offers is a kind of *shamanistic* approach to quest
 
 ---
 
-![Marble sculpture of Prometheus by Nicolas-Sébastien Adam](entries/images/labatut-prometheus.jpg)
+![Marble sculpture of Prometheus by Nicolas-Sébastien Adam](images/labatut-prometheus.jpg)
 
 *Prometheus*, Nicolas-Sébastien Adam
 
@@ -53,7 +53,7 @@ it is hard for me to imagine any other modern novelist being alloted space to sp
 
 ---
 
-![Labatut and Natalie Portman in a video call](entries/images/labatut-with-portman.jpg)
+![Labatut and Natalie Portman in a video call](images/labatut-with-portman.jpg)
 
 He has also spoken with Natalie Portman
 
@@ -69,7 +69,7 @@ literature, fiction, and the arts fill in the gaps between the metricized, digit
 
 ---
 
-![Labatut speaking outdoors in an interview](entries/images/labatut-interview.jpg)
+![Labatut speaking outdoors in an interview](images/labatut-interview.jpg)
 
 the Relaxed Labatut believes in geniuses.
 
@@ -81,7 +81,7 @@ his inventors and researchers are mad, possessed, obsessive, irrational, more li
 
 ---
 
-![Labatut on stage at the Sana conference, seated across from his interviewer](entries/images/labatut-sana-stage.jpg)
+![Labatut on stage at the Sana conference, seated across from his interviewer](images/labatut-sana-stage.jpg)
 
 ---
 
