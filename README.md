@@ -4,13 +4,14 @@ A personal log. Posts are Markdown files in `entries/`; GitHub turns them into p
 
 ## Writing a post
 
-Add a file to `entries/` named `YYYY-MM-DD-anything.md`, for example `2026-10-23-a-new-thought.md`.
+Add a file to `entries/` named `YYYY-MM-DD-anything.md`, for example `2026-10-23-a-new-thought.md`, and its photos to `entries/images/` (the shortcut does both). Each publish then files the post in a folder for its month, `entries/2026/10/`, and its photos beside it in `entries/2026/10/images/` (see "Filing" below).
 
 - The date comes from the filename and decides which day of the calendar the post lands on. To backdate a post, start its title with the date instead: `# 2026-10-22 after a long day` lands on October 22, and the date is trimmed from the title. Impossible dates (like `2026-20-10`) are ignored.
 - The title is the first `# Heading` in the file. If there isn’t one, the title comes from the filename.
 - Tag a post by typing `#hashtags` anywhere in the text. Hashtags inside code are ignored.
 - Everything else is standard Markdown (the same rules GitHub's preview follows), and plain HTML works too. This site adds only a few rules of its own:
   - `## Heading 2`s are centered.
+  - A photo is linked from the post's own folder: `![](images/photo.jpg)`.
   - Photos on lines next to each other (blank lines between are fine) become a grid of squares; a lone photo stays full width.
   - Outside links open in a new tab.
   - A YouTube link on a line by itself (paste it from YouTube's Share button) becomes the video, full width. A YouTube link inside a sentence stays a link.
@@ -40,7 +41,25 @@ Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build
 
 So a visitor downloads the page, one small index, and only the posts they open, however many posts there are. Progress and any errors show on the repo's Actions tab, which also has a "Run workflow" button to republish by hand.
 
-Before building, it also tidies filenames in `entries/` and `missives/` and saves the rename: it removes spaces at the start and before `.md` (the shortcut sometimes adds them) and the characters Windows can't have in a filename (`* : ? " < > | \`, which come from *italics* or a colon in a title). So posts sort by date in the folder and the repo opens on any computer. A post's address and title don't change. If a post is re-sent with the old name, the new copy replaces the old one.
+Before building, it files new posts and photos (below) and saves the changes, along with any new rows in `watch-notes.csv`, in a single push.
+
+### Filing
+
+So no folder grows too long to browse on GitHub (which lists at most 1,000 files in a folder), posts and photos are kept by month:
+
+```
+entries/2026/11/2026-11-03 tsunami.md
+entries/2026/11/images/2AC5225E-….jpg
+```
+
+The shortcut keeps sending everything to the top of `entries/` and to `entries/images/`; `build/tidy.js` moves it into place at the start of each publish:
+
+- Each post goes to its month by its date, so a backdated post goes by the date in its title. If you change a post's date, it moves to the new month on the next publish.
+- Each photo a post shows goes to the `images/` folder beside it, and the link becomes `images/photo.jpg`. A photo whose post hasn't arrived yet waits in `entries/images/` until it does, so photos and posts can arrive in any order. A photo two months' posts both show is copied to both.
+- Newest wins, as in one folder: a post sent again under the same name replaces the copy already filed, and a photo sent again replaces the one beside its post.
+- Filenames are tidied: spaces at the start and before `.md` (the shortcut sometimes adds them) and the characters Windows can't have in a filename (`* : ? " < > | \`, which come from *italics* or a colon in a title) are removed, in `entries/` and `missives/`. So posts sort by date and the repo opens on any computer.
+
+A post's address and title don't change when it's filed. You can also edit a filed post where it is on GitHub, or add one straight into its month folder.
 
 This needs Settings → Pages → Source set to **GitHub Actions** (one time).
 
@@ -70,7 +89,7 @@ Photos are nearly all of the site's size; posts are tiny. GitHub Pages allows a 
 
 Each publish logs the site's size on the Actions tab. When the site reaches 75% of the limit, the publish opens an issue titled "STORAGE LIMIT at 75%", and GitHub emails you about it. It does the same at 90%, 95%, 96%, 97%, 98% and 99%, once per level.
 
-When that happens, move a finished year's photos into their own repo (for example `loganchungr/photos-2026`) published with GitHub Pages at `loganchungr.github.io/photos-2026/`, which gets its own 1 GB, and point that year's posts at the new address.
+When that happens, move a finished year's photos (the `images/` folders in `entries/2026/`) into their own repo (for example `loganchungr/photos-2026`) published with GitHub Pages at `loganchungr.github.io/photos-2026/`, which gets its own 1 GB, and point that year's posts at the new address.
 
 ## Mailing list
 
