@@ -59,18 +59,18 @@ Above: It has the beginning of War & Peace on it.
   
 *maybe it's like watching a car wreck, or actually maybe it's like one of DeLillo's sunsets, so horrible with moments of impossible beauty where the real light of the sky shines through the toxic dust just often enough to remind you that there are sometimes clear days where you can see all the way to the other side of town.*  
   
-- ***Sarah Longwell**** tells Jon Stewart on "The Weekly Show" that you can usually just ignore people online because once you talk to even a handful of voters, you can tell that the average American has both a good heart and totally incoherent politics, which is true;*  
-- ***Nate Silver**** believes that Trump may simply "quit" or resign the Presidency, I kind of wonder if he'll simply soft-quit, he already sort of has;*  
-- *his college **Galen Druke** takes the anti-progressive take and muses that Trump may even choose to work with Democrats because he believes nothing, which strikes me as idiotic;*  
-- ***Ezra Klein**** says this is not the end of Trumpism becuase there was never such a thing, there was only ever Trump;*  
-- ***Jamelle Bouie**** points out that amongst the murky, swingy waters of the electorate shift, the clearest path forward for either party is through the South, and particularly the Southwest, and by extension, Texas;*  
-- ***Ron DeSantis**** calls this election an extinction-level event for the GOP and predicts that they won't be able to win back the House in 2028 and the Senate until 2032;*  
-- ***J.D. Vance**** says that "everybody knows why" we lost, meaning Iran;*  
-- *you even check in with the **Pod Save America** boys in a nod to a younger, more idealistic self, the most interesting thing they have to say is an anecdote about an email chain on Election Night ten years ago as the numbers from Florida started rolling in: If our numbers are that wrong in Florida, then they are wrong everywhere.;*  
-- ***Derek Thompson**** dubs the new Millennial electeds the "Mr. Brightside caucus," notching yet another grievance in my strange parasocial love-hate campaign with his work;*  
-    - *but he also points out several important things, like that this is likely not a permanent realignment,*  
-    - *and, both in a Substack piece and on X with **David Wallace-Wells**, he also points out that moderates did well while campaigning on a set of issues and rhetoric (wealth inequality, for example) that would have read as patently progressive or leftist in earlier election cycles; *  
-- *meanwhile **everyone online** is declaring that "Woke 3" is in, pronouns are back, and have today begun the clamoring to prevent Schumer and Jeffries from becoming party leaders. *  
+- _**Sarah Longwell** tells Jon Stewart on "The Weekly Show" that you can usually just ignore people online because once you talk to even a handful of voters, you can tell that the average American has both a good heart and totally incoherent politics, which is true;_
+- _**Nate Silver** believes that Trump may simply "quit" or resign the Presidency, I kind of wonder if he'll simply soft-quit, he already sort of has;_
+- _his colleague **Galen Druke** takes the anti-progressive take and muses that Trump may even choose to work with Democrats because he believes nothing, which strikes me as idiotic;_
+- _**Ezra Klein** says this is not the end of Trumpism becuase there was never such a thing, there was only ever Trump;_
+- _**Jamelle Bouie** points out that amongst the murky, swingy waters of the electorate shift, the clearest path forward for either party is through the South, and particularly the Southwest, and by extension, Texas;_
+- _**Ron DeSantis** calls this election an extinction-level event for the GOP and predicts that they won't be able to win back the House in 2028 and the Senate until 2032;_
+- _**J.D. Vance** says that "everybody knows why" we lost, meaning Iran;_
+- _you even check in with the **Pod Save America** boys in a nod to a younger, more idealistic self, the most interesting thing they have to say is an anecdote about an email chain on Election Night ten years ago as the numbers from Florida started rolling in: "If our numbers are that wrong in Florida, then they are wrong everywhere";_
+- _**Derek Thompson** dubs the new Millennial electeds the "Mr. Brightside caucus," notching yet another grievance in my strange parasocial love-hate campaign with his work;_
+    - _but he also points out several important things, like that this is likely not a permanent realignment;_  
+    - _and, both in a Substack piece and on X with **David Wallace-Wells**, he also points out that moderates did well while campaigning on a set of issues and rhetoric (wealth inequality, for example) that would have read as patently progressive or leftist in earlier election cycles;_
+- _meanwhile **everyone online** is declaring that "Woke 3" is in, pronouns are back, and have today begun the clamoring to prevent Schumer and Jeffries from becoming party leaders._  
   
 ---  
   
