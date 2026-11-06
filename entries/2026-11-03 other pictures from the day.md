@@ -48,4 +48,4 @@ before the big game it's time for some vocationing. SK is coming out of musical 
 
 the whole time I am furtively, and rather guiltily, checking results via X and the NYT and fielding excited texts from the crew beginning to gather at Pegs. it's about to be the best night of our sad and paltry political lives.
 
-
+#life

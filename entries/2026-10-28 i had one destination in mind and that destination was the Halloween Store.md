@@ -50,3 +50,5 @@ From the stage it's hard to make out faces in the crowd but I make smiling eye c
   
 ![IMG_5040.jpeg](images/EDFAF5F2-5D6C-4D60-B4CB-993BE35A93C9.jpg)  
 ![IMG_5041.jpeg](images/42273024-8147-4B3E-AC5A-E1AA1D83D0C9.jpg)  
+
+#life

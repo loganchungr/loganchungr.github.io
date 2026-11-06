@@ -35,3 +35,5 @@ It is remarkable how much this day feels more like a release or relief than it d
 ![Ridgewood Crave](images/BA411337-BB66-44BF-B8F4-9687375DE779.jpg)  
 ![Jokermen](images/CCEB279F-801F-44A9-B06A-30F258497C37.jpg)  
 ![Jeremy D. Larson](images/877CFBA8-552C-479A-AD57-B14A45A1776A.jpg)  
+
+#life #politics #america

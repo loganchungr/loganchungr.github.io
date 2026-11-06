@@ -26,3 +26,5 @@ Ultimately I am glad that I did not participate in this show, because it meant t
 ![IMG_5726.jpeg](images/6D9B0CB3-D616-4BB0-9850-6BB58F7563A1.jpg)  
 ![IMG_5109.jpeg](images/035E97EC-2A04-4755-BF89-892F49E72629.jpg)  
 ![IMG_5122.jpeg](images/48CBB0F3-0C02-40E3-B6BA-CD14F4653137.jpg)  
+
+#life #music

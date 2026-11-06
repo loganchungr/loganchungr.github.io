@@ -43,3 +43,5 @@ Kathy joins me for the last out. She's fresh off her trip to [redacted] for [red
 Katy and I walk homewards. Now that she's home to stay for a while it really feels like the holiday season. She says [redacted] and I advise her to give it some time. We yell at each other in a fun way and how I love her so. Now we're both coughing that horrible cough and I implore her to quit smoking again. It's hard to believe it's been a full eight years since I quit with Katy's angelic assistance. So much was happening then and that was before anything happened. How old are we allowed to feel?  
   
 #threeboroughday  
+
+#life

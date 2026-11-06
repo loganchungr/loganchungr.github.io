@@ -8,3 +8,5 @@
 ![MV5BMTY2OTM1NTgxMl5BMl5BanBnXkFtZTcwNDY5MjkzNA@@._V1_.jpg](images/B0D40D1C-05D5-4753-8A07-D0E8B195C350.jpg)  
 ![Screenshot 2026-11-01 at 21.02.39.png](images/2725DE05-55C8-4DD5-8EC3-2656E2C674C5.jpg)  
 *Hannah and Her Sisters* (1986) // *News From Home* (1976)  
+
+#life #film

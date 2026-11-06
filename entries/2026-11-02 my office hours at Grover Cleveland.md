@@ -12,3 +12,5 @@
 ---
 
 afterwards we have pre-dinner at Light's new workplace and then visit Rona for our main course. at the Italian café I meet Issa, who was also at the Cuban Missile Crisis reading and "had a lot of thoughts about it." she invites me to Rodeo on Wednesday. over our souvlaki pitas we listen to all of "Arthur McBride." _for it bein' on Christmas mornin'....._
+
+#life
