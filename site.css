@@ -1,5 +1,9 @@
 /* Shared styles for every page of Loggin’ Chung. Each page adds only what's unique to it. */
 
+/* Fonts from Google Fonts: Courier Prime for the site, Libre Caslon Text for the writing in posts.
+   If they can't load, the page falls back to Courier New and Georgia. */
+@import url("https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap");
+
 /* ---- Colors ----
    Light by default. theme.js sets data-theme="dark" from the device setting or the toggle. */
 :root{
@@ -7,7 +11,8 @@
   --ink:#000; --muted:#6b6b6b; --line:#969696; --slash:rgb(150 150 150/.3);
   --accent:#ff948f; --scrim:rgb(0 0 0/.5); --bgimg:none;
   --note:#c4544e;  /* coral text (notes), deepened so it reads on the light background */
-  --font:"Courier New",Courier,monospace;
+  --font:"Courier Prime","Courier New",Courier,monospace;
+  --prose:"Libre Caslon Text","Big Caslon",Georgia,serif;  /* the writing in posts */
   color-scheme:light;
 }
 :root[data-theme="dark"]{
@@ -71,5 +76,15 @@ dialog::backdrop{background:var(--scrim)}
 .theme-toggle{position:fixed;left:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:5;width:2.25rem;height:2.25rem;padding:0;display:grid;place-items:center;border-radius:50%;border:1px dotted var(--line);background:var(--panel);color:var(--ink);opacity:.65;cursor:pointer}
 .theme-toggle:hover,.theme-toggle:focus-visible{opacity:1}
 .theme-toggle svg{width:1.1rem;height:1.1rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---- The writing in a post: paragraphs, lists, quotes and ## / ### headings are in Caslon ----
+   Everything around it (masthead, nav, the date, the post's title, tags in the calendar) stays in Courier Prime.
+   Caslon looks small next to Courier at the same size, so it's set a bit larger. "html article" outranks the
+   home page's own article styles. */
+html article :is(p:not(.when),li,blockquote){font-family:var(--prose);font-size:1.15em;line-height:1.65}
+html article li p{font-size:1em}
+html article :is(h2,h3){font-family:var(--prose);font-weight:400}
+html article h2{font-size:1.9rem}
+html article h3{font-style:italic;font-size:1.25rem}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
