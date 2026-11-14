@@ -15,6 +15,7 @@ Add a file to `entries/` named `YYYY-MM-DD-anything.md`, for example `2026-10-23
   - Photos on lines next to each other (blank lines between are fine) become a grid of squares; a lone photo stays full width.
   - Outside links open in a new tab.
   - A YouTube link on a line by itself (paste it from YouTube's Share button) becomes the video, full width. A YouTube link inside a sentence stays a link.
+  - A link to an audio file (`.mp3`, `.m4a`, `.wav` and the like) on a line by itself becomes a player in a dotted frame, captioned with the file's name. To caption it something else, write it as a link: `[late set, second tune](https://www.dropbox.com/…/song.mp3?…)`. A Dropbox share link works as copied (it's switched to `raw=1` so it plays); keep it shared as "anyone with the link". An audio file in the post's own folder works too: `images/song.mp3`. An audio link inside a sentence stays a link.
   - Quotes written the way the shortcut writes them (a blank `>` line after every line) keep their shape: a blank line that's just `>` is a new line, and an empty line in Notes starts a new stanza. Quotes already in standard Markdown are left alone.
 
 Commit and push. The site republishes itself in about a minute, so nothing else needs updating.
