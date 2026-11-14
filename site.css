@@ -1,5 +1,9 @@
 /* Shared styles for every page of Loggin’ Chung. Each page adds only what's unique to it. */
 
+/* Courier Prime, from Google Fonts: Courier with sturdier letters and real italics.
+   If it can't load, pages fall back to Courier New. */
+@import url("https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
 /* ---- Colors ----
    Light by default. theme.js sets data-theme="dark" from the device setting or the toggle. */
 :root{
@@ -7,7 +11,7 @@
   --ink:#000; --muted:#6b6b6b; --line:#969696; --slash:rgb(150 150 150/.3);
   --accent:#ff948f; --scrim:rgb(0 0 0/.5); --bgimg:none;
   --note:#c4544e;  /* coral text (notes), deepened so it reads on the light background */
-  --font:"Courier New",Courier,monospace;
+  --font:"Courier Prime","Courier New",Courier,monospace;
   color-scheme:light;
 }
 :root[data-theme="dark"]{
