@@ -54,13 +54,31 @@ function video(line){
   const start = t ? (+t[1]||0)*3600 + (+t[2]||0)*60 + (+t[3]||0) : 0;
   return `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0${start ? "&amp;start="+start : ""}" title="YouTube video" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`;
 }
+// Site rule: a link to an audio file (.mp3, .m4a, .wav…) on a line by itself becomes a player in a dotted frame, captioned
+// with the file's name. To caption it something else, write it as a Markdown link: [caption](link). A Dropbox share link
+// is switched to raw=1, so it plays the file instead of opening Dropbox's page. A link without http is read from the post's
+// own folder, like a photo.
+const AUDIO = /^\s*[*_]*(?:<|\[([^\]]*)\]\()?([^\s<>()]+?)[>)]?[*_]*\s*\\?\s*$/, SOUND = /\.(mp3|m4a|aac|wav|ogg|oga|opus|flac)$/i;
+function audio(line){
+  const m = line.match(AUDIO); if(!m) return "";
+  const local = !/^https?:\/\//i.test(m[2]);
+  let u; try{ u = new URL(m[2], "http://local/"); }catch(err){ return ""; }
+  if(!SOUND.test(u.pathname) || local && /^[a-z][a-z0-9+.-]*:/i.test(m[2])) return "";
+  if(/(^|\.)dropbox\.com$/i.test(u.hostname)){ u.searchParams.delete("dl"); u.searchParams.set("raw","1"); }
+  let name = u.pathname.split("/").pop();
+  try{ name = decodeURIComponent(name); }catch(err){}
+  name = name.replace(SOUND,"").replace(/[_+]/g," ");
+  const text = (m[1]||"").replace(/[*_`]/g,"").trim(), caption = text && text !== m[2] ? text : name;
+  const src = local ? imgSrc(m[2]) : u.href;
+  return `<figure class="track"><figcaption>${esc(caption)}</figcaption><audio controls preload="none" src="${qa(src)}"></audio></figure>`;
+}
 // Site rule: back-to-back photo lines (blank lines between are fine) become one grid of squares; a lone photo stays single.
 function photos(src){
   const L = src.split("\n"), out = [];
   let fenced = false;
   for(let i = 0; i < L.length;){
     if(/^```/.test(L[i])) fenced = !fenced;
-    const v = !fenced && video(L[i]);
+    const v = !fenced && (video(L[i]) || audio(L[i]));
     if(v){ out.push("", v, ""); i++; continue; }
     if(fenced || !IMG.test(L[i])){ out.push(L[i++]); continue; }
     const run = [];
