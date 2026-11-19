@@ -2,6 +2,7 @@
    private GitHub repository (github.js). md.js turns entries into the editor and back; store.js keeps them on the device. */
 import { idb } from "./store.js";
 import { Repo, repoName } from "./github.js";
+import { Dropbox, signIn, finishSignIn } from "./dropbox.js";
 import * as MD from "./md.js";
 
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -19,7 +20,7 @@ const svg = id => { const s = document.createElementNS("http://www.w3.org/2000/s
 
 /* ---------------- Settings ---------------- */
 const SKEY = "logbook.settings";
-const DEFAULTS = {repo: "", branch: "main", token: "", font: "system", size: 3, theme: "system", accent: "pink", quality: "optimized", pubRepo: "", pubBranch: "", passHash: "", passSalt: "", lockAfter: "60"};
+const DEFAULTS = {repo: "", branch: "main", token: "", font: "system", size: 3, theme: "system", accent: "pink", quality: "optimized", pubRepo: "", pubBranch: "", pubToken: "", storage: "github", dbxKey: "", dbxRefresh: "", dbxName: "", passHash: "", passSalt: "", lockAfter: "60"};
 const S = Object.assign({}, DEFAULTS, (() => { try { return JSON.parse(localStorage.getItem(SKEY) || "{}"); } catch(err) { return {}; } })());
 function saveSettings(){
   try { localStorage.setItem(SKEY, JSON.stringify(S)); } catch(err) {}
@@ -58,8 +59,15 @@ let remote = {head: null, files: {}}; // the repository as of the last sync: {pa
 let repo = null;
 const uid = () => crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
 const shortId = () => Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-3);
-const configured = () => !!(S.repo && S.token);
-const makeRepo = () => { repo = configured() ? new Repo(S.token, S.repo, S.branch || "main") : null; };
+/* Where entries sync: a private GitHub repository, or the app's folder in Dropbox. Both take the same calls. */
+// The Dropbox app's key (from dropbox.com/developers/apps). It isn't secret; with it built in, nobody needs to make their
+// own Dropbox app. Left blank, Settings asks for one.
+const DROPBOX_APP_KEY = "";
+const dropboxKey = () => DROPBOX_APP_KEY || S.dbxKey;
+const hasGitHub = () => !!(S.repo && S.token), hasDropbox = () => !!(dropboxKey() && S.dbxRefresh);
+const configured = () => S.storage === "dropbox" ? hasDropbox() : hasGitHub();
+const storeFor = kind => kind === "dropbox" ? (hasDropbox() ? new Dropbox(dropboxKey(), S.dbxRefresh) : null) : (hasGitHub() ? new Repo(S.token, S.repo, S.branch || "main") : null);
+const makeRepo = () => { repo = storeFor(S.storage); };
 const live = () => [...entries.values()].filter(e => !e.deleted);
 const newest = list => list.sort((a, b) => b.date.localeCompare(a.date) || (b.created || 0) - (a.created || 0) || (b.path || "").localeCompare(a.path || ""));
 
@@ -114,7 +122,7 @@ async function getBlob(e, rel){
   const cached = await idb.get("files", "sha:" + sha).catch(() => null);
   if(cached) return {blob: cached.blob, key: "sha:" + sha};
   if(!repo) return null;
-  const blob = await queue(() => repo.raw(sha));
+  const blob = await queue(() => repo.raw(sha, p));
   const typed = MD.isVideo(rel) && !blob.type.startsWith("video/") ? new Blob([blob], {type: /\.mov$/i.test(rel) ? "video/quicktime" : "video/mp4"}) : blob;
   idb.put("files", {blob: typed, at: Date.now()}, "sha:" + sha).catch(() => {});
   return {blob: typed, key: "sha:" + sha};
@@ -216,7 +224,7 @@ async function pull(){
     todo.push([p, sha, e]);
   }
   await Promise.all(todo.map(([p, sha, e]) => queue(async () => {
-    const md = await repo.text(sha), m = MD.meta(md, p), ent = e || newEntry();
+    const md = await repo.text(sha, p), m = MD.meta(md, p), ent = e || newEntry();
     Object.assign(ent, {path: p, sha, md, syncedMd: md, dirty: false, title: m.title, excerpt: m.excerpt, media: m.media, tags: m.tags, prefs: m.prefs, date: m.date || ent.date});
     await saveEntry(ent);
   })));
@@ -394,7 +402,7 @@ function row(e, showDate){
 function setupCard(){
   return h("div", {class: "card"},
     h("strong", {}, "Keep your entries in sync"),
-    "Connect a private GitHub repository and entries sync to it as you write. Until then they stay on this device.",
+    "Connect a private GitHub repository or your Dropbox, and entries sync to it as you write. Until then they stay on this device.",
     h("br"), h("button", {onclick: openSettings}, "Set Up"));
 }
 function renderList(){
@@ -751,10 +759,11 @@ async function confirmPublish(){
   if(ok) publish(e);
 }
 async function publish(e){
-  if(!S.token){ toast("Add a token in Settings first."); return; }
+  const pubToken = S.pubToken || (S.storage === "github" ? S.token : "");
+  if(!pubToken){ toast("Add a GitHub token under Publish to Log in Settings first."); return; }
   toast("Publishing…", 60000);
   try {
-    const pub = new Repo(S.token, S.pubRepo, S.pubBranch || "main"), changes = [];
+    const pub = new Repo(pubToken, S.pubRepo, S.pubBranch || "main"), changes = [];
     const body = MD.splitPrefs(e.md).body.replace(/\s+$/, "") + "\n";
     for(const rel of MD.meta(body).media){
       if(isLink(rel)) continue;
@@ -872,7 +881,93 @@ function openSettings(){
   for(const i of $$("[data-set]")) i.value = S[i.dataset.set] || "";
   paintSettings();
   connectNote();
+  storageView(S.storage);
   push("settings", () => { makeRepo(); render(); });
+}
+// Which storage's settings are showing (choosing one here doesn't switch until it's connected)
+function storageView(kind){
+  for(const b of $("[data-view=storage]").children) b.classList.toggle("on", b.value === kind);
+  $("#st-github").hidden = kind !== "github";
+  $("#st-dropbox").hidden = kind !== "dropbox";
+  $("#dbx-key-cell").hidden = !!DROPBOX_APP_KEY;
+  $("#dbx-help").hidden = !!DROPBOX_APP_KEY;
+  $("#dbx-uri").textContent = location.origin + location.pathname;
+  const using = S.storage === "dropbox" && hasDropbox();
+  $("#dbx-connect").hidden = using;
+  $("#dbx-connect").textContent = S.dbxRefresh ? "Sync with Dropbox" : "Connect Dropbox";
+  $("#dbx-disconnect").hidden = !S.dbxRefresh;
+  $("#connect").textContent = S.storage === "github" ? "Connect" : "Sync with GitHub";
+  $("[data-set=pubToken]").placeholder = S.storage === "github" ? "Same as above" : "github_pat_…";
+  dropboxNote();
+}
+function dropboxNote(msg, bad){
+  const el = $("#dbx-status");
+  el.className = "group-foot" + (bad ? " bad" : "");
+  el.textContent = msg || (S.storage === "dropbox" && hasDropbox() ? `Syncing with ${S.dbxName ? S.dbxName + "’s " : "your "}Dropbox, in Apps → the app’s folder. Open it in the Files app to see the entries as files.`
+    : S.dbxRefresh ? `Connected${S.dbxName ? " as " + S.dbxName : ""}, but syncing with GitHub. Tap above to switch; your entries are copied over.`
+    : "Entries are saved as Markdown files with their photos in a folder of your Dropbox (Apps → the app’s name), so they show up in the Files app too.");
+}
+// Switches storage. If the new place has no entries yet, this device's are copied there (photos included), so nothing is
+// left behind; the old place keeps its copy. If it already has entries, those are what you'll see.
+async function adopt(kind){
+  const old = repo, oldRemote = remote, changing = S.storage !== kind;
+  S.storage = kind; saveSettings(); makeRepo();
+  if(changing){
+    const snap = await repo.snapshot(), theirs = Object.keys(snap.files).some(p => /^entries\/.+\.md$/i.test(p));
+    const mine = live().filter(e => e.path || e.dirty);
+    if(old && mine.length && !theirs){
+      toast(`Copying ${mine.length} ${mine.length === 1 ? "entry" : "entries"}…`, 120000);
+      for(const e of mine){
+        for(const rel of e.media){
+          if(isLink(rel)) continue;
+          const key = "new:" + mediaName(rel);
+          if(await idb.get("files", key).catch(() => null)) continue;
+          const p = mediaPath(e.path, rel), sha = p && oldRemote.files[p];
+          if(!sha) continue;
+          const blob = (await idb.get("files", "sha:" + sha).catch(() => null))?.blob || await old.raw(sha, p);
+          await idb.put("files", {blob, at: Date.now()}, key);
+        }
+        Object.assign(e, {path: null, sha: null, syncedMd: null, dirty: true});
+        await saveEntry(e);
+      }
+      for(const e of [...entries.values()]) if(e.deleted) await dropEntry(e);
+    }
+    remote = {head: null, files: {}}; urls.clear();
+  }
+  await runSync();
+  if(changing && sync.state !== "error") toast(`Syncing with ${kind === "dropbox" ? "Dropbox" : "GitHub"}.`);
+  if(stack.at(-1)?.id === "settings") storageView(kind);
+}
+async function connectDropbox(){
+  if(!dropboxKey()){ dropboxNote("Paste the Dropbox app key first.", true); return; }
+  if(S.dbxRefresh){
+    dropboxNote("Switching…");
+    try { await adopt("dropbox"); if(sync.state === "error") throw new Error(sync.msg); } catch(err) { dropboxNote(err.message, true); }
+    return;
+  }
+  dropboxNote("Opening Dropbox…");
+  await signIn(dropboxKey(), location.origin + location.pathname);
+}
+async function disconnectDropbox(){
+  const using = S.storage === "dropbox";
+  const ok = await sheet(using ? "Logbook stops syncing with Dropbox. Entries stay in your Dropbox and on this device; connect GitHub or Dropbox again to keep syncing." : "Logbook forgets this Dropbox sign-in. Nothing in your Dropbox changes.", [{label: "Disconnect Dropbox", destructive: true}]);
+  if(!ok) return;
+  S.dbxRefresh = ""; S.dbxName = "";
+  if(using) S.storage = "github";
+  saveSettings(); repo = null; makeRepo(); storageView(using ? "dropbox" : S.storage); render();
+}
+// Back from Dropbox's sign-in page
+async function dropboxReturn(){
+  let refresh;
+  try { refresh = await finishSignIn(dropboxKey()); } catch(err) { toast(err.message, 6000); return; }
+  if(!refresh) return;
+  S.dbxRefresh = refresh; saveSettings();
+  try {
+    const me = await new Dropbox(dropboxKey(), refresh).info();
+    S.dbxName = me.name?.display_name || ""; saveSettings();
+    await adopt("dropbox");
+    if(sync.state === "error") throw new Error(sync.msg);
+  } catch(err) { toast(`Dropbox: ${err.message}`, 6000); }
 }
 function paintSettings(){
   for(const seg of $$("[data-seg]")) for(const b of seg.children) b.classList.toggle("on", b.value === S[seg.dataset.seg]);
@@ -893,16 +988,15 @@ function appearance(){
 function connectNote(msg, bad){
   const el = $("#connect-status");
   el.className = "group-foot" + (bad ? " bad" : "");
-  el.textContent = msg || (configured() ? `Syncing with ${repoName(S.repo)}.` : "Entries are saved as Markdown files in a private GitHub repository you own.");
+  el.textContent = msg || (S.storage === "github" && hasGitHub() ? `Syncing with ${repoName(S.repo)}.` : "Entries are saved as Markdown files in a private GitHub repository you own.");
 }
 async function connect(){
-  makeRepo();
-  if(!repo){ connectNote("Fill in the repository and the token first.", true); return; }
+  if(!hasGitHub()){ connectNote("Fill in the repository and the token first.", true); return; }
   connectNote("Connecting…");
   try {
-    const info = await repo.info();
+    const info = await new Repo(S.token, S.repo, S.branch || "main").info();
     if(info.permissions && !info.permissions.push) throw new Error("The token can read this repository but can’t save to it. Give it Contents: Read and write.");
-    await runSync();
+    await adopt("github");
     if(sync.state === "error") throw new Error(sync.msg);
     connectNote(info.private ? `Connected to ${info.full_name}. ${live().length} ${live().length === 1 ? "entry" : "entries"}.` : `Connected to ${info.full_name}, but it’s public: anyone can read these entries. Make it private on GitHub (Settings → Danger Zone → Change visibility).`, !info.private);
   } catch(err) { connectNote(err.message, true); }
@@ -999,10 +1093,13 @@ function bind(){
   addEventListener("keydown", ev => { if(ev.key === "Escape" && viewing) closeViewer(); });
 
   // Settings
-  for(const i of $$("[data-set]")) i.addEventListener("input", () => { S[i.dataset.set] = i.value.trim(); saveSettings(); if(/^(repo|branch|token)$/.test(i.dataset.set)) makeRepo(); });
+  for(const i of $$("[data-set]")) i.addEventListener("input", () => { S[i.dataset.set] = i.value.trim(); saveSettings(); if(/^(repo|branch|token)$/.test(i.dataset.set) && S.storage === "github") makeRepo(); });
   for(const seg of $$("[data-seg]")) for(const b of seg.children) b.onclick = () => { S[seg.dataset.seg] = b.value; saveSettings(); paintSettings(); appearance(); };
   $("[data-size=global]").oninput = ev => { S.size = +ev.target.value; saveSettings(); paintSettings(); appearance(); };
   $("#connect").onclick = connect;
+  for(const b of $("[data-view=storage]").children) b.onclick = () => storageView(b.value);
+  $("#dbx-connect").onclick = connectDropbox;
+  $("#dbx-disconnect").onclick = disconnectDropbox;
   $("#sync-now").onclick = async () => { if(!configured()) return connectNote("Connect a repository first.", true); await runSync(); toast(sync.state === "error" ? `Couldn’t sync: ${sync.msg}` : "Synced."); };
   $("#clear-cache").onclick = clearCache;
   $("#pass-set").onclick = setPasscode;
@@ -1048,6 +1145,7 @@ async function start(){
   } catch(err) { toast("This browser isn’t letting Logbook save anything on the device.", 6000); }
   render();
   if(configured()) runSync();
+  dropboxReturn();
   navigator.storage?.persist?.().catch(() => {});
   if("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
 }

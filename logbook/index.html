@@ -130,6 +130,27 @@ try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = 
   <div class="scroll grouped">
     <h2 class="group-head">Storage</h2>
     <div class="group">
+      <div class="cell"><span>Sync With</span><div class="seg" data-view="storage"><button value="github">GitHub</button><button value="dropbox">Dropbox</button></div></div>
+    </div>
+    <div id="st-dropbox" hidden>
+    <div class="group" style="margin-top:12px">
+      <label class="cell field" id="dbx-key-cell"><span>App Key</span><input data-set="dbxKey" placeholder="from Dropbox" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+      <button class="cell action" id="dbx-connect">Connect Dropbox</button>
+      <button class="cell action destructive" id="dbx-disconnect" hidden>Disconnect Dropbox</button>
+    </div>
+    <p class="group-foot" id="dbx-status"></p>
+    <details class="help" id="dbx-help">
+      <summary>How to get an app key</summary>
+      <ol>
+        <li>Go to <a href="https://www.dropbox.com/developers/apps" target="_blank" rel="noopener">dropbox.com/developers/apps</a> and tap <b>Create app</b>. Choose <b>Scoped access</b> and <b>App folder</b>, and give it a name (it becomes the folder’s name, in Dropbox → Apps).</li>
+        <li>On its <b>Permissions</b> tab, tick <b>files.content.read</b> and <b>files.content.write</b>, then <b>Submit</b>.</li>
+        <li>On its <b>Settings</b> tab, under <b>OAuth 2 → Redirect URIs</b>, add this page’s address, <code id="dbx-uri"></code>, and tap Add.</li>
+        <li>Copy the <b>App key</b> from the same tab, paste it here, and tap Connect Dropbox.</li>
+      </ol>
+    </details>
+    </div>
+    <div id="st-github">
+    <div class="group" style="margin-top:12px">
       <label class="cell field"><span>Repository</span><input data-set="repo" placeholder="you/notebook" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
       <label class="cell field"><span>Branch</span><input data-set="branch" placeholder="main" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
       <label class="cell field"><span>Token</span><input data-set="token" type="password" placeholder="github_pat_…" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off"></label>
@@ -145,6 +166,7 @@ try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = 
       </ol>
       <p>The token is kept on this device only. Entries are saved as Markdown files, each with its photos in an <code>images</code> folder beside it, so they’re yours to read on GitHub or anywhere else.</p>
     </details>
+    </div>
 
     <h2 class="group-head">Passcode</h2>
     <div class="group">
@@ -180,6 +202,7 @@ try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = 
     <div class="group">
       <label class="cell field"><span>Repository</span><input data-set="pubRepo" placeholder="Off" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
       <label class="cell field"><span>Branch</span><input data-set="pubBranch" placeholder="main" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+      <label class="cell field"><span>Token</span><input data-set="pubToken" type="password" placeholder="Same as above" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off"></label>
     </div>
     <p class="group-foot">Adds “Publish to Log” to each entry’s ••• menu, which copies the entry and its photos into <code>entries/</code> of this repository, where a site like the Log picks it up. Leave it blank to turn it off. The token needs access to this repository too.</p>
 

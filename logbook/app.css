@@ -135,6 +135,7 @@ code{font:.9em ui-monospace, "SF Mono", Menlo, monospace}
 .cell.field input{flex:1;min-width:0;border:0;outline:none;background:none;text-align:right;color:var(--label2);font-size:17px}
 .cell.field input:focus{color:var(--label)}
 .cell.action{color:var(--accent)}
+.cell.action.destructive{color:var(--danger)}
 .cell.nav .value{margin-left:auto;color:var(--label2)}
 .cell .chev{width:16px;height:16px;color:var(--label3);stroke-width:2.6}
 .cell.size{gap:14px}
