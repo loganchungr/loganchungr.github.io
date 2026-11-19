@@ -13,12 +13,12 @@ A private log for the phone: text, photos and videos, written like a note in Not
 
 Settings → Storage → **Sync With: Dropbox** saves entries to a folder in your Dropbox instead (Apps → the Dropbox app's name), in the same files and folders, so they show up in the Files app too. It needs a Dropbox app key once:
 
-1. At https://www.dropbox.com/developers/apps, **Create app**: Scoped access, App folder, any name (it becomes the folder's name).
+1. At https://www.dropbox.com/developers, sign in, open **App Console** (top right; on a phone it may be in the ☰ menu, or use Safari's Request Desktop Website), and **Create app**: Scoped access, App folder, any name (it becomes the folder's name).
 2. **Permissions** tab: tick `files.content.read` and `files.content.write`, then Submit. (Do this before connecting; Dropbox grants permissions at sign-in.)
 3. **Settings** tab → OAuth 2 → Redirect URIs: add `https://loganchungr.github.io/logbook/`.
 4. Copy the **App key** into Logbook's Settings and tap **Connect Dropbox**. Dropbox asks you to sign in and allow it, then sends you back.
 
-The key isn't secret. Put it in `DROPBOX_APP_KEY` near the top of `app.js` and nobody has to make their own app (a new Dropbox app allows 500 people to connect until Dropbox approves it for more). Switching between GitHub and Dropbox copies this device's entries and photos to the new place if it's empty, and leaves the old copy where it was. Publish to Log still uses a GitHub token: with Dropbox, put one in the Token field under Publish to Log.
+The key isn't secret. Put it in `DROPBOX_APP_KEY` near the top of `app.js` and nobody has to make their own app (a new Dropbox app is in "development" status, and Dropbox may limit who else can connect until it approves the app for production). Switching between GitHub and Dropbox copies this device's entries and photos to the new place if it's empty, and leaves the old copy where it was. Publish to Log still uses a GitHub token: with Dropbox, put one in the Token field under Publish to Log.
 
 To publish entries to the Log, fill in **Publish to Log** with `loganchungr/loganchungr.github.io` and branch `update-2`. Each entry's ••• menu then has **Publish to Log**, which asks first and copies the entry to `entries/` and its photos to `entries/images/`, as the Shortcut does. Leave it blank and the option doesn't appear.
 

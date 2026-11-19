@@ -152,7 +152,7 @@ try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = 
     <details class="help" id="dbx-help">
       <summary>How to get an app key</summary>
       <ol>
-        <li>Go to <a href="https://www.dropbox.com/developers/apps" target="_blank" rel="noopener">dropbox.com/developers/apps</a> and tap <b>Create app</b>. Choose <b>Scoped access</b> and <b>App folder</b>, and give it a name (it becomes the folder’s name, in Dropbox → Apps).</li>
+        <li>Go to <a href="https://www.dropbox.com/developers" target="_blank" rel="noopener">dropbox.com/developers</a>, sign in, open <b>App Console</b> (top right, or in the ☰ menu on a phone), and tap <b>Create app</b>. Choose <b>Scoped access</b> and <b>App folder</b>, and give it a name (it becomes the folder’s name, in Dropbox → Apps).</li>
         <li>On its <b>Permissions</b> tab, tick <b>files.content.read</b> and <b>files.content.write</b>, then <b>Submit</b>.</li>
         <li>On its <b>Settings</b> tab, under <b>OAuth 2 → Redirect URIs</b>, add this page’s address, <code id="dbx-uri"></code>, and tap Add.</li>
         <li>Copy the <b>App key</b> from the same tab, paste it here, and tap Connect Dropbox.</li>

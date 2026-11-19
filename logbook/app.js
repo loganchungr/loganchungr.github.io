@@ -60,7 +60,7 @@ let repo = null;
 const uid = () => crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
 const shortId = () => Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-3);
 /* Where entries sync: a private GitHub repository, or the app's folder in Dropbox. Both take the same calls. */
-// The Dropbox app's key (from dropbox.com/developers/apps). It isn't secret; with it built in, nobody needs to make their
+// The Dropbox app's key (dropbox.com/developers → App Console). It isn't secret; with it built in, nobody needs to make their
 // own Dropbox app. Left blank, Settings asks for one.
 const DROPBOX_APP_KEY = "";
 const dropboxKey = () => DROPBOX_APP_KEY || S.dbxKey;
