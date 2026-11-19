@@ -456,8 +456,9 @@ function applyDoc(prefs = {}){
 function openEditor(e, focus){
   if(cur) closeEditor();
   cur = {e, timer: 0, idle: 0};
-  const {title, frag} = MD.toEditor(e.md, e.title);
+  const {title, titleAlign, frag} = MD.toEditor(e.md, e.title);
   const h1 = h("h1", {}, title);
+  if(titleAlign) h1.style.textAlign = titleAlign;
   if(!title) h1.append(h("br"));
   doc.replaceChildren(h1, frag);
   if(!doc.lastChild || doc.lastChild.nodeName === "H1" || doc.lastChild.classList?.contains("gallery") || doc.lastChild.classList?.contains("raw")) doc.append(h("div", {}, h("br")));
@@ -510,7 +511,7 @@ function dateLine(){
 }
 function placeholder(){
   const t = doc.firstElementChild;
-  if(t && t.nodeName === "H1") t.classList.toggle("empty", !t.textContent.trim());
+  if(t && t.nodeName === "H1") t.classList.toggle("untitled", !t.textContent.trim());
 }
 function caret(node, atEnd = true){
   const r = document.createRange();
@@ -1018,14 +1019,15 @@ async function clearCache(){
 }
 
 /* ---------------- Keyboard: the toolbar rides on top of it ---------------- */
+/* While the keyboard is up, the editor is sized to the part of the screen above it (and above the bar iOS puts on top of
+   it), so the toolbar, its last row, always sits just above the keyboard. */
 function placeTools(){
-  const vv = window.visualViewport;
-  const kb = vv ? Math.max(0, innerHeight - vv.height - vv.offsetTop) : 0, open = kb > 80;
-  const tools = $("#ed-tools"), fm = $("#formats");
-  tools.style.transform = open ? `translateY(${-kb}px)` : "";
-  tools.classList.toggle("kb", open);
-  fm.style.bottom = (tools.offsetHeight + 8) + "px";
-  fm.style.transform = tools.style.transform;
+  const vv = window.visualViewport, ed = $("#editor");
+  const open = !!vv && innerHeight - vv.height > 80;
+  if(open){ ed.style.top = vv.offsetTop + "px"; ed.style.height = vv.height + "px"; ed.style.bottom = "auto"; }
+  else { ed.style.top = ed.style.height = ed.style.bottom = ""; }
+  $("#ed-tools").classList.toggle("kb", open);
+  $("#formats").style.bottom = ($("#ed-tools").offsetHeight + 8) + "px";
   $("#ed-done").hidden = !(open || document.activeElement === doc);
 }
 

@@ -5,7 +5,9 @@
      ![](images/name.jpg)       photos and videos, one per line; lines next to each other make a grid
      <!-- logbook font=serif size=14 -->   this entry's own typeface and size, if it has them (invisible on the Log)
    The editor shows the title as the first line, text as editable blocks, each run of photos as a gallery, and anything
-   it can't edit (code, tables, raw HTML, checklists) as a grey block that's kept exactly as written. */
+   it can't edit (code, tables, raw HTML, checklists) as a grey block that's kept exactly as written.
+   Centered or right-aligned lines are wrapped in <div align="center"> … </div>, with blank lines inside so the Markdown in
+   between is still read as Markdown (by the Log and GitHub too). */
 const VIDEO = /\.(mov|mp4|m4v|webm)(?:[?#]|$)/i;
 export const isVideo = s => VIDEO.test(s || "");
 const PREFS = /\s*<!--\s*logbook\b([^>]*?)-->\s*$/;
@@ -105,13 +107,19 @@ function raw(text){
 export function toEditor(md, fallbackTitle){
   const M = globalThis.marked, {body} = splitPrefs(md), frag = document.createDocumentFragment();
   const html = s => { const t = document.createElement("template"); t.innerHTML = s; clean(t.content); return t.content; };
-  let title = null, first = true;
+  let title = null, first = true, align = "", titleAlign = "";
   for(const tok of M.lexer(body)){
     if(tok.type === "space") continue;
+    if(tok.type === "html"){
+      const open = tok.raw.trim().match(ALIGN);
+      if(open){ align = open[1].toLowerCase(); continue; }
+      if(align && /^<\/div>$/i.test(tok.raw.trim())){ align = ""; continue; }
+    }
     if(first){
       first = false;
-      if(tok.type === "heading" && tok.depth === 1){ title = stripDate(tok.text.replace(/[*_`]/g, "")).title; continue; }
+      if(tok.type === "heading" && tok.depth === 1){ title = stripDate(tok.text.replace(/[*_`]/g, "")).title; titleAlign = align; continue; }
     }
+    const before = frag.childNodes.length;
     switch(tok.type){
       case "heading": { const n = tok.depth <= 2 ? "h2" : "h3"; frag.append(html(`<${n}>${M.parseInline(tok.text)}</${n}>`)); break; }
       case "paragraph": paragraph(tok, frag, html, M); break;
@@ -120,9 +128,11 @@ export function toEditor(md, fallbackTitle){
       case "hr": frag.append(document.createElement("hr")); break;
       default: frag.append(raw(tok.raw));
     }
+    if(align) for(const n of [...frag.childNodes].slice(before)) if(n.nodeType === 1 && !n.classList.contains("gallery") && !n.classList.contains("raw")) n.style.textAlign = align;
   }
-  return {title: title ?? (fallbackTitle || ""), frag};
+  return {title: title ?? (fallbackTitle || ""), titleAlign, frag};
 }
+const ALIGN = /^<div\s+align=["']?(center|right|left)["']?\s*>$/i;
 // A paragraph's photos become galleries; the text around them stays text
 function paragraph(tok, frag, html, M){
   let run = "", imgs = [];
@@ -142,11 +152,25 @@ const BLOCK = /^(P|DIV|H[1-6]|UL|OL|BLOCKQUOTE|HR|PRE|FIGURE|TABLE)$/;
 const isBlock = n => n.nodeType === 1 && BLOCK.test(n.nodeName);
 
 export function fromEditor(doc, prefs){
-  const kids = [...doc.childNodes], out = [];
-  let title = "";
-  if(kids[0] && kids[0].nodeName === "H1") title = kids.shift().textContent.replace(/\s+/g, " ").trim();
-  for(const n of kids) block(n, out);
-  return joinPrefs((title ? `# ${title}\n\n` : "") + out.join("\n\n"), prefs);
+  const kids = [...doc.childNodes], parts = [];
+  if(kids[0] && kids[0].nodeName === "H1"){
+    const t = kids.shift(), title = t.textContent.replace(/\s+/g, " ").trim();
+    if(title) parts.push({align: alignOf(t), text: `# ${title}`});
+  }
+  for(const n of kids){ const out = [], align = alignOf(n); block(n, out); for(const text of out) parts.push({align, text}); }
+  // Blocks next to each other with the same alignment share one wrapper
+  const chunks = [];
+  for(let i = 0; i < parts.length;){
+    const align = parts[i].align, run = [];
+    while(i < parts.length && parts[i].align === align) run.push(parts[i++].text);
+    chunks.push(align ? `<div align="${align}">\n\n${run.join("\n\n")}\n\n</div>` : run.join("\n\n"));
+  }
+  return joinPrefs(chunks.join("\n\n"), prefs);
+}
+function alignOf(n){
+  if(n.nodeType !== 1 || n.classList.contains("gallery") || n.classList.contains("raw")) return "";
+  const a = (n.style.textAlign || n.getAttribute("align") || "").toLowerCase();
+  return a === "center" || a === "right" ? a : "";
 }
 
 function block(n, out){

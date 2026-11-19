@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Logbook</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -37,6 +37,9 @@ try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = 
   <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
   <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></symbol>
+  <symbol id="i-al-left" viewBox="0 0 24 24"><path d="M4 6h16M4 10h10M4 14h16M4 18h10"/></symbol>
+  <symbol id="i-al-center" viewBox="0 0 24 24"><path d="M4 6h16M7 10h10M4 14h16M7 18h10"/></symbol>
+  <symbol id="i-al-right" viewBox="0 0 24 24"><path d="M4 6h16M10 10h10M4 14h16M10 18h10"/></symbol>
   <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="none"/></symbol>
 </svg>
 
@@ -110,6 +113,13 @@ try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = 
         <button data-cmd="insertUnorderedList" aria-label="Bulleted list">•≡</button>
         <button data-cmd="insertOrderedList" aria-label="Numbered list">1≡</button>
         <button data-block="blockquote" aria-label="Quote">❝</button>
+      </div>
+    </div>
+    <div class="fmt-row">
+      <div class="fmt-group">
+        <button data-cmd="justifyLeft" aria-label="Align left"><svg><use href="#i-al-left"/></svg></button>
+        <button data-cmd="justifyCenter" aria-label="Center"><svg><use href="#i-al-center"/></svg></button>
+        <button data-cmd="justifyRight" aria-label="Align right"><svg><use href="#i-al-right"/></svg></button>
       </div>
     </div>
   </div>
