@@ -19,7 +19,7 @@ const svg = id => { const s = document.createElementNS("http://www.w3.org/2000/s
 
 /* ---------------- Settings ---------------- */
 const SKEY = "logbook.settings";
-const DEFAULTS = {repo: "", branch: "main", token: "", font: "system", size: 3, theme: "system", accent: "amber", quality: "optimized", pubRepo: "", pubBranch: ""};
+const DEFAULTS = {repo: "", branch: "main", token: "", font: "system", size: 3, theme: "system", accent: "amber", quality: "optimized", pubRepo: "", pubBranch: "", passHash: "", passSalt: "", lockAfter: "60"};
 const S = Object.assign({}, DEFAULTS, (() => { try { return JSON.parse(localStorage.getItem(SKEY) || "{}"); } catch(err) { return {}; } })());
 function saveSettings(){
   try { localStorage.setItem(SKEY, JSON.stringify(S)); } catch(err) {}
@@ -776,6 +776,97 @@ async function publish(e){
   }
 }
 
+/* ---------------- Passcode ---------------- */
+/* A four-digit code to open Logbook on this device. Only a salted hash of it is kept, with this device's settings, so it
+   isn't in the app's (public) code. It keeps out someone holding the phone; the entries themselves stay private because
+   they're in a private repository that only the token can read. */
+const keypad = {code: "", resolve: null};
+let locked = false, hiddenAt = 0, fails = 0, waitUntil = 0;
+const hex = bytes => [...new Uint8Array(bytes)].map(x => x.toString(16).padStart(2, "0")).join("");
+const hashCode = async (code, salt) => hex(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(salt + ":" + code)));
+function padOpen(title, {cancel = false, forgot = false} = {}){
+  $("#lock").hidden = false;
+  $("#lock-title").textContent = title;
+  $("#lock-note").textContent = "";
+  $("#lock-cancel").hidden = !cancel;
+  $("#lock-forgot").classList.toggle("off", !forgot);
+}
+function padRead(){ keypad.code = ""; dots(); return new Promise(r => keypad.resolve = r); }
+function padClose(){ $("#lock").hidden = true; keypad.resolve = null; }
+function dots(){ $$("#lock-dots i").forEach((d, i) => d.classList.toggle("on", i < keypad.code.length)); }
+function padKey(k){
+  if(!keypad.resolve) return;
+  if(k === "cancel"){ const r = keypad.resolve; keypad.resolve = null; r(null); return; }
+  if(k === "del"){ keypad.code = keypad.code.slice(0, -1); dots(); return; }
+  if(Date.now() < waitUntil || keypad.code.length >= 4) return;
+  keypad.code += k; dots();
+  if(keypad.code.length === 4){ const r = keypad.resolve, c = keypad.code; keypad.resolve = null; setTimeout(() => r(c), 120); }
+}
+function padWrong(msg = ""){
+  const d = $("#lock-dots");
+  d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake");
+  navigator.vibrate?.(80);
+  $("#lock-note").textContent = msg;
+}
+async function lock(){
+  if(locked || !S.passHash) return;
+  locked = true;
+  document.documentElement.classList.add("locked");
+  persist(); doc.blur();
+  if(viewing) closeViewer();
+  padOpen("Enter Passcode", {forgot: true});
+  for(;;){
+    const c = await padRead();
+    if(c && await hashCode(c, S.passSalt) === S.passHash) break;
+    fails++;
+    if(fails % 5 === 0){
+      waitUntil = Date.now() + 30000;
+      padWrong("Too many tries. Try again in 30 seconds.");
+      setTimeout(() => { if(locked) $("#lock-note").textContent = ""; }, 30000);
+    } else padWrong(fails >= 3 ? `${fails} failed attempts` : "");
+  }
+  fails = 0; locked = false;
+  padClose();
+  document.documentElement.classList.remove("locked");
+}
+async function checkCurrent(){
+  padOpen("Enter Your Passcode", {cancel: true});
+  for(;;){
+    const c = await padRead();
+    if(c == null){ padClose(); return false; }
+    if(await hashCode(c, S.passSalt) === S.passHash){ padClose(); return true; }
+    padWrong("Wrong passcode");
+  }
+}
+async function newCode(){
+  padOpen("Enter a New Passcode", {cancel: true});
+  for(;;){
+    const a = await padRead();
+    if(a == null){ padClose(); return null; }
+    $("#lock-title").textContent = "Enter It Again"; $("#lock-note").textContent = "";
+    const b = await padRead();
+    if(b == null){ padClose(); return null; }
+    if(a === b){ padClose(); return a; }
+    $("#lock-title").textContent = "Enter a New Passcode";
+    padWrong("The passcodes didn’t match. Try again.");
+  }
+}
+async function setPasscode(){
+  if(S.passHash && !(await checkCurrent())) return;
+  const c = await newCode();
+  if(!c) return;
+  S.passSalt = hex(crypto.getRandomValues(new Uint8Array(16)));
+  S.passHash = await hashCode(c, S.passSalt);
+  saveSettings(); paintSettings();
+  toast("Passcode set.");
+}
+async function removePasscode(){
+  if(!(await checkCurrent())) return;
+  S.passHash = ""; S.passSalt = "";
+  saveSettings(); paintSettings();
+  toast("Passcode turned off.");
+}
+
 /* ---------------- Settings ---------------- */
 function openSettings(){
   for(const i of $$("[data-set]")) i.value = S[i.dataset.set] || "";
@@ -786,6 +877,8 @@ function openSettings(){
 function paintSettings(){
   for(const seg of $$("[data-seg]")) for(const b of seg.children) b.classList.toggle("on", b.value === S[seg.dataset.seg]);
   $("#font-value").textContent = font(S.font)[1];
+  $("#pass-set").textContent = S.passHash ? "Change Passcode" : "Turn Passcode On";
+  $("#pass-off").hidden = $("#pass-after").hidden = !S.passHash;
   $("[data-size=global]").value = S.size;
   const p = $("#font-preview");
   p.style.setProperty("--doc-font", font(S.font)[2]);
@@ -912,11 +1005,31 @@ function bind(){
   $("#connect").onclick = connect;
   $("#sync-now").onclick = async () => { if(!configured()) return connectNote("Connect a repository first.", true); await runSync(); toast(sync.state === "error" ? `Couldn’t sync: ${sync.msg}` : "Synced."); };
   $("#clear-cache").onclick = clearCache;
+  $("#pass-set").onclick = setPasscode;
+  $("#pass-off").onclick = removePasscode;
+
+  // Passcode keypad (and the keyboard, on a computer)
+  for(const k of $$("#lock [data-k]")) k.onclick = () => padKey(k.dataset.k);
+  $("#lock-forgot").onclick = () => { $("#lock-note").textContent = "To start over, delete Logbook from the Home Screen (or clear this site’s data in Settings → Safari) and set it up again. Synced entries come back from GitHub; anything not yet synced is lost."; };
+  addEventListener("keydown", ev => {
+    if($("#lock").hidden) return;
+    if(/^\d$/.test(ev.key)) padKey(ev.key);
+    else if(ev.key === "Backspace") padKey("del");
+    else if(ev.key === "Escape" && !$("#lock-cancel").hidden) padKey("cancel");
+    else return;
+    ev.preventDefault();
+  });
 
   // Save when the app goes to the background; check for changes from other devices when it comes back
   document.addEventListener("visibilitychange", () => {
-    if(document.hidden){ persist(); if([...entries.values()].some(e => e.dirty)) runSync(); }
-    else if(configured() && Date.now() - sync.at > 60000) runSync();
+    if(document.hidden){
+      hiddenAt = Date.now();
+      persist(); if([...entries.values()].some(e => e.dirty)) runSync();
+      if(S.passHash && S.lockAfter === "0") lock();  // also keeps the entry out of the app switcher's preview
+    } else {
+      if(S.passHash && hiddenAt && Date.now() - hiddenAt >= (+S.lockAfter || 0) * 1000) lock();
+      if(configured() && Date.now() - sync.at > 60000) runSync();
+    }
   });
   addEventListener("online", () => scheduleSync(500));
   watchTitles(); edgeSwipe();
@@ -928,6 +1041,7 @@ async function start(){
     if(kept && !localStorage.getItem(SKEY)){ Object.assign(S, kept); saveSettings(); }
   } catch(err) {}
   appearance(); makeRepo(); bind();
+  lock();
   try {
     for(const e of await idb.all("entries")) entries.set(e.id, e);
     remote = (await idb.get("kv", "remote")) || remote;

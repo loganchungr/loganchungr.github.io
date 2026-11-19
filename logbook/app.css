@@ -253,6 +253,25 @@ figure.m.loading::before{content:"";position:absolute;left:50%;top:50%;width:20p
 #toast:not(.in){visibility:hidden;transition:transform .35s cubic-bezier(.32,.72,0,1),visibility 0s .35s}
 #toast.in{transform:translate(-50%,0)}
 
+/* ---- Passcode ---- */
+html.locked #tabs,html.locked .screen,html.locked #viewer,html.locked #overlays{visibility:hidden}
+#lock{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:var(--top) 0 var(--bottom);background:var(--bg)}
+.lock-inner{display:flex;flex-direction:column;align-items:center;width:100%;max-width:340px}
+.lock-icon{width:30px;height:30px;color:var(--label2);margin-bottom:14px}
+#lock-title{font-size:20px;font-weight:500;margin:0 0 22px;letter-spacing:0}
+#lock-dots{display:flex;gap:24px}
+#lock-dots i{width:13px;height:13px;border-radius:50%;border:1.5px solid var(--label);transition:background .1s}
+#lock-dots i.on{background:var(--label)}
+#lock-dots.shake{animation:shake .42s}
+@keyframes shake{15%,55%{transform:translateX(-12px)}35%,75%{transform:translateX(12px)}}
+#lock-note{min-height:38px;margin:14px 28px 12px;font-size:13px;line-height:1.35;color:var(--label2);text-align:center}
+.keys{display:grid;grid-template-columns:repeat(3,78px);gap:16px 26px}
+.key{width:78px;height:78px;border-radius:50%;background:var(--fill);font-size:34px;font-weight:300;font-variant-numeric:tabular-nums;display:grid;place-items:center;transition:background .15s}
+.key:active{background:var(--label3);transition:none}
+.key-text{font-size:16px}
+.key-text.off{visibility:hidden}
+#lock-cancel{margin-top:22px;font-size:17px;color:var(--accent);padding:8px 16px}
+
 @media (min-width:700px){
   .scroll > *:not(.doc){max-width:640px;margin-left:auto;margin-right:auto}
   .grouped > .group{max-width:608px}

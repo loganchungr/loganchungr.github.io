@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="app.css">
 <script>/* the saved theme and accent, before the page paints */
 try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = document.documentElement;
-  if(s.theme === "light" || s.theme === "dark") r.dataset.theme = s.theme; if(s.accent) r.dataset.accent = s.accent; } catch(e) {}</script>
+  if(s.theme === "light" || s.theme === "dark") r.dataset.theme = s.theme; if(s.accent) r.dataset.accent = s.accent; if(s.passHash) r.classList.add("locked"); } catch(e) {}</script>
 <script src="marked.min.js" defer></script>
 <script type="module" src="app.js"></script>
 </head>
@@ -36,6 +36,7 @@ try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = 
   <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M7 11H5.5v9.5h13V11H17"/></symbol>
   <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></symbol>
   <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="none"/></symbol>
 </svg>
 
@@ -145,6 +146,14 @@ try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = 
       <p>The token is kept on this device only. Entries are saved as Markdown files, each with its photos in an <code>images</code> folder beside it, so they’re yours to read on GitHub or anywhere else.</p>
     </details>
 
+    <h2 class="group-head">Passcode</h2>
+    <div class="group">
+      <button class="cell action" id="pass-set">Turn Passcode On</button>
+      <button class="cell action" id="pass-off" hidden>Turn Passcode Off</button>
+      <div class="cell" id="pass-after" hidden><span>Require</span><div class="seg" data-seg="lockAfter"><button value="0">Immediately</button><button value="60">1 min</button><button value="900">15 min</button></div></div>
+    </div>
+    <p class="group-foot">Asks for a four-digit code when Logbook opens on this device, and when you come back to it after the time above. It’s kept on this device only.</p>
+
     <h2 class="group-head">Writing</h2>
     <div class="group">
       <button class="cell nav" data-open="fonts"><span>Typeface</span><span class="value" id="font-value"></span><svg class="chev"><use href="#i-next"/></svg></button>
@@ -204,6 +213,22 @@ try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = 
   <div class="viewer-bar bottom">
     <button class="icon-btn" id="v-share" aria-label="Share or save"><svg><use href="#i-share"/></svg></button>
     <button class="icon-btn" id="v-delete" aria-label="Remove from entry"><svg><use href="#i-trash"/></svg></button>
+  </div>
+</div>
+
+<div id="lock" hidden>
+  <div class="lock-inner">
+    <svg class="lock-icon"><use href="#i-lock"/></svg>
+    <h2 id="lock-title">Enter Passcode</h2>
+    <div id="lock-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <p id="lock-note" role="status" aria-live="polite"></p>
+    <div class="keys">
+      <button class="key" data-k="1">1</button><button class="key" data-k="2">2</button><button class="key" data-k="3">3</button>
+      <button class="key" data-k="4">4</button><button class="key" data-k="5">5</button><button class="key" data-k="6">6</button>
+      <button class="key" data-k="7">7</button><button class="key" data-k="8">8</button><button class="key" data-k="9">9</button>
+      <button class="key-text" id="lock-forgot">Forgot?</button><button class="key" data-k="0">0</button><button class="key-text" data-k="del" aria-label="Delete">Delete</button>
+    </div>
+    <button id="lock-cancel" data-k="cancel" hidden>Cancel</button>
   </div>
 </div>
 
