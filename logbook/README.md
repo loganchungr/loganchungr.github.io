@@ -24,7 +24,8 @@ To publish entries to the Log, fill in **Publish to Log** with `loganchungr/loga
 
 ## How it works
 
-- **Tabs:** Calendar (each day shows its first photo), New, and Entries (a list by month, with search). Settings are behind the sliders button at the top right.
+- **Tabs:** Calendar (each day shows its first photo), New, and Entries (a list by month, with search).
+- **Swipes:** left on an entry to delete it (partway shows Delete; all the way deletes, with 5 seconds to Undo before it leaves storage), left or right on the calendar for another month, between photos in the viewer, down on a photo to close it, and from the left edge to go back. Settings are behind the sliders button at the top right.
 - **Writing:** the first line is the title. **Aa** above the keyboard has headings, bold, italic, strikethrough, lists, quotes, and left, center and right alignment (saved as `<div align="center">` around the lines, which the Log shows the same way). The photo button adds photos and videos from the library or camera, after the line you're on; photos added together make a grid. Tap one to see them all full screen, share or save one, or remove it. Tap the date under the top bar to change the entry's date.
 - **Passcode:** Settings → Passcode sets a four-digit code, asked for when Logbook opens and when you come back after 1 minute (or immediately, or after 15). Only a salted hash of it is kept, on that device; it isn't in the code. Forgot it? Delete Logbook from the Home Screen and set it up again; synced entries come back from GitHub.
 - **Interface text** has its own size (Settings → Appearance: Small, the default, Medium, or Large, which is iOS standard), separate from entries.

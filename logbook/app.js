@@ -234,7 +234,7 @@ async function pull(){
 }
 
 async function pushChanges(){
-  const dirty = [...entries.values()].filter(e => e.dirty);
+  const dirty = [...entries.values()].filter(e => e.dirty && !held.has(e.id));  // not ones that can still be undone
   if(!dirty.length) return;
   const changes = new Map(), taken = new Set(Object.keys(remote.files)), plan = [], drop = new Set();
   for(const e of dirty){
@@ -392,12 +392,75 @@ function row(e, showDate){
   const thumb = rel ? h("div", {class: "thumb" + (MD.isVideo(rel) ? " video" : ""), "data-id": e.id}) : null;
   if(thumb) thumbs.observe(thumb);
   const n = e.media.length, sub = e.excerpt || (n ? `${n} ${n > 1 ? "photos" : "photo"}` : "No additional text");
-  return h("button", {class: "row", onclick: () => openEditor(e)},
+  const wrap = h("div", {class: "swipe"});
+  const del = h("button", {class: "swipe-del", tabindex: -1, onclick: () => removeEntry(e)}, "Delete");
+  const btn = h("button", {class: "row", onclick: () => { if(wrap.classList.contains("open") || Date.now() - (+wrap.dataset.swiped || 0) < 400){ closeSwipe(); return; } openEditor(e); }},
     e.dirty ? h("span", {class: "unsynced", title: "Not synced yet"}) : null,
     h("div", {class: "row-main"},
       h("div", {class: "row-title"}, e.title || "New Entry"),
       h("div", {class: "row-sub"}, showDate ? h("span", {class: "row-date"}, fmt(e.date, {month: "short", day: "numeric"})) : null, sub)),
     thumb);
+  wrap.append(del, btn);
+  swipeable(wrap, btn, e);
+  return wrap;
+}
+
+/* Swipe left on a row: partway and it stays open on Delete; most of the way and the entry is deleted, with Undo */
+const DEL_W = 88;
+let openSwipe = null;
+function closeSwipe(){
+  if(!openSwipe) return;
+  openSwipe.classList.remove("open");
+  openSwipe.querySelector(".row").style.transform = "";
+  openSwipe = null;
+}
+function swipeable(wrap, row, e){
+  let x0 = 0, y0 = 0, dx = 0, base = 0, mode = null;
+  row.addEventListener("touchstart", ev => {
+    const t = ev.touches[0];
+    x0 = t.clientX; y0 = t.clientY; dx = 0; mode = null;
+    base = wrap.classList.contains("open") ? -DEL_W : 0;
+    if(openSwipe && openSwipe !== wrap) closeSwipe();
+  }, {passive: true});
+  row.addEventListener("touchmove", ev => {
+    const t = ev.touches[0], mx = t.clientX - x0, my = t.clientY - y0;
+    if(!mode){
+      if(Math.abs(mx) < 8 && Math.abs(my) < 8) return;
+      mode = Math.abs(mx) > Math.abs(my) * 1.2 ? "x" : "y";
+      if(mode === "x") wrap.classList.add("dragging");
+    }
+    if(mode !== "x") return;
+    ev.preventDefault();
+    dx = Math.min(0, base + mx);
+    row.style.transform = `translateX(${dx}px)`;
+    wrap.classList.toggle("full", -dx > wrap.offsetWidth * .6);
+  }, {passive: false});
+  const end = () => {
+    if(mode !== "x") return;
+    mode = null;
+    wrap.classList.remove("dragging");
+    wrap.dataset.swiped = Date.now();
+    if(-dx > wrap.offsetWidth * .6){ row.style.transform = "translateX(-100%)"; setTimeout(() => removeEntry(e), 180); }
+    else if(-dx > DEL_W / 2){ row.style.transform = `translateX(${-DEL_W}px)`; wrap.classList.add("open"); openSwipe = wrap; }
+    else { wrap.classList.remove("open", "full"); row.style.transform = ""; if(openSwipe === wrap) openSwipe = null; }
+  };
+  row.addEventListener("touchend", end);
+  row.addEventListener("touchcancel", end);
+}
+// Deletes an entry from the list, with a few seconds to undo before it's deleted from storage
+const held = new Set();
+function removeEntry(e){
+  openSwipe = null;
+  const was = {deleted: e.deleted, dirty: e.dirty};
+  held.add(e.id);
+  if(e.path){ e.deleted = true; e.dirty = true; saveEntry(e); } else dropEntry(e);
+  render();
+  const release = () => { if(held.delete(e.id)) scheduleSync(300); };
+  const timer = setTimeout(release, 5000);
+  toast(`Deleted “${e.title || "New Entry"}”`, 5000, {label: "Undo", run: () => {
+    clearTimeout(timer); held.delete(e.id);
+    Object.assign(e, was); saveEntry(e); render();
+  }});
 }
 function setupCard(){
   return h("div", {class: "card"},
@@ -701,9 +764,12 @@ function sheet(title, items){
   });
 }
 let toastTimer = 0;
-function toast(msg, ms = 3200){
+function toast(msg, ms = 3200, action){
   const t = $("#toast");
-  t.textContent = msg; t.classList.add("in");
+  t.replaceChildren(h("span", {}, msg));
+  t.classList.toggle("act", !!action);
+  if(action) t.append(h("button", {class: "toast-btn", onclick: () => { t.classList.remove("in"); action.run(); }}, action.label));
+  t.classList.add("in");
   clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("in"), ms);
 }
 
@@ -1092,6 +1158,31 @@ function bind(){
   $("#v-share").onclick = shareCurrent;
   $("#v-delete").onclick = deleteCurrent;
   $("#slides").addEventListener("scroll", count, {passive: true});
+  {
+    const sl = $("#slides"), vw = $("#viewer");
+    let x0 = 0, y0 = 0, dy = 0, mode = null;
+    sl.addEventListener("touchstart", ev => { if(ev.touches.length > 1){ mode = "pinch"; return; } x0 = ev.touches[0].clientX; y0 = ev.touches[0].clientY; dy = 0; mode = null; }, {passive: true});
+    sl.addEventListener("touchmove", ev => {
+      if(mode === "pinch" || ev.touches.length > 1){ mode = "pinch"; return; }
+      const mx = ev.touches[0].clientX - x0, my = ev.touches[0].clientY - y0;
+      if(!mode){ if(Math.abs(mx) < 8 && Math.abs(my) < 8) return; mode = my > Math.abs(mx) ? "down" : "side"; }
+      if(mode !== "down") return;
+      dy = Math.max(0, my);
+      sl.style.transition = "none";
+      sl.style.transform = `translateY(${dy}px) scale(${1 - Math.min(dy, 400) / 1600})`;
+      vw.style.background = `rgba(0,0,0,${1 - Math.min(dy, 300) / 400})`;
+      vw.classList.add("bare");
+    }, {passive: true});
+    sl.addEventListener("touchend", () => {
+      if(mode !== "down") return;
+      mode = null;
+      sl.style.transition = "transform .25s ease";
+      if(dy > 110){ closeViewer(); }
+      else vw.classList.remove("bare");
+      sl.style.transform = ""; vw.style.background = "";
+      setTimeout(() => { sl.style.transition = ""; }, 260);
+    });
+  }
   $("#slides").addEventListener("click", ev => { if(ev.target.nodeName !== "VIDEO") $("#viewer").classList.toggle("bare"); });
   addEventListener("keydown", ev => { if(ev.key === "Escape" && viewing) closeViewer(); });
 

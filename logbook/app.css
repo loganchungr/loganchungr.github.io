@@ -110,8 +110,20 @@ code{font:.9em ui-monospace, "SF Mono", Menlo, monospace}
 .group{margin:0 16px;background:var(--cell);border-radius:10px;overflow:hidden}
 .section-head{font-size:1.1765rem;font-weight:700;letter-spacing:.01em;margin:22px 20px 8px}
 .row{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 16px;text-align:left}
-.row + .row::before,.cell + .cell::before{content:"";position:absolute;top:0;left:16px;right:0;height:1px;background:var(--sep);transform:scaleY(.5)}
-.row:active,.cell.action:active,.cell.nav:active{background:var(--fill)}
+.row + .row::before,.swipe + .swipe > .row::before,.cell + .cell::before{content:"";position:absolute;top:0;left:16px;right:0;height:1px;background:var(--sep);transform:scaleY(.5)}
+.cell.action:active,.cell.nav:active{background:var(--fill)}
+.row{background:var(--cell)}
+.row:active{box-shadow:inset 0 0 0 100vmax var(--fill)}
+/* Swipe to delete */
+.swipe{position:relative;overflow:hidden}
+.swipe .row{transition:transform .32s cubic-bezier(.32,.72,0,1);touch-action:pan-y}
+.swipe.dragging .row{transition:none}
+.swipe-del{position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;padding-right:20px;background:var(--danger);color:#fff;font-weight:500}
+.swipe-del{visibility:hidden}
+.swipe.dragging .swipe-del,.swipe.open .swipe-del,.swipe.full .swipe-del{visibility:visible}
+#toast{display:flex;align-items:center;gap:14px;width:max-content}
+#toast.act span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.toast-btn{color:var(--accent);font-weight:600;padding:2px 2px}
 .row-main{flex:1;min-width:0}
 .row-title{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row-sub{font-size:0.8824rem;color:var(--label2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
@@ -288,7 +300,8 @@ html.locked #tabs,html.locked .screen,html.locked #viewer,html.locked #overlays{
   .doc{padding-bottom:30vh}
 }
 @media (hover:hover){
-  .row:hover,.cell.action:hover,.cell.nav:hover{background:var(--fill)}
+  .cell.action:hover,.cell.nav:hover{background:var(--fill)}
+  .row:hover{box-shadow:inset 0 0 0 100vmax var(--fill)}
   .day:not(.out):not(.sel):not(.cover):hover{background:var(--fill)}
   .icon-btn:hover,.bar-btn:hover,.back:hover,.tool:hover{opacity:.7}
 }

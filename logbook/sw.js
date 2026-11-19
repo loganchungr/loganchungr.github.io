@@ -1,6 +1,6 @@
 /* Keeps Logbook's own files on the device, so it opens without a connection. Entries and photos are kept by the app
    itself (store.js); requests to GitHub pass straight through. Each file is fetched fresh when there's a connection. */
-const CACHE = "logbook-4";
+const CACHE = "logbook-5";
 const SHELL = ["./", "index.html", "app.css", "app.js", "md.js", "github.js", "dropbox.js", "store.js", "marked.min.js", "manifest.webmanifest", "icon-180.png", "icon-512.png"];
 
 self.addEventListener("install", e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())));
