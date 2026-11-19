@@ -20,7 +20,7 @@ const svg = id => { const s = document.createElementNS("http://www.w3.org/2000/s
 
 /* ---------------- Settings ---------------- */
 const SKEY = "logbook.settings";
-const DEFAULTS = {repo: "", branch: "main", token: "", font: "system", size: 3, theme: "system", accent: "pink", quality: "optimized", pubRepo: "", pubBranch: "", pubToken: "", storage: "github", dbxKey: "", dbxRefresh: "", dbxName: "", passHash: "", passSalt: "", lockAfter: "60"};
+const DEFAULTS = {repo: "", branch: "main", token: "", font: "system", size: 3, theme: "system", ui: "small", accent: "pink", quality: "optimized", pubRepo: "", pubBranch: "", pubToken: "", storage: "github", dbxKey: "", dbxRefresh: "", dbxName: "", passHash: "", passSalt: "", lockAfter: "60"};
 const S = Object.assign({}, DEFAULTS, (() => { try { return JSON.parse(localStorage.getItem(SKEY) || "{}"); } catch(err) { return {}; } })());
 function saveSettings(){
   try { localStorage.setItem(SKEY, JSON.stringify(S)); } catch(err) {}
@@ -984,6 +984,7 @@ function appearance(){
   const r = document.documentElement;
   if(S.theme === "light" || S.theme === "dark") r.dataset.theme = S.theme; else delete r.dataset.theme;
   r.dataset.accent = S.accent;
+  r.dataset.ui = S.ui;
   if(cur) applyDoc(cur.e.prefs);
 }
 function connectNote(msg, bad){

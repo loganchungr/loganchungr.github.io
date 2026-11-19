@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="app.css">
 <script>/* the saved theme and accent, before the page paints */
 try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = document.documentElement;
-  if(s.theme === "light" || s.theme === "dark") r.dataset.theme = s.theme; if(s.accent) r.dataset.accent = s.accent; if(s.passHash) r.classList.add("locked"); } catch(e) {}</script>
+  if(s.theme === "light" || s.theme === "dark") r.dataset.theme = s.theme; if(s.accent) r.dataset.accent = s.accent; if(s.ui) r.dataset.ui = s.ui; if(s.passHash) r.classList.add("locked"); } catch(e) {}</script>
 <script src="marked.min.js" defer></script>
 <script type="module" src="app.js"></script>
 </head>
@@ -196,6 +196,7 @@ try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = 
 
     <h2 class="group-head">Appearance</h2>
     <div class="group">
+      <div class="cell"><span>Interface Text</span><div class="seg" data-seg="ui"><button value="small">Small</button><button value="medium">Medium</button><button value="large">Large</button></div></div>
       <div class="cell"><span>Theme</span><div class="seg" data-seg="theme"><button value="system">Auto</button><button value="light">Light</button><button value="dark">Dark</button></div></div>
       <div class="cell"><span>Accent</span><div class="swatches" data-seg="accent">
         <button value="pink" aria-label="Pink, the Log’s color"></button><button value="amber" aria-label="Amber"></button><button value="blue" aria-label="Blue"></button><button value="green" aria-label="Green"></button><button value="graphite" aria-label="Graphite"></button>
