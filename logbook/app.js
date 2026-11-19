@@ -19,7 +19,7 @@ const svg = id => { const s = document.createElementNS("http://www.w3.org/2000/s
 
 /* ---------------- Settings ---------------- */
 const SKEY = "logbook.settings";
-const DEFAULTS = {repo: "", branch: "main", token: "", font: "system", size: 3, theme: "system", accent: "amber", quality: "optimized", pubRepo: "", pubBranch: "", passHash: "", passSalt: "", lockAfter: "60"};
+const DEFAULTS = {repo: "", branch: "main", token: "", font: "system", size: 3, theme: "system", accent: "pink", quality: "optimized", pubRepo: "", pubBranch: "", passHash: "", passSalt: "", lockAfter: "60"};
 const S = Object.assign({}, DEFAULTS, (() => { try { return JSON.parse(localStorage.getItem(SKEY) || "{}"); } catch(err) { return {}; } })());
 function saveSettings(){
   try { localStorage.setItem(SKEY, JSON.stringify(S)); } catch(err) {}

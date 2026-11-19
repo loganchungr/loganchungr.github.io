@@ -3,13 +3,13 @@
   --bg:#f2f2f7; --cell:#fff; --doc:#fff; --label:#000; --label2:rgba(60,60,67,.6); --label3:rgba(60,60,67,.3);
   --sep:rgba(60,60,67,.29); --fill:rgba(120,120,128,.12); --fill2:rgba(120,120,128,.2); --bar:rgba(249,249,249,.86);
   --shadow:0 0 0 .5px rgba(0,0,0,.04), 0 8px 28px rgba(0,0,0,.14); --danger:#ff3b30;
-  --accent:#d39a00;
+  --accent:#ef746d;  /* the Log's pink, deepened a touch to read on white */
   --ui:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
   --doc-font:var(--ui); --doc-size:15px;
   --top:env(safe-area-inset-top, 0px); --bottom:env(safe-area-inset-bottom, 0px);
   color-scheme:light;
 }
-:root[data-accent="coral"]{--accent:#d9534a}
+:root[data-accent="amber"]{--accent:#d39a00}
 :root[data-accent="blue"]{--accent:#007aff}
 :root[data-accent="green"]{--accent:#248a3d}
 :root[data-accent="graphite"]{--accent:#636366}
@@ -17,9 +17,9 @@
   --bg:#000; --cell:#1c1c1e; --doc:#000; --label:#fff; --label2:rgba(235,235,245,.6); --label3:rgba(235,235,245,.3);
   --sep:rgba(84,84,88,.65); --fill:rgba(118,118,128,.24); --fill2:rgba(118,118,128,.32); --bar:rgba(22,22,24,.84);
   --shadow:0 0 0 .5px rgba(255,255,255,.06), 0 8px 28px rgba(0,0,0,.5); --danger:#ff453a;
-  --accent:#ffc533; color-scheme:dark;
+  --accent:#ff948f; color-scheme:dark;
 }
-:root[data-theme="dark"][data-accent="coral"]{--accent:#ff6b5f}
+:root[data-theme="dark"][data-accent="amber"]{--accent:#ffc533}
 :root[data-theme="dark"][data-accent="blue"]{--accent:#0a84ff}
 :root[data-theme="dark"][data-accent="green"]{--accent:#30d158}
 :root[data-theme="dark"][data-accent="graphite"]{--accent:#98989d}
@@ -28,9 +28,9 @@
     --bg:#000; --cell:#1c1c1e; --doc:#000; --label:#fff; --label2:rgba(235,235,245,.6); --label3:rgba(235,235,245,.3);
     --sep:rgba(84,84,88,.65); --fill:rgba(118,118,128,.24); --fill2:rgba(118,118,128,.32); --bar:rgba(22,22,24,.84);
     --shadow:0 0 0 .5px rgba(255,255,255,.06), 0 8px 28px rgba(0,0,0,.5); --danger:#ff453a;
-    --accent:#ffc533; color-scheme:dark;
+    --accent:#ff948f; color-scheme:dark;
   }
-  :root:not([data-theme="light"])[data-accent="coral"]{--accent:#ff6b5f}
+  :root:not([data-theme="light"])[data-accent="amber"]{--accent:#ffc533}
   :root:not([data-theme="light"])[data-accent="blue"]{--accent:#0a84ff}
   :root:not([data-theme="light"])[data-accent="green"]{--accent:#30d158}
   :root:not([data-theme="light"])[data-accent="graphite"]{--accent:#98989d}
@@ -149,7 +149,7 @@ code{font:.9em ui-monospace, "SF Mono", Menlo, monospace}
 .swatches{margin-left:auto;display:flex;gap:12px}
 .swatches button{width:26px;height:26px;border-radius:50%}
 .swatches button.on{box-shadow:0 0 0 2px var(--cell),0 0 0 4px var(--label3)}
-.swatches [value="amber"]{background:#e9ad12}.swatches [value="coral"]{background:#e25d52}.swatches [value="blue"]{background:#0a84ff}.swatches [value="green"]{background:#34c759}.swatches [value="graphite"]{background:#8e8e93}
+.swatches [value="pink"]{background:#ff948f}.swatches [value="amber"]{background:#e9ad12}.swatches [value="blue"]{background:#0a84ff}.swatches [value="green"]{background:#34c759}.swatches [value="graphite"]{background:#8e8e93}
 .help{margin:10px 32px 0;font-size:13px;color:var(--label2);line-height:1.42}
 .help summary{color:var(--accent);cursor:pointer;list-style:none}
 .help summary::-webkit-details-marker{display:none}
