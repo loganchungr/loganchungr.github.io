@@ -272,10 +272,18 @@ html.locked #tabs,html.locked .screen,html.locked #viewer,html.locked #overlays{
 .key-text.off{visibility:hidden}
 #lock-cancel{margin-top:22px;font-size:17px;color:var(--accent);padding:8px 16px}
 
-@media (min-width:700px){
-  .scroll > *:not(.doc){max-width:640px;margin-left:auto;margin-right:auto}
-  .grouped > .group{max-width:608px}
-  .doc{max-width:680px;margin:0 auto}
-  .month{max-width:560px;margin:0 auto}.weekdays{max-width:560px;margin:0 auto}
+/* On a wider screen everything sits in one centered column, the bars' buttons included */
+@media (min-width:720px){
+  .scroll{padding-left:calc(50% - 340px);padding-right:calc(50% - 340px)}
+  .bar{padding-left:calc(50% - 348px);padding-right:calc(50% - 348px)}
+  .toolbar{padding-left:calc(50% - 346px);padding-right:calc(50% - 346px)}
+  .tabbar{padding-left:calc(50% - 260px);padding-right:calc(50% - 260px)}
+  .formats{max-width:664px;margin:0 auto}
+  .doc{padding-bottom:30vh}
+}
+@media (hover:hover){
+  .row:hover,.cell.action:hover,.cell.nav:hover{background:var(--fill)}
+  .day:not(.out):not(.sel):not(.cover):hover{background:var(--fill)}
+  .icon-btn:hover,.bar-btn:hover,.back:hover,.tool:hover{opacity:.7}
 }
 @media (prefers-reduced-motion: reduce){ #tabs,.screen.push,.sheet,#toast{transition:none} }
