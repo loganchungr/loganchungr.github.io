@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Logbook</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Logbook">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
+<link rel="stylesheet" href="app.css">
+<script>/* the saved theme and accent, before the page paints */
+try { var s = JSON.parse(localStorage.getItem("logbook.settings") || "{}"), r = document.documentElement;
+  if(s.theme === "light" || s.theme === "dark") r.dataset.theme = s.theme; if(s.accent) r.dataset.accent = s.accent; } catch(e) {}</script>
+<script src="marked.min.js" defer></script>
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 4.5 7.5 12l7.5 7.5"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M9 4.5 16.5 12 9 19.5"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-new" viewBox="0 0 24 24"><path d="M11 4.5H7a3 3 0 0 0-3 3V17a3 3 0 0 0 3 3h9.5a3 3 0 0 0 3-3v-4"/><path d="m17.6 3.6 2.8 2.8-8.2 8.2-3.6.8.8-3.6z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6.5h11M9 12h11M9 17.5h11"/><circle cx="4.5" cy="6.5" r=".6"/><circle cx="4.5" cy="12" r=".6"/><circle cx="4.5" cy="17.5" r=".6"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h11M19 17h1"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="17" r="2"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="12" r=".5"/><circle cx="12" cy="12" r=".5"/><circle cx="16" cy="12" r=".5"/></symbol>
+  <symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="m3.5 17 5-4.5 3.5 3 3-2.5 5.5 4.5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.5h5v2M6.5 6.5l1 13h9l1-13M10 10v6.5M14 10v6.5"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M7 11H5.5v9.5h13V11H17"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="none"/></symbol>
+</svg>
+
+<div id="tabs">
+  <section class="screen tab" id="calendar">
+    <header class="bar">
+      <div class="bar-left"><button class="bar-btn" id="cal-today">Today</button></div>
+      <div class="bar-title" id="cal-bar-title"></div>
+      <div class="bar-right">
+        <button class="icon-btn" id="cal-prev" aria-label="Previous month"><svg><use href="#i-back"/></svg></button>
+        <button class="icon-btn" id="cal-next" aria-label="Next month"><svg><use href="#i-next"/></svg></button>
+        <button class="icon-btn" data-open="settings" aria-label="Settings"><svg><use href="#i-settings"/></svg></button>
+      </div>
+    </header>
+    <div class="scroll">
+      <h1 class="large-title"><span id="cal-month"></span> <span class="year" id="cal-year"></span></h1>
+      <div class="weekdays" aria-hidden="true"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      <div class="month" id="cal-grid"></div>
+      <div class="day-head"><h2 id="day-label"></h2><button class="bar-btn" id="day-new">New Entry</button></div>
+      <div id="day-list"></div>
+    </div>
+  </section>
+
+  <section class="screen tab" id="list" hidden>
+    <header class="bar">
+      <div class="bar-left"></div>
+      <div class="bar-title">Entries</div>
+      <div class="bar-right"><button class="icon-btn" data-open="settings" aria-label="Settings"><svg><use href="#i-settings"/></svg></button></div>
+    </header>
+    <div class="scroll">
+      <h1 class="large-title">Entries</h1>
+      <label class="search"><svg><use href="#i-search"/></svg><input type="search" id="search" placeholder="Search" autocomplete="off" enterkeyhint="search"></label>
+      <div id="list-body"></div>
+      <button class="list-foot" id="list-foot"></button>
+    </div>
+  </section>
+
+  <nav class="tabbar">
+    <button data-tab="calendar" class="on"><svg><use href="#i-cal"/></svg><span>Calendar</span></button>
+    <button id="tab-new"><svg><use href="#i-new"/></svg><span>New</span></button>
+    <button data-tab="list"><svg><use href="#i-list"/></svg><span>Entries</span></button>
+  </nav>
+</div>
+
+<section class="screen push" id="editor" hidden>
+  <header class="bar">
+    <div class="bar-left"><button class="back" data-back><svg><use href="#i-back"/></svg><span id="ed-back">Entries</span></button></div>
+    <div class="bar-title"></div>
+    <div class="bar-right">
+      <button class="icon-btn" id="ed-more" aria-label="More"><svg><use href="#i-more"/></svg></button>
+      <button class="bar-btn strong" id="ed-done" hidden>Done</button>
+    </div>
+  </header>
+  <div class="scroll" id="ed-scroll">
+    <label class="date-line"><span id="ed-date"></span><input type="date" id="ed-date-input" aria-label="Date"></label>
+    <article id="doc" class="doc" contenteditable="true" spellcheck="true" autocapitalize="sentences" aria-label="Entry"></article>
+  </div>
+  <div class="formats" id="formats" hidden>
+    <div class="fmt-row styles">
+      <button data-block="h2" class="f-h2">Heading</button>
+      <button data-block="h3" class="f-h3">Subheading</button>
+      <button data-block="p" class="f-p">Body</button>
+    </div>
+    <div class="fmt-row">
+      <div class="fmt-group">
+        <button data-cmd="bold" aria-label="Bold"><b>B</b></button>
+        <button data-cmd="italic" aria-label="Italic"><i>I</i></button>
+        <button data-cmd="strikeThrough" aria-label="Strikethrough"><s>S</s></button>
+      </div>
+      <div class="fmt-group">
+        <button data-cmd="insertUnorderedList" aria-label="Bulleted list">•≡</button>
+        <button data-cmd="insertOrderedList" aria-label="Numbered list">1≡</button>
+        <button data-block="blockquote" aria-label="Quote">❝</button>
+      </div>
+    </div>
+  </div>
+  <footer class="toolbar" id="ed-tools">
+    <button class="tool" id="t-format" aria-label="Text style"><span class="aa">Aa</span></button>
+    <button class="tool" id="t-media" aria-label="Add photos or videos"><svg><use href="#i-photo"/></svg></button>
+    <span class="tool-status" id="ed-status"></span>
+  </footer>
+  <input type="file" id="file" accept="image/*,video/*" multiple hidden>
+</section>
+
+<section class="screen push" id="settings" hidden>
+  <header class="bar">
+    <div class="bar-left"><button class="back" data-back><svg><use href="#i-back"/></svg><span>Back</span></button></div>
+    <div class="bar-title">Settings</div>
+    <div class="bar-right"></div>
+  </header>
+  <div class="scroll grouped">
+    <h2 class="group-head">Storage</h2>
+    <div class="group">
+      <label class="cell field"><span>Repository</span><input data-set="repo" placeholder="you/notebook" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+      <label class="cell field"><span>Branch</span><input data-set="branch" placeholder="main" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+      <label class="cell field"><span>Token</span><input data-set="token" type="password" placeholder="github_pat_…" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off"></label>
+      <button class="cell action" id="connect">Connect</button>
+    </div>
+    <p class="group-foot" id="connect-status"></p>
+    <details class="help">
+      <summary>How to set this up</summary>
+      <ol>
+        <li>On GitHub, make a new <b>private</b> repository (for example <code>notebook</code>). Any name works.</li>
+        <li>Make a token at <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a>: under <b>Repository access</b> choose <b>Only select repositories</b> and pick that repository (and your Log’s, if you’ll publish). Under <b>Permissions</b>, set <b>Contents</b> to <b>Read and write</b>. Choose an expiration as long as you like.</li>
+        <li>Type the repository as <code>you/notebook</code>, paste the token, and tap Connect.</li>
+      </ol>
+      <p>The token is kept on this device only. Entries are saved as Markdown files, each with its photos in an <code>images</code> folder beside it, so they’re yours to read on GitHub or anywhere else.</p>
+    </details>
+
+    <h2 class="group-head">Writing</h2>
+    <div class="group">
+      <button class="cell nav" data-open="fonts"><span>Typeface</span><span class="value" id="font-value"></span><svg class="chev"><use href="#i-next"/></svg></button>
+      <div class="cell size"><span class="a-small" aria-hidden="true">A</span><input type="range" min="0" max="7" step="1" data-size="global" aria-label="Text size"><span class="a-big" aria-hidden="true">A</span></div>
+      <p class="cell preview" id="font-preview">A cold morning, a coffee, a walk along the water. Some photos from the day.</p>
+    </div>
+    <p class="group-foot">The default for every entry. An entry can have its own in its ••• menu.</p>
+
+    <h2 class="group-head">Appearance</h2>
+    <div class="group">
+      <div class="cell"><span>Theme</span><div class="seg" data-seg="theme"><button value="system">Auto</button><button value="light">Light</button><button value="dark">Dark</button></div></div>
+      <div class="cell"><span>Accent</span><div class="swatches" data-seg="accent">
+        <button value="amber" aria-label="Amber"></button><button value="coral" aria-label="Coral"></button><button value="blue" aria-label="Blue"></button><button value="green" aria-label="Green"></button><button value="graphite" aria-label="Graphite"></button>
+      </div></div>
+    </div>
+
+    <h2 class="group-head">Photos &amp; Videos</h2>
+    <div class="group">
+      <div class="cell"><span>Photo Size</span><div class="seg" data-seg="quality"><button value="optimized">Optimized</button><button value="original">Original</button></div></div>
+    </div>
+    <p class="group-foot">Optimized photos are resized to 2,400 pixels on the long side, about half a megabyte each, and leave out location data. Videos are kept as they are, up to 50 MB each. GitHub suggests keeping a repository under 1 GB.</p>
+
+    <h2 class="group-head">Publish to Log</h2>
+    <div class="group">
+      <label class="cell field"><span>Repository</span><input data-set="pubRepo" placeholder="Off" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+      <label class="cell field"><span>Branch</span><input data-set="pubBranch" placeholder="main" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+    </div>
+    <p class="group-foot">Adds “Publish to Log” to each entry’s ••• menu, which copies the entry and its photos into <code>entries/</code> of this repository, where a site like the Log picks it up. Leave it blank to turn it off. The token needs access to this repository too.</p>
+
+    <h2 class="group-head">Data</h2>
+    <div class="group">
+      <button class="cell action" id="sync-now">Sync Now</button>
+      <button class="cell action" id="clear-cache">Clear Downloaded Copies</button>
+    </div>
+    <p class="group-foot" id="data-foot"></p>
+  </div>
+</section>
+
+<section class="screen push" id="fonts" hidden>
+  <header class="bar">
+    <div class="bar-left"><button class="back" data-back><svg><use href="#i-back"/></svg><span>Settings</span></button></div>
+    <div class="bar-title">Typeface</div>
+    <div class="bar-right"></div>
+  </header>
+  <div class="scroll grouped">
+    <div class="group" id="font-list" style="margin-top:20px"></div>
+  </div>
+</section>
+
+<div id="viewer" hidden>
+  <div class="slides" id="slides"></div>
+  <div class="viewer-bar top">
+    <button class="icon-btn" id="v-close" aria-label="Close"><svg><use href="#i-close"/></svg></button>
+    <span id="v-count"></span>
+    <span></span>
+  </div>
+  <div class="viewer-bar bottom">
+    <button class="icon-btn" id="v-share" aria-label="Share or save"><svg><use href="#i-share"/></svg></button>
+    <button class="icon-btn" id="v-delete" aria-label="Remove from entry"><svg><use href="#i-trash"/></svg></button>
+  </div>
+</div>
+
+<div id="overlays"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

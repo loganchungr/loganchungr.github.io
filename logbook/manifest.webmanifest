@@ -1,0 +1,14 @@
+{
+  "name": "Logbook",
+  "short_name": "Logbook",
+  "description": "A private log: text, photos and videos, synced to your own GitHub repository.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2f2f7",
+  "theme_color": "#f2f2f7",
+  "icons": [
+    {"src": "icon-180.png", "sizes": "180x180", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+}

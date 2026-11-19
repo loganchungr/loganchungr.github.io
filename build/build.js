@@ -23,7 +23,11 @@ const dated = dir => fs.readdirSync(path.join(ROOT, dir)).filter(isPost).sort();
    full web addresses are left alone. */
 let folder = ENTRIES;  // the folder of the post being built
 const imgSrc = s => /^([a-z][a-z0-9+.-]*:|\/|#|entries\/)/i.test(s) ? s : path.posix.join(folder, s);
-const photo = (alt,src) => `<img src="${qa(imgSrc(src))}" alt="${qa(alt)}" loading="lazy">`;
+// Site rule: a video file written like a photo, ![](images/clip.mov) (as Logbook writes them), plays in place of the photo
+const MOVIE = /\.(mov|mp4|m4v|webm)$/i;
+const photo = (alt,src) => MOVIE.test(src)
+  ? `<video src="${qa(imgSrc(src))}#t=0.1" controls playsinline preload="metadata" aria-label="${qa(alt||"Video")}"></video>`
+  : `<img src="${qa(imgSrc(src))}" alt="${qa(alt)}" loading="lazy">`;
 const markdown = new Marked({
   gfm: true,
   renderer: {
@@ -136,7 +140,7 @@ const page = (e, html) => `<!DOCTYPE html>
 <script src="theme.js"></script>
 <title>${esc(e.title)} · Loggin’ Chung</title>
 <link rel="stylesheet" href="site.css">
-<style>img{display:block;max-width:100%;height:auto;margin:0 auto 1rem}article h2{text-align:center}</style>
+<style>img,video{display:block;max-width:100%;height:auto;margin:0 auto 1rem}article h2{text-align:center}</style>
 </head>
 <body>
 <main>
@@ -164,10 +168,10 @@ for(const file of postFiles(ROOT)){
   const base = "posts/"+slug(name); let url = base, n = 1;
   while(taken.has(url)) url = base+"-"+(++n);  // two filenames that tidy to the same name
   taken.add(url); url += ".html";
-  const imgs = [...body.matchAll(/^!\[[^\]]*\]\(([^)\s]+)\)\s*$/gm)].map(m=>imgSrc(m[1]));
+  const imgs = [...body.matchAll(/^!\[[^\]]*\]\(([^)\s]+)\)\s*$/gm)].map(m=>imgSrc(m[1])), stills = imgs.filter(i=>!MOVIE.test(i));
   posts.push({id:name, date:e.date, title:e.title, untitled:e.untitled||undefined, url,
     tags:[...new Set([...body.matchAll(/(?:^|\s)#([A-Za-z][\w-]*)/g)].map(m=>m[1].toLowerCase()))],
-    photo:imgs[0], photos:imgs.length||undefined});
+    photo:stills[0], photos:imgs.length||undefined});  // the cover is the first photo, never a video
   search[name] = plain(html.replace(/<h1>[\s\S]*?<\/h1>/,""));
   fs.writeFileSync(path.join(OUT,url), page(e, html));
 }

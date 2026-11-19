@@ -14,6 +14,7 @@ Add a file to `entries/` named `YYYY-MM-DD-anything.md`, for example `2026-10-23
   - A photo is linked from the post's own folder: `![](images/photo.jpg)`.
   - Photos on lines next to each other (blank lines between are fine) become a grid of squares; a lone photo stays full width.
   - Outside links open in a new tab.
+  - A video file written like a photo, `![](images/clip.mov)` (as Logbook writes them), plays in place. A post's cover is always its first photo, not a video.
   - A YouTube link on a line by itself (paste it from YouTube's Share button) becomes the video, full width. A YouTube link inside a sentence stays a link.
   - A link to an audio file (`.mp3`, `.m4a`, `.wav` and the like) on a line by itself becomes a player in a dotted frame, captioned with the file's name. To caption it something else, write it as a link: `[late set, second tune](https://www.dropbox.com/…/song.mp3?…)`. A Dropbox share link works as copied (it's switched to `raw=1` so it plays); keep it shared as "anyone with the link". An audio file in the post's own folder works too: `images/song.mp3`. An audio link inside a sentence stays a link.
   - Quotes written the way the shortcut writes them (a blank `>` line after every line) keep their shape: a blank line that's just `>` is a new line, and an empty line in Notes starts a new stanza. Quotes already in standard Markdown are left alone.
@@ -65,6 +66,10 @@ A post's address and title don't change when it's filed. You can also edit a fil
 This needs Settings → Pages → Source set to **GitHub Actions** (one time).
 
 To preview locally: `node build/build.js`, then `python3 -m http.server -d _site` and open http://localhost:8000.
+
+## Logbook
+
+`logbook/` is a separate, private log for the phone, at `loganchungr.github.io/logbook/` and linked from nowhere. It saves entries to a private GitHub repository, not this one, and can publish an entry here when asked. See `logbook/README.md` for setup.
 
 ## Lookout
 
