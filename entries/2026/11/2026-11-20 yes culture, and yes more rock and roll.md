@@ -17,11 +17,11 @@
 - dinner at Lil P's
 - meeting K at 12th St and re-meeting Grey from Coney Island
 - I and N are sitting at the bar and I accidentally intrude
-- running into R there and having a catchup w/ him and his friend N
+- running into R there and having a catchup w/ him and his friend N. J is working. truly the best bar in the Village.
 
 https://www.dropbox.com/scl/fi/6at2ocnb82ktwmbcum2lg/26.11-20-GREG-FREEMAN-BURY-ME-THE-SHOVEL-LIVE-AT-WEBSTER-HALL.mp3?rlkey=p4l0av7cow5sa5tg0qka0jedt&dl=0
 
-- at the show, so many friends including S&J (who is quite bearded)
+- at the show, so many friends including S&J (who is quite bearded). down below is C (front row, filming of course) and E snapping photos, and G near K and the crew from 12th Street, at some point they are moshing. everyone looks beautiful. 
 - & magnets, who is with some coworkers from NYTM, both named R
 - I step away to use the bathroom at the Moxy and inside is blasting "Freaky Friday"
 
