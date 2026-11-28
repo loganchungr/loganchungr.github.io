@@ -325,8 +325,7 @@ function show(n){
   TRACKS.slice(0, listed).forEach((t, i) => { const m = months.at(-1); m && m.key === t.date.slice(0,7) ? m.items.push(i) : months.push({key:t.date.slice(0,7), items:[i]}); });
   $("cuts").innerHTML = months.map(m => `<section class="month"><h3>${MONTHS[m.key.slice(5)-1]} ${m.key.slice(0,4)}<small>${total[m.key]}</small></h3><ol>` +
     m.items.map(i => { const t = TRACKS[i]; return `<li class="cut" data-i="${i}"><button class="circle play"></button>` +
-      `<div><span class="name">${esc(t.title)}</span><span class="meta">from ${postLink(t)}, ${shortDate(t.date)}` +
-      (t.tags.length ? " · " + t.tags.map(g => "#" + esc(g)).join(" ") : "") + `</span></div>` +
+      `<div><span class="name">${esc(t.title)}</span><span class="meta">from ${postLink(t)}</span></div>` +
       (t.rec ? `<span class="rec">rec. ${shortDate(t.rec)}</span>` : "") + `</li>`; }).join("") + `</ol></section>`).join("");
   cuts = [];
   document.querySelectorAll(".cut").forEach(li => cuts[+li.dataset.i] = li);
