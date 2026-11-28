@@ -5,7 +5,7 @@
      posts/*.html  each post in entries/ (filed by month by tidy.js, which the workflow runs first), already turned from Markdown into a page
      posts.json    what the calendar needs: every post's date, title, tags and cover photo, plus the newest missives
      search.json   every post's plain text, which the home page loads only when someone uses the search box
-     audio.json    every audio file in the posts, newest first, which the watch page's "listen" loads
+     audio.json    every audio file in the posts, newest first, which the media page's "listen" loads
 
    To try it yourself: node build/build.js, then serve _site/ (for example: python3 -m http.server -d _site). */
 const fs = require("fs"), path = require("path"), crypto = require("crypto"), { execFileSync } = require("child_process");
@@ -64,7 +64,7 @@ function video(line){
 // is switched to raw=1, so it plays the file instead of opening Dropbox's page. A link without http is read from the post's
 // own folder, like a photo.
 const AUDIO = /^\s*[*_]*(?:<|\[([^\]]*)\]\()?([^\s<>()]+?)[>)]?[*_]*\s*\\?\s*$/, SOUND = /\.(mp3|m4a|aac|wav|ogg|oga|opus|flac)$/i;
-// track() reads such a line: its caption, the file's name and where it plays from. The watch page's "listen" lists them all.
+// track() reads such a line: its caption, the file's name and where it plays from. The media page's "listen" lists them all.
 function track(line){
   const m = line.match(AUDIO); if(!m) return null;
   const local = !/^https?:\/\//i.test(m[2]);
@@ -217,7 +217,7 @@ const missives = dated(MISSIVES).reverse().slice(0,KEEP)
 
 fs.writeFileSync(path.join(OUT,"posts.json"), JSON.stringify({posts, missives}));
 fs.writeFileSync(path.join(OUT,"search.json"), JSON.stringify(search));
-// audio.json: every audio file in the posts, newest post first, for "listen" on the watch page
+// audio.json: every audio file in the posts, newest post first, for "listen" on the media page
 const tracks = [...posts].reverse().flatMap(p => sounds[p.id].map(t => ({...t, post:p.title, date:p.date, url:p.url.slice(6,-5), tags:p.tags})));
 fs.writeFileSync(path.join(OUT,"audio.json"), JSON.stringify(tracks));
 /* ---- Archive: archive.html lists every post by year, then month, newest first, with the newest month open ---- */
@@ -269,7 +269,7 @@ function stamp(){
   }
 }
 
-/* ---- Lookout's events (build/calendar.js) and the watch page's video details (build/youtube.js), fetched at the same
+/* ---- Lookout's events (build/calendar.js) and the media page's video details (build/youtube.js), fetched at the same
    time, then the stamps and the size check ---- */
 Promise.all([require("./calendar.js").lookout(OUT), require("./youtube.js").watch(OUT)]).then(stamp).then(sizeCheck)
   .catch(err => { console.error(err); process.exit(1); });
