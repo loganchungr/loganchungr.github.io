@@ -54,7 +54,7 @@ jobs:
       - id: build
         run: node build/build.js   # the runner's own Node.js; the build needs no packages
         env:
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}   # for the watch page's video details (build/youtube.js)
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}   # for the media page's video details (build/youtube.js)
       # Save what this run changed, in one push: the filing above, and watch-notes.csv, which build/youtube.js keeps in
       # step with the playlists (adding rows and refreshing titles, never changing your notes).
       - name: Save the changes

@@ -1,5 +1,5 @@
-/* The watch page's video details. build.js calls watch() each time the site publishes. It asks YouTube's data
-   service for every video in the watch page's playlists (read from PLAYLISTS in watch.html) and writes watch.json:
+/* The media page's video details. build.js calls watch() each time the site publishes. It asks YouTube's data
+   service for every video in the media page's playlists (read from PLAYLISTS in media.html) and writes watch.json:
    each video's description, view count and upload date, plus your note on it, which the page shows.
 
    Your notes live in watch-notes.csv, a table with one row per video: id, playlist, title, note. The build keeps it
@@ -53,11 +53,11 @@ async function watch(OUT){
   const old = readTable(), notes = new Map(old.filter(r => r.note).map(r => [r.id, r.note]));
   const info = {}, rows = [];
   let complete = !!process.env.YOUTUBE_API_KEY;
-  if(!complete) console.log("No YOUTUBE_API_KEY, so the watch page shows titles and notes only");
+  if(!complete) console.log("No YOUTUBE_API_KEY, so the media page shows titles and notes only");
   else{
-    const page = fs.readFileSync(path.join(OUT,"watch.html"), "utf8");
+    const page = fs.readFileSync(path.join(OUT,"media.html"), "utf8");
     const block = (page.match(/const PLAYLISTS = \{([\s\S]*?)\};/) || [])[1] || "";
-    // Every playlist at once; the table lists them in the order watch.html does
+    // Every playlist at once; the table lists them in the order media.html does
     const playlists = await Promise.all([...block.matchAll(/(\w+):\s*"([^"]+)"/g)].map(async ([, kind, id]) => {
       try{
         // Every video in the playlist, in its order, 50 at a time

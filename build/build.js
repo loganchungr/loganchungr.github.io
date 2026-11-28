@@ -5,6 +5,7 @@
      posts/*.html  each post in entries/ (filed by month by tidy.js, which the workflow runs first), already turned from Markdown into a page
      posts.json    what the calendar needs: every post's date, title, tags and cover photo, plus the newest missives
      search.json   every post's plain text, which the home page loads only when someone uses the search box
+     audio.json    every audio file in the posts, newest first, which the media page's "listen" loads
 
    To try it yourself: node build/build.js, then serve _site/ (for example: python3 -m http.server -d _site). */
 const fs = require("fs"), path = require("path"), crypto = require("crypto"), { execFileSync } = require("child_process");
@@ -63,18 +64,31 @@ function video(line){
 // is switched to raw=1, so it plays the file instead of opening Dropbox's page. A link without http is read from the post's
 // own folder, like a photo.
 const AUDIO = /^\s*[*_]*(?:<|\[([^\]]*)\]\()?([^\s<>()]+?)[>)]?[*_]*\s*\\?\s*$/, SOUND = /\.(mp3|m4a|aac|wav|ogg|oga|opus|flac)$/i;
-function audio(line){
-  const m = line.match(AUDIO); if(!m) return "";
+// track() reads such a line: its caption, the file's name and where it plays from. The media page's "listen" lists them all.
+function track(line){
+  const m = line.match(AUDIO); if(!m) return null;
   const local = !/^https?:\/\//i.test(m[2]);
-  let u; try{ u = new URL(m[2], "http://local/"); }catch(err){ return ""; }
-  if(!SOUND.test(u.pathname) || local && /^[a-z][a-z0-9+.-]*:/i.test(m[2])) return "";
+  let u; try{ u = new URL(m[2], "http://local/"); }catch(err){ return null; }
+  if(!SOUND.test(u.pathname) || local && /^[a-z][a-z0-9+.-]*:/i.test(m[2])) return null;
   if(/(^|\.)dropbox\.com$/i.test(u.hostname)){ u.searchParams.delete("dl"); u.searchParams.set("raw","1"); }
   let name = u.pathname.split("/").pop();
   try{ name = decodeURIComponent(name); }catch(err){}
   name = name.replace(SOUND,"").replace(/[_+]/g," ");
-  const text = (m[1]||"").replace(/[*_`]/g,"").trim(), caption = text && text !== m[2] ? text : name;
-  const src = local ? imgSrc(m[2]) : u.href;
-  return `<figure class="track"><figcaption>${esc(caption)}</figcaption><audio controls preload="none" src="${qa(src)}"></audio></figure>`;
+  const text = (m[1]||"").replace(/[*_`]/g,"").trim();
+  return {caption: text && text !== m[2] ? text : "", name, src: local ? imgSrc(m[2]) : u.href};
+}
+function audio(line){
+  const t = track(line); if(!t) return "";
+  return `<figure class="track"><figcaption>${esc(t.caption||t.name)}</figcaption><audio controls preload="none" src="${qa(t.src)}"></audio></figure>`;
+}
+// For the listen list: a file named like 26.11-14-EMMA-OGIER-LAND.mp3 was recorded on 2026-11-14; the list shows the date
+// on its own and the rest of the name with spaces for dashes. A caption written in the post is used as it is.
+function listed(t){
+  const m = t.name.match(/^(\d{2})\.(\d{2})-(\d{2})(?:[-_ .]+|$)(.*)$/);
+  const rec = m && `20${m[1]}-${m[2]}-${m[3]}`, day = rec && new Date(rec+"T00:00:00Z");
+  const ok = day && day.getUTCMonth() === m[2]-1 && day.getUTCDate() === +m[3];
+  const rest = (ok ? m[4] : t.name).replace(/-/g," ").replace(/\s+/g," ").trim();
+  return {title: t.caption || rest || t.name, src: t.src, rec: ok ? rec : undefined};
 }
 // Site rule: back-to-back photo lines (blank lines between are fine) become one grid of squares; a lone photo stays single.
 function photos(src){
@@ -161,7 +175,7 @@ const publish = f => !path.basename(f).startsWith(".") && !f.endsWith(".md");
 for(const n of fs.readdirSync(ROOT)) if(!skip.has(n) && publish(n)) fs.cpSync(path.join(ROOT,n), path.join(OUT,n), {recursive:true, filter:publish});
 fs.mkdirSync(path.join(OUT,"posts"));
 
-const posts = [], search = {}, taken = new Set(), files = {};
+const posts = [], search = {}, taken = new Set(), files = {}, sounds = {};
 for(const file of postFiles(ROOT)){
   const name = path.posix.basename(file); folder = path.posix.dirname(file); files[name] = file;
   const e = entryFrom(name, read(file)), html = md(e.body), body = noCode(e.body);
@@ -172,6 +186,8 @@ for(const file of postFiles(ROOT)){
   posts.push({id:name, date:e.date, title:e.title, untitled:e.untitled||undefined, url,
     tags:[...new Set([...body.matchAll(/(?:^|\s)#([A-Za-z][\w-]*)/g)].map(m=>m[1].toLowerCase()))],
     photo:stills[0], photos:imgs.length||undefined});  // the cover is the first photo, never a video
+  let fenced = false;  // the post's audio, in order, for the listen list (not lines inside ``` code)
+  sounds[name] = e.body.split("\n").map(l => (/^```/.test(l) && (fenced = !fenced), !fenced && track(l))).filter(Boolean).map(listed);
   search[name] = plain(html.replace(/<h1>[\s\S]*?<\/h1>/,""));
   fs.writeFileSync(path.join(OUT,url), page(e, html));
 }
@@ -201,6 +217,9 @@ const missives = dated(MISSIVES).reverse().slice(0,KEEP)
 
 fs.writeFileSync(path.join(OUT,"posts.json"), JSON.stringify({posts, missives}));
 fs.writeFileSync(path.join(OUT,"search.json"), JSON.stringify(search));
+// audio.json: every audio file in the posts, newest post first, for "listen" on the media page
+const tracks = [...posts].reverse().flatMap(p => sounds[p.id].map(t => ({...t, post:p.title, date:p.date, url:p.url.slice(6,-5), tags:p.tags})));
+fs.writeFileSync(path.join(OUT,"audio.json"), JSON.stringify(tracks));
 /* ---- Archive: archive.html lists every post by year, then month, newest first, with the newest month open ---- */
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const years = new Map();
@@ -222,7 +241,7 @@ const shell = fs.readFileSync(path.join(OUT,"archive.html"),"utf8"), mark = /<!-
 if(!mark.test(shell)) throw new Error("archive.html is missing its <!-- archive: --> marker");
 fs.writeFileSync(path.join(OUT,"archive.html"), shell.replace(mark, ()=>archive));
 
-console.log(`Built ${posts.length} posts and ${missives.length} missives into _site/`);
+console.log(`Built ${posts.length} posts, ${missives.length} missives and ${tracks.length} tracks into _site/`);
 
 /* ---- Size check: GitHub Pages allows a published site up to 1 GB. At each of these levels the workflow opens an issue
    ("STORAGE LIMIT at 75%"), so it doesn't go unnoticed: time to move a past year's photos to their own repo. ---- */
@@ -250,7 +269,7 @@ function stamp(){
   }
 }
 
-/* ---- Lookout's events (build/calendar.js) and the watch page's video details (build/youtube.js), fetched at the same
+/* ---- Lookout's events (build/calendar.js) and the media page's video details (build/youtube.js), fetched at the same
    time, then the stamps and the size check ---- */
 Promise.all([require("./calendar.js").lookout(OUT), require("./youtube.js").watch(OUT)]).then(stamp).then(sizeCheck)
   .catch(err => { console.error(err); process.exit(1); });
