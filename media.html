@@ -93,6 +93,9 @@
 .cut.on .name{color:var(--note);font-weight:700}
 .cut.on .play{border-color:var(--accent);color:var(--accent)}
 #cuts>.by{color:var(--muted)}
+/* Under the list, "more" adds the next batch of older tracks */
+#listening .more{margin:0 0 1.25rem;font-size:.85rem}
+#listening .more .linkbtn:not(:hover){color:var(--muted)}
 #listening .or{margin:0;font-size:.85rem}
 #listening .or .linkbtn:not(:hover){color:var(--muted)}
 @media (max-width:40rem){
@@ -137,6 +140,7 @@
         </div>
       </section>
       <div id="cuts"></div>
+      <p class="more"><button class="linkbtn" id="morecuts" hidden></button></p>
       <p class="or"><button class="linkbtn" id="backlisten">watch something instead</button></p>
     </div>
   </section>
@@ -299,7 +303,9 @@ const MONTHS = ["January","February","March","April","May","June","July","August
 const shortDate = d => MONTHS[d.slice(5,7)-1].slice(0,3) + " " + (+d.slice(8));
 const postLink = t => `<a href="./#${esc(t.url)}">${esc(t.post)}</a>`;
 const ear = $("ear");
-let TRACKS = [], cut = -1, cuts = [], playlist = [];
+// The list shows the newest BATCH tracks; "more" under it adds the next BATCH older ones.
+const BATCH = 20;
+let TRACKS = [], cut = -1, cuts = [], playlist = [], listed = 0;
 $("listen").onclick = async () => {
   $("ask").hidden = true; $("listening").hidden = false;
   if(TRACKS.length) return;  // already loaded from before
@@ -308,19 +314,30 @@ $("listen").onclick = async () => {
   catch(err){ $("cuts").innerHTML = `<p class="by">Couldn’t load the tracks. Try again in a bit.</p>`; return; }
   if(!TRACKS.length){ $("cuts").innerHTML = `<p class="by">Nothing to listen to yet.</p>`; return; }
   playlist = TRACKS.map((_, i) => i);
-  const months = [];
-  TRACKS.forEach((t, i) => { const m = months.at(-1); m && m.key === t.date.slice(0,7) ? m.items.push(i) : months.push({key:t.date.slice(0,7), items:[i]}); });
-  $("cuts").innerHTML = months.map(m => `<section class="month"><h3>${MONTHS[m.key.slice(5)-1]} ${m.key.slice(0,4)}<small>${m.items.length}</small></h3><ol>` +
+  $("count").textContent = TRACKS.length + (TRACKS.length === 1 ? " track" : " tracks");
+  show(BATCH);
+};
+// Draws the first n tracks, by the month of the post each is in. A month's number counts all its tracks, shown or not.
+function show(n){
+  listed = Math.min(n, TRACKS.length);
+  const months = [], total = {};
+  TRACKS.forEach(t => total[t.date.slice(0,7)] = (total[t.date.slice(0,7)] || 0) + 1);
+  TRACKS.slice(0, listed).forEach((t, i) => { const m = months.at(-1); m && m.key === t.date.slice(0,7) ? m.items.push(i) : months.push({key:t.date.slice(0,7), items:[i]}); });
+  $("cuts").innerHTML = months.map(m => `<section class="month"><h3>${MONTHS[m.key.slice(5)-1]} ${m.key.slice(0,4)}<small>${total[m.key]}</small></h3><ol>` +
     m.items.map(i => { const t = TRACKS[i]; return `<li class="cut" data-i="${i}"><button class="circle play"></button>` +
       `<div><span class="name">${esc(t.title)}</span><span class="meta">from ${postLink(t)}, ${shortDate(t.date)}` +
       (t.tags.length ? " · " + t.tags.map(g => "#" + esc(g)).join(" ") : "") + `</span></div>` +
       (t.rec ? `<span class="rec">rec. ${shortDate(t.rec)}</span>` : "") + `</li>`; }).join("") + `</ol></section>`).join("");
+  cuts = [];
   document.querySelectorAll(".cut").forEach(li => cuts[+li.dataset.i] = li);
-  $("count").textContent = TRACKS.length + (TRACKS.length === 1 ? " track" : " tracks");
+  const left = TRACKS.length - listed;
+  $("morecuts").hidden = !left;
+  $("morecuts").textContent = `more (${left} older)`;
   mark();
-};
+}
+$("morecuts").onclick = () => show(listed + BATCH);
 function mark(){  // the loaded track in coral, its button showing pause while it plays
-  cuts.forEach((li, i) => {
+  cuts.forEach((li, i) => { if(!li) return;
     const on = i === cut, going = on && !ear.paused, b = li.querySelector(".play");
     li.classList.toggle("on", on);
     b.textContent = going ? "❚❚" : "▶";
@@ -329,6 +346,7 @@ function mark(){  // the loaded track in coral, its button showing pause while i
 }
 function cue(i){
   cut = i; const t = TRACKS[i];
+  if(i >= listed) show(Math.ceil((i + 1) / BATCH) * BATCH);  // playing on (or shuffling) past the end of the list shows it
   ear.src = t.src;
   $("now").textContent = t.title;
   $("from").innerHTML = `from ${postLink(t)} · ${shortDate(t.date)}`;
