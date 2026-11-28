@@ -90,7 +90,7 @@ Under "TV" and "movie", "read" opens a Dropbox folder (`READING`, near the end o
 
 Until there's a key, the link simply opens the folder on Dropbox in a new tab. The folder has to stay shared as "anyone with the link"; a password-protected link won't show.
 
-Beside it, "listen" lists every audio file posted to the log (each audio line described under "Writing a post"), newest first, grouped by month, each with a link back to its post. One player sits at the top of the list and goes on to the next track when one ends ("keep playing"), or in a shuffled order. A file named the way the recorder names them, `26.11-14-EMMA-OGIER-LAND.mp3`, is listed as recorded on November 14, 2026, under the rest of its name with spaces for dashes; a caption written in the post (`[Emma Ogier, live at Baby's All Right](…)`) is used instead. Nothing to set up: the build collects them each time the site publishes.
+Beside it, "listen" lists every audio file posted to the log (each audio line described under "Writing a post"), newest first, grouped by month, each with a link back to its post. The newest 20 show first, and "more" at the bottom adds 20 older ones at a time. One player sits at the top of the screen as the list scrolls and goes on to the next track when one ends ("keep playing"), or in a shuffled order. A file named the way the recorder names them, `26.11-14-EMMA-OGIER-LAND.mp3`, is listed as recorded on November 14, 2026, under the rest of its name with spaces for dashes; a caption written in the post (`[Emma Ogier, live at Baby's All Right](…)`) is used instead. Nothing to set up: the build collects them each time the site publishes.
 
 ## Storage
 
