@@ -39,7 +39,7 @@ Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build
 - `posts/`: each post as its own page. The lightbox loads these one at a time, and each also works on its own at its own address.
 - `posts.json`: the small index the calendar draws from (dates, titles, tags, cover photos) plus the newest missives (short notes in `missives/` that scroll past along the bottom of the home page; switched off for now with `MISSIVES = false` in `index.html`).
 - `search.json`: every post's plain text, loaded only when someone uses the search box.
-- `audio.json`: every audio file in the posts (newest post first), loaded only when someone picks "listen" on the watch page.
+- `audio.json`: every audio file in the posts (newest post first), loaded only when someone picks "listen" on the media page (`watch.html`).
 - `archive.html`: the list of every post by year and month is filled in where the page says `<!-- archive: … -->`. The rest of the page is edited like any other.
 
 So a visitor downloads the page, one small index, and only the posts they open, however many posts there are. Progress and any errors show on the repo's Actions tab, which also has a "Run workflow" button to republish by hand.
@@ -78,11 +78,11 @@ To preview locally: `node build/build.js`, then `python3 -m http.server -d _site
 
 To mark an event you're hosting or part of, start its title with `*` on Google Calendar (`*Reading at the library`). The page drops the `*`, shows the title bold in coral brackets, and the "ft. me" filter shows just those.
 
-## Watch
+## Media
 
-`watch.html` plays one of two YouTube playlists, shuffled, starting on a random video. The playlists are set at the top of its script: `PLAYLISTS.tv` and `PLAYLISTS.movie` take the part after `list=` in each playlist's address (public or unlisted). Add or remove videos on YouTube and the page follows along, with no publishing needed. Your notes on the videos live in `watch-notes.csv`, a table with a row per video (`id`, `playlist`, `title`, `note`) that GitHub shows as a searchable table. Fill in the `note` column, on GitHub or in any spreadsheet app, and the note appears beside the "i" while that video plays. Each publish adds rows for new videos, refreshes titles and saves the table back; notes are never changed, and videos that leave the playlists keep their rows, marked as gone. Videos YouTube won't embed are skipped. Each video's description, view count and upload date come from YouTube's data service when the site publishes (`build/youtube.js`, saved as `watch.json`); that needs the `YOUTUBE_API_KEY` repository secret, and without it the info box shows titles only.
+`watch.html` (called "media" in the menu) plays one of two YouTube playlists, shuffled, starting on a random video. The playlists are set at the top of its script: `PLAYLISTS.tv` and `PLAYLISTS.movie` take the part after `list=` in each playlist's address (public or unlisted). Add or remove videos on YouTube and the page follows along, with no publishing needed. Your notes on the videos live in `watch-notes.csv`, a table with a row per video (`id`, `playlist`, `title`, `note`) that GitHub shows as a searchable table. Fill in the `note` column, on GitHub or in any spreadsheet app, and the note appears beside the "i" while that video plays. Each publish adds rows for new videos, refreshes titles and saves the table back; notes are never changed, and videos that leave the playlists keep their rows, marked as gone. Videos YouTube won't embed are skipped. Each video's description, view count and upload date come from YouTube's data service when the site publishes (`build/youtube.js`, saved as `watch.json`); that needs the `YOUTUBE_API_KEY` repository secret, and without it the info box shows titles only.
 
-Under "watch TV" and "watch a movie", "read" opens a Dropbox folder (`READING`, near the end of `watch.html`'s script). Dropbox doesn't allow its own pages in a frame on another site, so to show the folder on the page itself it uses Dropbox's Embedder, which needs a free app key:
+Under "TV" and "movie", "read" opens a Dropbox folder (`READING`, near the end of `watch.html`'s script). Dropbox doesn't allow its own pages in a frame on another site, so to show the folder on the page itself it uses Dropbox's Embedder, which needs a free app key:
 
 1. Go to https://www.dropbox.com/developers/apps and choose **Create app** (Scoped access, App folder, any name).
 2. On the app's **Settings** tab, under **Chooser / Saver / Embedder domains**, add `loganchungr.github.io`.

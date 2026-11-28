@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">  <!-- the watch page is always dark: no theme.js, so no toggle, and the other pages' setting is untouched -->
+<html lang="en" data-theme="dark">  <!-- the media page (watch.html) is always dark: no theme.js, so no toggle, and the other pages' setting is untouched -->
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Watch · Loggin’ Chung</title>
+<title>Media · Loggin’ Chung</title>
 <link rel="stylesheet" href="site.css">
 <style>
-/* Watch page: pick TV or a movie, then watch a shuffled YouTube playlist. Shared styles are in site.css. */
-/* The four choices, the same size, two to a row in two columns: watch TV / watch a movie, then read / listen */
+/* Media page (watch.html, "media" in the menu): pick TV or a movie for a shuffled YouTube playlist, or read or listen. Shared styles are in site.css. */
+/* The four choices, the same size, two to a row in two columns: TV / movie, then read / listen */
 .choices{display:grid;grid-template-columns:repeat(2,max-content);gap:.75rem 2rem;align-items:baseline;font-size:1.25rem;margin:0}
 .choices>*{justify-self:start}
 /* The screen is 16:9, as wide as fits on the window's height. Beside it, "next"; under it, the "i" at the left and,
@@ -117,10 +117,10 @@
 <body>
 <main>
   <h1><a href="https://loganchungr.github.io/">Loggin’ Chung</a></h1>
-  <nav class="links"><a href="https://loganchungr.github.io/">home</a><a href="lookout.html">lookout</a><a href="watch.html" aria-current="page">watch</a><a href="context.html">context</a></nav>
+  <nav class="links"><a href="https://loganchungr.github.io/">home</a><a href="lookout.html">lookout</a><a href="watch.html" aria-current="page">media</a><a href="context.html">context</a></nav>
 
   <section id="ask">
-    <p class="choices"><button class="linkbtn" data-kind="tv">watch TV</button><button class="linkbtn" data-kind="movie">watch a movie</button><a id="read" target="_blank" rel="noopener">read</a><button class="linkbtn" id="listen">listen</button></p>
+    <p class="choices"><button class="linkbtn" data-kind="tv">TV</button><button class="linkbtn" data-kind="movie">movie</button><a id="read" target="_blank" rel="noopener">read</a><button class="linkbtn" id="listen">listen</button></p>
   </section>
 
   <section id="listening" hidden>
