@@ -297,11 +297,16 @@ async function pushChanges(){
 const stack = [];
 let tab = "calendar", ignorePop = false;
 const screenOf = i => i < 0 ? $("#tabs") : $("#" + stack[i].id);
+// Once a screen has slid in, the one under it is hidden (it would otherwise show through iOS's see-through keyboard),
+// and shown again as soon as you start going back
+const cover = el => { clearTimeout(el.coverTimer); el.coverTimer = setTimeout(() => { if(el.classList.contains("under")) el.classList.add("covered"); }, 450); };
+const uncover = el => { clearTimeout(el.coverTimer); el.classList.remove("covered"); };
 function push(id, onClose){
   const el = $("#" + id), under = screenOf(stack.length - 1);
   el.hidden = false;
   el.getBoundingClientRect();
   el.classList.add("in"); under.classList.add("under");
+  cover(under);
   stack.push({id, onClose});
   history.pushState({logbook: stack.length}, "");
 }
@@ -309,7 +314,9 @@ function pop(fromHistory){
   const top = stack.pop();
   if(!top) return;
   const el = $("#" + top.id);
-  el.classList.remove("in"); screenOf(stack.length - 1).classList.remove("under");
+  const under = screenOf(stack.length - 1);
+  uncover(under);
+  el.classList.remove("in"); under.classList.remove("under");
   setTimeout(() => { if(!el.classList.contains("in")) el.hidden = true; }, 450);
   top.onClose?.();
   if(!fromHistory){ ignorePop = true; history.back(); }
@@ -335,9 +342,9 @@ function edgeSwipe(){
   if(!navigator.standalone && !matchMedia("(display-mode: standalone)").matches) return;
   for(const el of $$(".screen.push")){
     let x0 = null, dx = 0;
-    el.addEventListener("touchstart", ev => { const t = ev.touches[0]; if(t.clientX < 24 && stack.at(-1)?.id === el.id){ x0 = t.clientX; dx = 0; el.style.transition = "none"; } }, {passive: true});
+    el.addEventListener("touchstart", ev => { const t = ev.touches[0]; if(t.clientX < 24 && stack.at(-1)?.id === el.id){ x0 = t.clientX; dx = 0; el.style.transition = "none"; uncover(screenOf(stack.length - 2)); } }, {passive: true});
     el.addEventListener("touchmove", ev => { if(x0 == null) return; dx = Math.max(0, ev.touches[0].clientX - x0); el.style.transform = `translateX(${dx}px)`; }, {passive: true});
-    el.addEventListener("touchend", () => { if(x0 == null) return; el.style.transition = ""; el.style.transform = ""; x0 = null; if(dx > 90) pop(); });
+    el.addEventListener("touchend", () => { if(x0 == null) return; el.style.transition = ""; el.style.transform = ""; x0 = null; if(dx > 90) pop(); else cover(screenOf(stack.length - 2)); });
   }
 }
 
