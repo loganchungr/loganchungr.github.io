@@ -5,7 +5,7 @@
      posts/*.html  each post in entries/ (filed by month by tidy.js, which the workflow runs first), already turned from Markdown into a page
      posts.json    what the calendar needs: every post's date, title, tags and cover photo, plus the newest missives
      search.json   every post's plain text, which the home page loads only when someone uses the search box
-     audio.json    every audio file in the posts, newest first, which the watch page's "I'd rather listen" loads
+     audio.json    every audio file in the posts, newest first, which the watch page's "listen" loads
 
    To try it yourself: node build/build.js, then serve _site/ (for example: python3 -m http.server -d _site). */
 const fs = require("fs"), path = require("path"), crypto = require("crypto"), { execFileSync } = require("child_process");
@@ -217,7 +217,7 @@ const missives = dated(MISSIVES).reverse().slice(0,KEEP)
 
 fs.writeFileSync(path.join(OUT,"posts.json"), JSON.stringify({posts, missives}));
 fs.writeFileSync(path.join(OUT,"search.json"), JSON.stringify(search));
-// audio.json: every audio file in the posts, newest post first, for "I'd rather listen" on the watch page
+// audio.json: every audio file in the posts, newest post first, for "listen" on the watch page
 const tracks = [...posts].reverse().flatMap(p => sounds[p.id].map(t => ({...t, post:p.title, date:p.date, url:p.url.slice(6,-5), tags:p.tags})));
 fs.writeFileSync(path.join(OUT,"audio.json"), JSON.stringify(tracks));
 /* ---- Archive: archive.html lists every post by year, then month, newest first, with the newest month open ---- */
