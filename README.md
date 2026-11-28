@@ -39,6 +39,7 @@ Every push to `update-2` runs `.github/workflows/publish.yml`, which runs `build
 - `posts/`: each post as its own page. The lightbox loads these one at a time, and each also works on its own at its own address.
 - `posts.json`: the small index the calendar draws from (dates, titles, tags, cover photos) plus the newest missives (short notes in `missives/` that scroll past along the bottom of the home page; switched off for now with `MISSIVES = false` in `index.html`).
 - `search.json`: every post's plain text, loaded only when someone uses the search box.
+- `audio.json`: every audio file in the posts (newest post first), loaded only when someone picks "I'd rather listen" on the watch page.
 - `archive.html`: the list of every post by year and month is filled in where the page says `<!-- archive: … -->`. The rest of the page is edited like any other.
 
 So a visitor downloads the page, one small index, and only the posts they open, however many posts there are. Progress and any errors show on the repo's Actions tab, which also has a "Run workflow" button to republish by hand.
@@ -88,6 +89,8 @@ Under the two choices, "I'd rather read" opens a Dropbox folder (`READING`, near
 3. Copy the **App key** from the same tab into `DROPBOX_APP_KEY` in `watch.html`. The key isn't secret; it only works on the domains you list.
 
 Until there's a key, the link simply opens the folder on Dropbox in a new tab. The folder has to stay shared as "anyone with the link"; a password-protected link won't show.
+
+Beside it, "I'd rather listen" lists every audio file posted to the log (each audio line described under "Writing a post"), newest first, grouped by month, each with a link back to its post. One player sits at the top of the list and goes on to the next track when one ends ("keep playing"), or in a shuffled order. A file named the way the recorder names them, `26.11-14-EMMA-OGIER-LAND.mp3`, is listed as recorded on November 14, 2026, under the rest of its name with spaces for dashes; a caption written in the post (`[Emma Ogier, live at Baby's All Right](…)`) is used instead. Nothing to set up: the build collects them each time the site publishes.
 
 ## Storage
 
